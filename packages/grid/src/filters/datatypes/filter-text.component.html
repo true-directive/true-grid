@@ -1,0 +1,39 @@
+<true-dialog-wrapper
+  [dialog]="dialog"
+  (btnClick)="dialogBtnClick($event)">
+  <true-input-wrapper #inputWrapper class="true-filter-text" [error]="inputError" [showError]="false">
+    <input #input
+      [(ngModel)]="filter.value"
+      [disabled]="noText()"
+      autofocus />
+  </true-input-wrapper>
+  <div class="true-filter-text__options">
+    <a
+      href=""
+      class="true-link"
+      tabindex="1"
+      [class.true-link_disabled]="selectMode"
+      (click)="showOM($event)">{{filter.operator.name | trueTranslate}}<span [class.true-turned]="operatorMenu.visible"
+                                                              class="true-turnable true-icon-angle-down"></span>
+    </a>
+    <true-menu #operatorMenu>
+      <true-menu-item *ngFor="let o of operators" (itemClick)="operator(o)">
+        <span [class.true-icon-ok]="filter.operator === o"></span>{{o.name | trueTranslate}}
+      </true-menu-item>
+    </true-menu>
+    <a href=""
+       tabindex="2"
+       (click)="toggleMode($event)"
+       class="true-link true-filter-text__mode-selector">{{'Select' | trueTranslate}}<span [class.true-turned]="selectMode"
+                                                                 class="true-turnable true-icon-angle-down"></span>
+    </a>
+  </div>
+  <div class="true-filter-text__items" *ngIf="selectMode">
+    <true-grid #grid class="true-filter-text__grid"
+        [class.true-error-border]="gridError"
+        [columns]="listColumns"
+        [data]="items"
+        [settings]="listSettings">
+    </true-grid>
+  </div>
+</true-dialog-wrapper>

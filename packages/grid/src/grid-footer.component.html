@@ -1,0 +1,19 @@
+<div #gridFooterTable class="true-grid-footer" [ngClass]="state.settings.appearance.getFooterClass()">
+  <table [style.width]="layout.headerWidth">
+    <colgroup>
+      <col *ngFor="let c of layout.columns" [style.width]="layout.displayedHeaderWidth(c)" />
+      <col *ngIf="layout.isCenter" class="true-grid-re" [style.width]="state.st.hdWidth" />
+    </colgroup>
+    <tfoot>
+      <tr>
+        <td *ngFor="let c of layout.columns"
+            [style.height.px]="state.settings.rowHeight"
+            [ngClass]="state.settings.footerCellClass(c)">
+            <true-grid-footer-cell [column]="c">
+            </true-grid-footer-cell>
+        </td>
+        <td *ngIf="layout.isCenter" style="border:0;"></td>
+      </tr>
+    </tfoot>
+  </table>
+</div>

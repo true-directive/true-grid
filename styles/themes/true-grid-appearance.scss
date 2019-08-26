@@ -1,0 +1,584 @@
+.true-grid-appearance {
+
+  // Границы и свойства грида
+  border: $axOuterBorder;
+  background-color: $axBackColor;
+
+  user-select: none;
+
+  // Подсветка важных деталей
+  .true-accent {
+    color: $axAccent;
+  }
+
+  .true-grid-data {
+    transition: opacity 0.4s ease, background-color 0.4s ease;
+  }
+
+  .true-grid-drag-item-appearance {
+
+    .true-grid-header {
+      opacity: 0.97;
+      border: $axOuterBorder;
+      background-color: $axHeaderBackColor;
+    }
+
+    .true-drag-data {
+      padding: 40px;
+    }
+
+    .true-grid-data {
+      opacity: 0.97;
+      border: $axOuterBorder;
+      background-color: $axDragBackColor;
+      box-shadow: 4px 4px 4px rgba(0,0,0, .08);
+
+      td {
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        border: 0 !important;
+      }
+    }
+  }
+
+  // Кнопка в заголовке или футере
+  .true-grid-btn {
+    color: $axHeaderBtnColor;
+    opacity: 0.15;
+    transition-delay: 0.1s;
+    transition: background-color .25s ease-in, opacity .25s ease-in, border-color .25s ease-in;
+  }
+
+  // Кнопка, над которой курсор мыши или колонка с видимой кнопкой
+  .true-grid-btn:hover, .true-grid-btn-visible .true-grid-btn
+  {
+    visibility: visible;
+    background-color: $axHeaderBtnBackColor__hover;
+    border-color: #d5d7d9;
+    opacity: 1.0 !important;
+  }
+
+  // На тач-девайсах кнопка сразу видна без hover, т.к. мыши может не быть
+  .true-fix-touch .true-grid-btn
+  {
+    opacity: 0.2;
+    visibility: visible;
+  }
+
+  // -- SCROLLER ---------------------------------------------------------------
+  // Common header
+  .true-header-appearance {
+    color: $axHeaderColor;
+    font-weight: $axHeaderFontWeight;
+    background-color: $axHeaderBackColor;
+    border-bottom: $axHeaderOuterBorder;
+
+    .true-grid-header {
+      tr:last-child {
+        border-bottom: 0;
+      }
+
+      td.band {
+        padding: 0;
+      }
+
+      td:not(.band) {
+        padding: 0 $axGridCellHPadding1;
+      }
+
+      // Вертикальные линии в заголовке
+      &.true-v-lines td:not(:last-child) {
+        border-right: $axHeaderVerticalBorder;
+      }
+
+      td.true-header-cell__checkbox {
+        border-right: 0 !important;
+        text-align: center;
+      }
+
+      // Горизонтальные линии в заголовке
+      &.true-h-lines .true-header-band__caption {
+        border-bottom: $axHeaderHorizontalBorder;
+      }
+
+      .true-header-band__caption {
+        padding: $axGridCellVPadding $axGridCellHPadding;
+      }
+
+      // Тонкая настройка отступов
+      // Слева и справа в ячейке заголовка
+      .true-header-cell {
+        padding: 0 $axGridCellHPadding2;
+      }
+
+      // Между индикатором сортировки и текстом заголовка
+      .true-header-cell__sort-indicator {
+        padding-right: $axGridCellHPadding2;
+      }
+
+      // Текст заголовка
+       .true-header-cell__txt {
+        padding: $axGridCellVPadding $axGridCellHPadding $axGridCellVPadding 0;
+      }
+
+      td:not(.true-column-resizable) + td.true-column-resizable .true-header-cell {
+        padding-left: $axGridCellHPadding !important;
+      }
+    }
+
+  }
+
+  // Common footer
+  .true-footer-appearance {
+    background-color: $axHeaderBackColor;
+    border-top: $axHeaderOuterBorder;
+
+    .true-grid-footer {
+      td {
+        padding: 0;
+        vertical-align: top;
+
+        // Чекбоксовые поля так же не отделяем
+        &.true-footer-cell__is-checkbox {
+          border-right: 0 !important;
+        }
+
+        .true-footer-btn-container {
+          padding: 0 $axGridCellHPadding;
+        }
+      }
+
+      td {
+        border-right: 0;
+      }
+
+      // Вертикальные линии в подвале
+      &.true-v-lines td:not(:last-child) {
+        border-right: $axHeaderVerticalBorder;
+      }
+
+      // Итог
+      .true-aggr {
+        cursor: pointer;
+        box-sizing: border-box;
+        padding: $axGridCellVPadding $axGridCellHPadding;
+        transition: background-color .3s ease-in, opacity .3s ease-in;
+
+        &:hover {
+          background-color: $axHeaderBtnBackColor__hover;
+        }
+
+        .true-aggr-caption {
+          text-transform: uppercase;
+          color: #999;
+        }
+      }
+
+      // Два итога друг под другом. Немного уменьшаем margins между ними
+      .true-aggr + .true-aggr {
+        margin-top: -$axGridCellVPadding;
+      }
+    }
+  }
+}
+
+// -- GROUP HEADERS ------------------------------------------------------------
+// Простые стили для групп. Просто выделяем жирным
+// PRO
+.true-group-simple td {
+  color: #555;
+  font-weight: bold;
+}
+
+// Украшенные стили. Цвет, фон, границы.
+// Обычная группа
+// PRO
+.true-group td {
+  border-bottom: $axGroupHorizontalBorder;
+  color: $axGroupСolor;
+  font-weight: $axGroupFontWeight;
+  background-color: $axGroupBackColor;
+}
+
+// Верхняя граница заголовка группы
+// PRO
+.true-group:not(:first-child) td {
+  border-top: $axGroupHorizontalBorder;
+}
+
+// Группа первого уровня
+// PRO
+.true-group-l1 td {
+  font-weight: $axGroupL1FontWeight;
+  color: $axGroupL1Color;
+  background-color: $axGroupL1BackColor;
+}
+
+// Переключатель видимости групп
+// PRO
+.true-group-switcher {
+  color: #bbb;
+  font-size: 0.85em;
+  display: inline-block;
+  cursor: pointer !important;
+}
+
+// -- ОТСТУПЫ ------------------------------------------------------------------
+// PRO
+.true-cell-indent {
+  text-align: right;
+  color: #888 !important;
+  padding-right: 0.7em !important;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+// -- DATA ---------------------------------------------------------------------
+.true-grid-appearance {
+  // Чекбоксы - выравнивание по центру и никаких скроллбаров
+  .true-cell-checkbox, .true-cell-boolean {
+    text-align: center;
+    overflow-y: visible !important;
+    overflow-x: visible !important;
+  }
+
+  // -- HORIZONTAL LINES -------------------------------------------------------
+  .true-grid-data-appearance.true-h-lines {
+    & > table > tbody > tr > td {
+      border-bottom: $axDataHorizontalBorder;
+    }
+  }
+
+  &.true-fix-ie .true-grid-data-appearance.true-h-lines {
+    margin-top: -1px;
+    & > table > tbody > tr > td {
+      border-top: $axDataHorizontalBorder;
+    }
+  }
+
+  // Если отключены горизонтальные линии для заголовков групп включаем верхний бордер.
+  // Но только если он идет после обычной строки (для первой группы не нужно)
+  .true-grid-data-appearance:not(.true-h-lines) tr:not(.true-group) + tr.true-group > td {
+    border-top: $axGroupHorizontalBorder;
+  }
+
+  // -- VERTICAL LINES -----------------------------------------------------------
+  .true-grid-data-appearance.true-v-lines {
+    & > table > tbody > tr > td:not(.true-cell-checkbox) {
+      border-right: $axDataVerticalBorder;
+    }
+
+    // Исключаем отступы
+    // PRO
+    tr:not(.true-group) td.true-cell-indent {
+      border-top: none !important;
+      border-bottom: none !important;
+    }
+  }
+
+  // Исключаем последние колонки в зафиксированных областях
+  // PRO
+  .true-grid-data-appearance.true-v-lines > .data-left td:last-child,
+  .true-grid-data-appearance.true-v-lines > .data-right td:last-child {
+    border-right: none !important;
+  }
+
+  // Для групп правый бордер такого же цвета, что и цвет фона
+  .true-grid-data-appearance.true-v-lines tr.true-group > td:not(:last-child) {
+    border-right: $axGroupVerticalBorder;
+  }
+
+  // -- DATA CELLS -------------------------------------------------------------
+  .true-grid-data-appearance > table > tbody > tr > td {
+    padding: $axGridCellVPadding $axGridCellHPadding;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    // При перетаскивании колонки плавно затухаем
+    transition: opacity 0.4s ease;
+  }
+
+  // подсвеченный текст
+  .true-grid-data-appearance td .true-hl {
+    background-color: #f6b94d;
+  }
+}
+
+// Selected cells
+.true-grid-appearance .true-grid-data-appearance tr:not(.true-row-checked) {
+
+  transition: opacity 0.5s ease;
+
+  td.true-range-selected {
+    // Color of text and link
+    color: $axCellSelectedColor;
+    a {
+      color: $axCellSelectedColor;
+    }
+  }
+
+  // Несколько уровней выделения
+  // Соответственно первый
+  td.true-range-selected1 {
+    border-color: $axCellSelectedBorderColor !important;
+    background-color: $axCellSelectedBackColor;
+  }
+
+  // Второй
+  td.true-range-selected2:not(.true-indent-cell) {
+    background-color: $axCellSelectedBackColor2;
+  }
+
+  // Третий
+  td.true-range-selected3:not(.true-indent-cell) {
+    border-color: $axCellSelectedBackColor3 !important; // Цвет бордера светлее фона
+    background-color: $axCellSelectedBackColor3;
+  }
+
+  // Четвертый
+  td.true-range-selected4:not(.true-indent-cell) {
+    border-color: $axCellSelectedBackColor4 !important;
+    background-color: $axCellSelectedBackColor4;
+  }
+
+  // Пятый
+  td.true-range-selected5:not(.true-indent-cell) {
+    border-color: $axCellSelectedBackColor5 !important;
+    background-color: $axCellSelectedBackColor5;
+  }
+
+  // Только что показанная
+  &.true-show-animate {
+    opacity: 0.0 !important;
+  }
+}
+
+// Помеченная
+.true-grid-appearance .true-grid-data-appearance tr.true-row-checked {
+
+  transition: opacity 0.5s ease;
+
+  & > td:not(.true-cell-indent) {
+    border-color: $axCellCheckedBorderColor !important;
+    background-color: $axCellCheckedColor;
+  }
+  // Несколько уровней выделения
+  // Соответственно первый
+  & > td.true-range-selected1 {
+    background-color: $axCellCheckedSelectedBackColor;
+  }
+
+  // Второй
+  & > td.true-range-selected2:not(.true-indent-cell) {
+    background-color: $axCellCheckedSelectedBackColor2;
+  }
+
+  // Третий
+  & > td.true-range-selected3:not(.true-indent-cell) {
+    border-color: $axCellCheckedSelectedBackColor3 !important; // Цвет бордера светлее фона
+    background-color: $axCellCheckedSelectedBackColor3;
+  }
+
+  // Четвертый
+  & > td.true-range-selected4:not(.true-indent-cell) {
+    border-color: $axCellCheckedSelectedBackColor4 !important;
+    background-color: $axCellCheckedSelectedBackColor4;
+  }
+
+  // Пятый
+  & > td.true-range-selected5:not(.true-indent-cell) {
+    border-color: $axCellCheckedSelectedBackColor5 !important;
+    background-color: $axCellCheckedSelectedBackColor5;
+  }
+
+  // Только что показанная
+  &.true-show-animate {
+    opacity: 0.0 !important;
+  }
+}
+
+.true-grid-appearance {
+
+  // Выделение ячейки, в которой находится фокус
+  // Реально фокус в ней не находится, но мы это имитируем..
+  .true-grid-data-appearance.true-focused-cell-hl:not(.true-drag-in-process) > table > tbody > tr > td.true-cell-focused:not(.true-indent-cell) {
+    outline-offset: -1px;
+    outline-style: solid;
+    outline-color: $axAccent;
+    outline-width: $axCellFocusedOutlineWidth;
+  }
+
+  .true-grid-data-appearance.true-focused-cell-hl:not(.true-drag-in-process) > table > tbody > tr:not(.true-row-checked) > td.true-cell-focused:not(.true-indent-cell) {
+    background-color: $axCellFocusedBackColor !important;
+  }
+
+  .true-grid-data-appearance.true-focused-cell-hl:not(.true-drag-in-process) > table > tbody > tr.true-row-checked > td.true-cell-focused:not(.true-indent-cell) {
+    background-color: $axCellCheckedFocusedBackColor !important;
+  }
+
+  // Выделение строки, над которой курсор
+  .true-grid-data-appearance.true-hovered-row-hl > table > tbody > tr:not(.true-row-checked):hover > td:not(.true-cell-indent):not(.true-range-selected):not(.true-cell-focused) {
+    background-color: $axRowHoveredBackColor;
+  }
+
+  // Перетаскиваемая колонка
+  .true-grid-data-appearance tr:not(.true-group) > td.true-cell-disabled:not(.true-range-selected):not(.true-cell-focused) {
+    opacity: 0.4;
+  }
+}
+
+.true-grid-appearance.true-fix-ie .true-grid-data-appearance.true-focused-cell-hl:not(.true-drag-in-process) > table > tbody > tr > td.true-cell-focused:not(.true-indent-cell) {
+  outline-width: 0;
+  box-shadow: inset 0px 0px 0 1px $axAccent;
+}
+
+// -- GRID STATES --------------------------------------------------------------
+
+// -- Состояние - изменение ширины колонки -------------------------------------
+.true-grid-appearance.true-resize-in-process {
+  cursor: ew-resize !important; // Курсор на всей поверхности грида
+  .true-cb, .true-cell-checkbox, .true-header-cell, .true-aggr, .true-grid-btn, .band {
+    cursor: ew-resize !important;
+  }
+}
+
+// Не показываем кнопку заголовка при изменении ширины колонки
+.true-grid-appearance.true-resize-in-process:not(.true-fix-touch) .true-header-cell__caption:not(.true-header-cell__filtered) > .true-grid-btn {
+  visibility: hidden !important;
+  cursor: ew-resize;
+}
+
+// Курсор на заголовке
+.true-grid-appearance.true-resize-in-process .true-header-cell__caption {
+  cursor: ew-resize !important;
+}
+
+// -- Состояние - перетаскивание колонки ---------------------------------------
+.true-grid-appearance.true-drag-in-process:not(.true-fix-touch) .true-header-cell__caption:not(.true-header-cell__filtered) > .true-grid-btn {
+  visibility: hidden !important; // Не показываем кнопку в заголовке
+  cursor: default; // И не делаем над ней pointer
+}
+
+.true-grid-appearance.true-drag-in-process td {
+  cursor: default !important; // Отключаем pointer на всей поверхности
+  .true-cb {
+    cursor: default !important;
+  }
+}
+
+.true-grid-appearance {
+  // -- Cell with editor -------------------------------------------------------
+  td.true-cell-input {
+    padding: 0 !important;
+    position: relative;
+    box-shadow: none !important;
+    height: 100%;
+  }
+
+  .true-grid-data-appearance.true-h-lines {
+    tr:not(:first-child) > td > .true-grid__input-container {
+      margin-top: -1px; // Спорное решение для того, чтобы высота инпута при
+                        // наличии horizontal borders оставалась одинаковой
+                        // (в первой строке или без horizontal borders)
+                        // В AxRowDirective устанавливается высота редактора +1px.
+                        // Если этого не сделать - будет сдвиг текста в редакторе
+                        // относительно текста в ячейке. Не смертельно, но глаз
+                        // цепляется.
+    }
+  }
+
+  .true-grid-input {
+    // Те же paddings, что и у ячейки
+    padding-top: $axGridCellVPadding;
+    padding-bottom: $axGridCellVPadding;
+    padding-left: $axGridCellHPadding;
+    padding-right: $axGridCellHPadding;
+    border: 0 !important;
+    outline: 0;
+    box-sizing: border-box;
+    border-radius: 0;
+    width: 100%;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+  }
+
+  // Если высота строки неизвестна - занимаем 100% высоты
+  .true-grid-editor-100p {
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+  }
+
+  // Если высота строки неизвестна - занимаем 100% высоты
+  .true-grid-editor-ie {
+    height: 100%;
+  }
+}
+
+.true-grid-appearance.true-fix-ie .true-grid__input-container {
+  margin-top: 0 !important;
+}
+
+.true-grid-appearance.true-fix-ie .true-grid-input {
+  box-shadow: inset 0px 0px 0 2px $axAccent !important;
+}
+
+// -- Иконка суммирования  -----------------------------------------------------
+.true-grid-appearance .true-icon-sigma::before {
+  font-family: Cambria, Georgia, Times, Times New Roman, serif;
+  content: "\03a3";
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+// -- GROUP AREA --
+.true-group-area {
+  display: block;
+  color: $axHeaderColor;
+  border-bottom: $axOuterBorder;
+  background: repeating-linear-gradient(
+    40deg,
+    $axGroupAreaBackColor1,
+    $axGroupAreaBackColor1 7px,
+    $axGroupAreaBackColor2 7px,
+    $axGroupAreaBackColor2 14px
+  );
+
+  display: flex;
+  flex-direction: row;
+  padding: 0.3em;
+  align-items: center;
+
+  & > span {
+    padding: 0.2em;
+  }
+
+  & > div {
+    display: inline-block;
+    color: $axHeaderColor;
+    background-color: $axHeaderBackColor;
+    border: $axOuterBorder;
+    margin-left: 1em;
+    transition: opacity 0.4s ease-in;
+  }
+
+  & > div.temp {
+    border-style: dashed;
+    opacity: 0.5;
+  }
+
+  & > div.hidden {
+    visibility: hidden;
+  }
+}
+
+// -- POPUP ---------------------------------------------------------------
+.true-popup {
+    z-index: 9;
+    background-color: $axPopupBackColor;
+    border: $axPopupBorder;
+    box-shadow: $axPopupShadow;
+    transition: opacity 0.2s ease, transform 0.15s ease-out;
+}
+
+.true-button {
+  min-height: 1em;
+}

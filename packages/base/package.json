@@ -1,0 +1,51 @@
+{
+  "name": "@true-directive/base",
+  "version": "1.0.25",
+  "description": "The set of base classes for TrueDirective Grid",
+  "main": "./bundles/true-directive-base.umd.js",
+  "scripts": {
+    "test": "karma start",
+    "clean": "rimraf dist",
+    "build:umd": "webpack --mode production",
+    "build:es2015": "tsc -m es2015 --outDir dist/es",
+    "build": "npm run clean && npm run build:es2015 && npm run build:umd",
+    "doc": "typedoc --out docs/ src/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/true-directive/true-grid"
+  },
+  "author": "Aleksey Melnikov <alx@truedirective.com>",
+  "license": "MIT",
+  "module": "./es/public_api.js",
+  "typings": "./es/public_api.d.ts",
+  "homepage": "https://truedirective.com/",
+  "devDependencies": {
+    "@types/hammerjs": "^2.0.34",
+    "@types/jasmine": "^2.5.51",
+    "@types/node": "^8.0.53",
+    "awesome-typescript-loader": "^5.2.1",
+    "istanbul-instrumenter-loader": "^3.0.0",
+    "jasmine-core": "^2.6.2",
+    "jasmine-spec-reporter": "~4.2.1",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-coverage": "^1.1.1",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-remap-coverage": "~0.1.4",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
+    "source-map-loader": "^0.2.1",
+    "ts-helpers": "1.1.2",
+    "tslint": "^5.4.3",
+    "tslint-loader": "^3.5.3",
+    "typescript": "^3.4.3",
+    "webpack": "^4.0.0",
+    "webpack-cli": "^3.3.0",
+    "uglifyjs-webpack-plugin": "^2.1.2",
+    "copy-webpack-plugin": "^4.6.0",
+    "ajv": "^6.10.0"
+  }
+}

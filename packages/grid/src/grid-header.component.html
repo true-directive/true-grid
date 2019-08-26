@@ -1,0 +1,41 @@
+<div #gridHeaderTable class="true-grid-header"
+        [ngClass]="state.settings.appearance.getHeaderClass()">
+  <table [style.width]="layout.headerWidth">
+    <colgroup>
+      <col *ngFor="let c of layout.columns" [style.width]="layout.displayedHeaderWidth(c)" /> <!--layout.columnHeaderWidth(c)-->
+      <col *ngIf="layout.isCenter" class="true-grid-re" [style.width]="state.st.hdWidth" />
+    </colgroup>
+    <thead>
+      <tr
+        *ngIf="layout.bands.length > 0 && state.settings.showBands"
+        [style.height.px]="state.settings.rowHeight">
+        <td *ngFor="let b of layout.bands"
+            [attr.colspan]="b.columns.length"
+            class="band">
+              <true-grid-header-band
+              [band]="b"
+              (bandTouchstart)="captionStartDrag($event, b)"
+              (mousedown)="captionStartDrag($event, b)"
+              #headerBand>
+            </true-grid-header-band>
+        </td>
+        <td *ngIf="layout.isCenter" style="border:0;"></td>
+      </tr>
+      <tr>
+        <td *ngFor="let c of layout.columns"
+            [ngClass]="state.settings.headerCellClass(c)"
+            [style.height.px]="state.settings.rowHeight"
+            (mousedown)="headerCellMouseDown($event, c)">
+          <true-grid-header-cell #headerCell
+              [column]="c"
+              (toggleCheckColumn)="toggleCheck($event, c)"
+              (captionTouchStart)="captionStartDrag($event, c)"
+              (captionMouseDown)="captionStartDrag($event, c)"
+              (captionMouseUp)="captionSort($event, c)">
+          </true-grid-header-cell>
+        </td>
+        <td *ngIf="layout.isCenter" class="true-tt" style="border:0;"></td>
+      </tr>
+    </thead>
+  </table>
+</div>

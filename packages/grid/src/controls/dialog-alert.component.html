@@ -1,0 +1,17 @@
+<div #alert class="true-dialog-alert">
+  <div class="true-dialog-alert__content">{{text}}</div>
+  <div class="true-dialog-alert__footer">
+    <p>
+      <button
+        *ngFor="let b of dialog.buttons"
+        class="true-button"
+        [ngClass]="b.cssClass"
+        (click)="btnClick($event, b)"
+        [disabled]="b.disabled">{{b.caption}}</button>
+    </p>
+  </div>
+</div>
+<div #overlay
+     class="true-dialog-alert__overlay"
+     (click)="overlayClick($event)">
+</div>

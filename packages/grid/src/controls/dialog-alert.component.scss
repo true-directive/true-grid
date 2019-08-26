@@ -1,0 +1,52 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+}
+
+.true-dialog-alert {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  z-index: 10;
+
+  opacity: 0.0;
+  transform: translateY(-15px);
+  transition: opacity 0.2s ease, transform 0.15s ease-out;
+
+  .true-dialog-alert__content {
+    display: block;
+    padding: 1.0em;
+    text-align: center;
+  }
+
+  // Footer
+  .true-dialog-alert__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    padding: 0 1.2em 1.0em 1.2em;
+
+    p {
+      margin: 0;
+    }
+
+    button {
+      padding: 0.4em 1.0em;
+      margin-left: 1.0em;
+    }
+  }
+}
+
+.true-dialog-alert__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.3);
+  opacity: 0.0;
+  z-index: 9;
+  transition: opacity 0.5s ease;
+}

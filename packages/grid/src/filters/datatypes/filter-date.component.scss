@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  width: 35em;
+  max-width: 90vw !important;
+}
+
+.true-filter-date__dates {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: stretch;
+  justify-content:  space-between;
+  align-items: baseline;
+}
+
+.true-filter-date__datepicker {
+  margin: 0.3em;
+  display: inline-block;
+  width: 9em;
+  flex-grow: 1;
+}
+
+.true-filter-date__dash {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.true-filter-date__selector {
+  margin: 0.3em;
+  width: 12em;
+  flex-grow: 1;
+}
+
+.true-filter-date__options {
+  padding: 0;
+  margin: 0.8em 0 0 0.2em;
+}
+
+.true-filter-date__mode-selector {
+  float: right;
+}
+
+.true-link {
+  margin: 0 0.0em 0 0;
+}
+
+.true-filter-date__items {
+  padding-top: 1.5em;
+}

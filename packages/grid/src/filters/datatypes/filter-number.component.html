@@ -1,0 +1,33 @@
+<true-dialog-wrapper
+  [dialog]="dialog"
+  (btnClick)="dialogBtnClick($event)">
+  <div class="true-filter-number__values">
+    <true-input-wrapper [error]="inputError1" [showError]="false">
+      <input #input1 type="text"
+        [attr.disabled]="selectMode"
+        [true-mask-number]="getFormat()"
+        [(ngModel)]="filter.value"
+        (focus)="inputFocus($event)" />
+    </true-input-wrapper>&nbsp;&ndash;&nbsp;<true-input-wrapper [error]="inputError2" [showError]="false">
+      <input #input2 type="text"
+        [attr.disabled]="selectMode"
+        [true-mask-number]="getFormat()"
+        [(ngModel)]="filter.value2"
+        (focus)="inputFocus($event)" />
+    </true-input-wrapper>
+  </div>
+  <div class="true-filter-number__options">
+    <a
+      href=""
+      tabindex="-1"
+      class="true-link"
+      [class.true-link_disabled]="selectMode"
+      (click)="showOM($event)">{{filter.operator.name | trueTranslate}}<span [class.true-turned]="operatorMenu.visible"
+                                                       class="true-turnable true-icon-angle-down"></span></a>
+    <true-menu #operatorMenu>
+      <true-menu-item *ngFor="let o of operators" (itemClick)="operator(o)">
+        <span [class.true-icon-ok]="filter.operator === o"></span>{{o.name | trueTranslate}}
+      </true-menu-item>
+    </true-menu>
+  </div>
+</true-dialog-wrapper>

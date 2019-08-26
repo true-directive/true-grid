@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "publish:base": "cd packages/base && npm version patch && npm run build && cd dist && npm publish",
+    "update:angular": "cd packages/grid && npm update @true-directive/base",
+    "publish:angular": "cd packages/grid && npm version patch && npm run build && cd dist && npm publish",
+    "update:demo": "cd demos/demo-angular && npm update @true-directive/grid",
+
+    "build:all": "npm run publish:base && npm run update:angular && npm publish:angular && npm update:demo"
+  }
+}

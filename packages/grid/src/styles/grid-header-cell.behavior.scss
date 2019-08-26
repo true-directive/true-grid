@@ -1,0 +1,60 @@
+:host {
+  cursor: default;
+  display: block;
+  height: 100%;
+}
+
+// Наверное, можно сразу в хост всё это запилить. Но слишком много всего биндить
+.true-header-cell__caption {
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: stretch;
+
+  overflow-x: hidden;
+
+  &.true-header-cell__checkbox {
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  // Индикатор сортировки
+  .true-header-cell__sort-indicator {
+    text-align: center;
+    align-self: center;
+  }
+
+  // Текст в заголовке
+  .true-header-cell__txt
+   {
+     align-self: center;
+
+     overflow-x: hidden;
+     overflow-y: hidden;
+     flex-grow: 1;
+
+     overflow-y: hidden;
+  }
+
+  .true-header-cell__txt_nowrap {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+// При наведении на колонку
+.true-header-cell__caption:hover .true-grid-btn,
+.true-grid-btn-visible .true-grid-btn
+{
+  opacity: 0.2;
+  visibility: visible;
+}
+
+// -- Если наложен фильтр
+.true-header-cell__filtered .true-grid-btn {
+  visibility: visible !important;
+  opacity: 1.0 !important;
+}

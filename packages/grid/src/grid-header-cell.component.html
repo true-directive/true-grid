@@ -1,0 +1,24 @@
+<div #caption
+  class="true-header-cell__caption"
+  [class.true-header-cell__checkbox]="column.isCheckbox"
+  [class.true-header-cell__filtered]="isFiltered()"
+  (mousedown)="mouseDown($event)"
+  (mouseup)="mouseUp($event)">
+
+  <div *ngIf="column.isCheckbox" [ngClass]="state.settings.headerCheckboxClass(column.isChecked)" (click)="toggleCheck($event)"></div>
+  <div *ngIf="isSorted(column)"
+        class="true-header-cell__sort-indicator" [ngClass]="sortIndicatorClass()"></div>
+  <div *ngIf="!column.isCheckbox"
+       [class.true-header-cell__txt_nowrap]="!state.settings.headerWordWrap"
+       class="true-header-cell__txt">
+    {{column.caption}}
+  </div>
+  
+  <div #btn *ngIf="!column.isCheckbox && state.settings.allowFilter && (column.allowFilter || isFiltered())"
+      class="true-grid-btn"
+      (click)="btnClick($event)"
+      (touchstart)="btnTouch($event)"
+      (mousedown)="btnMouseDown($event)">
+    <span [ngClass]="btnIconClass()"></span>
+  </div>
+</div>

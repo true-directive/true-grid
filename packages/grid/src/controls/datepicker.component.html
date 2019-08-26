@@ -1,0 +1,27 @@
+<true-input-wrapper
+  (btnClick)="btnClick($event)"
+  class="true-datepicker__input"
+  [class.true-input_popup-visible]="popupVisible"
+  [disabled]="disabled"
+  [error]="error"
+  [showError]="showError"
+  [icon]="getIcon()">
+  <input #input
+     [ngClass]="inputClass"
+     [true-mask-date]="pattern"
+     [readonly]="disableTextEditor"
+     [attr.disabled]="disabled"
+     [(ngModel)]="value"
+     (blur)="inputBlur($event)"
+     (focus)="inputFocus($event)"
+     (mousedown)="$event.stopPropagation()"
+     (keydown)="inputKeyDown($event)"/>
+</true-input-wrapper>
+<true-popup #popup (close)="popupClose($event)">
+  <true-calendar #calendar
+      *ngIf="popupVisible"
+      [(ngModel)]="value"
+      (escape)="escape($event)"
+      (dateClick)="dateClick($event)">
+  </true-calendar>
+</true-popup>

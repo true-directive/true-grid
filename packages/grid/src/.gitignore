@@ -1,0 +1,5 @@
+# compiled
+
+*.d.ts
+*.js
+*.metadata.json

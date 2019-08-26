@@ -1,0 +1,21 @@
+:host {
+  cursor: default;
+}
+
+.true-header-band__caption {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  overflow-x: hidden;
+}
+
+.true-header-band__txt
+{
+  align-self: center;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  flex-grow: 1;
+}

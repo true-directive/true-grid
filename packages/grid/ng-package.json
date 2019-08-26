@@ -1,0 +1,11 @@
+{
+    "$schema": "./node_modules/ng-packagr/ng-package.schema.json",
+    "dest": "dist/",
+    "name": "true-grid",
+    "lib": {
+      "entryFile": "public_api.ts"
+    },
+    "whitelistedNonPeerDependencies": [
+      "@true-directive/base"
+    ]
+  }

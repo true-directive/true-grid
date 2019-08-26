@@ -1,0 +1,72 @@
+<!-- Buttons -->
+<div class="true-calendar__controls">
+  <div>
+    <button class="true-button" (click)="toggleMode()" ><b>{{monthYear}}</b></button>
+  </div>
+  <div>
+    <button class="true-button prev" (click)="go(-1)"><span class="true-icon-left-open"></span></button>
+    <button class="true-button next" (click)="go(1)"><span class="true-icon-right-open"></span></button>
+  </div>
+</div>
+
+<!-- Day names in header -->
+<table class="true-day-names">
+  <colGroup>
+    <col *ngFor="let d of dayNames" />
+  </colGroup>
+  <thead>
+    <tr>
+      <td *ngFor="let d of dayNames" [class.true-transparent]="mode!='days'">{{d}}</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td colspan="7"></td></tr>
+  </tbody>
+</table>
+
+<!-- Month days -->
+<table #days class="true-days" tabindex="1" (keydown)="daysKeyDown($event)">
+  <colGroup>
+    <col *ngFor="let d of dayNames" />
+  </colGroup>
+  <tbody>
+    <tr *ngFor="let w of weeks">
+      <td *ngFor="let d of w"
+        (click)="calendarDateClick($event, d)"
+        [class.true-selected]="d.getTime() === valueTime"
+        [class.true-today]="d.getTime() === today.getTime()"
+        [class.true-current]="isCurrentMonth(d)">{{d.getDate()}}</td>
+    </tr>
+  </tbody>
+</table>
+<!-- Months -->
+<table class="true-months">
+  <colGroup>
+    <col *ngFor="let r of monthRows[0]" />
+  </colGroup>
+  <tbody>
+    <tr *ngFor="let r of monthRows">
+      <td *ngFor="let m of r"
+        (click)="calendarDateClick($event, m.date)"
+        [class.true-transparent]="m.hide"
+        [class.true-selected]="m.selected"
+        [class.true-today]="m.today"
+        [class.true-current]="m.current">{{m.name}}</td>
+    </tr>
+  </tbody>
+</table>
+<!-- Years -->
+<table class="true-years">
+  <colGroup>
+    <col *ngFor="let r of yearRows[0]" />
+  </colGroup>
+  <tbody>
+    <tr *ngFor="let r of yearRows">
+      <td *ngFor="let y of r"
+        (click)="calendarDateClick($event, y.date)"
+        [class.true-selected]="y.selected"
+        [class.true-today]="y.today"
+        [class.true-current]="1==1">{{y.name}}</td>
+    </tr>
+  </tbody>
+</table>

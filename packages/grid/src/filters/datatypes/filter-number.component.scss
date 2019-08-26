@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  width: 26em;
+}
+
+.true-filter-number__values {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.true-filter-number__values input {
+  text-align: right;
+  display: inline-block;
+  width: 10em;
+  margin: 0 0em;
+}
+
+.true-filter-number__options {
+  padding: 0;
+  margin: 0.8em 0 0 0.2em;
+}
+
+.true-filter-number__mode-selector {
+  float: right;
+}
+
+.true-filter-number__items {
+  padding-top: 1.5em;
+}
+
+.true-filter-number__grid {
+  display: block;
+  width: 100%;
+  height: 16em;
+}

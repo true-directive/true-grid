@@ -1,0 +1,133 @@
+// -- COMMON -------------------------------------------------------------------
+$axAccent: #ea6b0c !default;
+$axAccent__hover: #d95c17 !default;
+
+$axColor: unset !default;
+$axBackColor: unset !default;
+$axDragBackColor: #fff !default;
+
+$axOuterBorder: 1px solid #c5c7c9 !default;
+
+// -- HEADER -------------------------------------------------------------------
+// Borders
+$axHeaderHorizontalBorder: 1px solid #e5e7e9 !default;
+$axHeaderVerticalBorder: $axHeaderHorizontalBorder !default;
+$axHeaderOuterBorder: $axHeaderHorizontalBorder !default; // Between grid parts
+
+// Colors
+$axHeaderColor: #1f2f3d !default;
+$axHeaderFontWeight: normal !default;
+$axHeaderBackColor: #fbfcfd !default;
+
+// Header button
+$axHeaderBtnColor: #757779 !default;
+$axHeaderBtnBackColor__hover: #eaecee !default;
+
+// -- DATA -------------------------------------------------------------------
+// Borders
+$axDataBorder: 1px solid #e3e5e7 !default;
+$axDataHorizontalBorder: $axDataBorder !default;
+$axDataVerticalBorder: $axDataHorizontalBorder !default;
+
+// Colors
+$axRowHoveredBackColor: #f7f8f9 !default;
+
+$axCellSelectedColor: unset !default;
+$axCellSelectedBorderColor: #e3e5e7 !default;
+
+// Selection background colors
+$axCellSelectedBackColor: #edf1f3 !default;
+$axCellSelectedBackColor2: #e4e8ec !default;
+$axCellSelectedBackColor3: #dadfe4 !default;
+$axCellSelectedBackColor4: #d4d9df !default;
+$axCellSelectedBackColor5: #cad0d7 !default;
+
+// Checked row colors
+$axCellCheckedColor: #e1e9fe !default;
+$axCellCheckedBorderColor: #d6dff8 !default;
+
+// Checked and selected back colors
+$axCellCheckedSelectedBackColor: #d4defa !default;
+$axCellCheckedSelectedBackColor2: #c9d6f7 !default;
+$axCellCheckedSelectedBackColor3: #bfcdf3 !default;
+$axCellCheckedSelectedBackColor4: #b1c1ec !default;
+$axCellCheckedSelectedBackColor5: #a5b7e8 !default;
+
+// Focused cell styles
+$axCellFocusedOutlineWidth: 1px !default;
+$axCellFocusedBackColor: #f7f8f9 !default;
+
+// Checked and focused back color
+$axCellCheckedFocusedBackColor: #ecf1ff !default;
+
+// GROUPING
+$axGroupСolor: $axAccent !default;
+$axGroupBackColor: #fbfcfd !default;
+$axGroupFontWeight: normal !default;
+$axGroupHorizontalBorder: 1px solid #e0e3e8 !default;
+$axGroupVerticalBorder: 0 !default;
+
+$axGroupL1Color: $axAccent;
+$axGroupL1FontWeight: bold !default;
+$axGroupL1BackColor: #fbfcfd !default;
+$axGroupL1VerticalBorder: 0 !default;
+
+$axGroupAreaBackColor1: #f7fafb !default;
+$axGroupAreaBackColor2: #fefeff !default;
+
+// Indent borders
+$axIndentHorizontalBorder: $axDataHorizontalBorder;
+$axIndentVerticalBorder: 0 !default;
+
+// PADDINGS
+// Если paddings оставить в em, то FF будет двигать вверх или вниз на пиксел при отрисовке..
+// Очень неприятный спецэффект получится. Поэтому паддинги - только в пикселах.
+$axGridCellHPadding1: 2px !default;
+$axGridCellHPadding2: 3px !default;
+$axGridCellHPadding: $axGridCellHPadding1 + $axGridCellHPadding2;
+
+$axGridCellVPadding: 3px !default;
+
+$axErrorColor: #d9534f !default;
+
+// -- CONTROLS -----------------------------------------------------------------
+$axPopupBackColor: #fff !default;
+$axPopupBorder: 1px solid #ccc !default;
+$axPopupShadow: 4px 4px 15px rgba(0,0,0,.15) !default;
+
+$ax-error-color: #d9534f !default;
+$ax-error-back-color: #fffafa !default;
+$ax-control-border-color: #ccc !default;
+$ax-control-back-color: #fff !default;
+
+$ax-selection-color: #b6e2fc !default;
+$ax-search-highlight-back: #f6b94d !default;
+$ax-text-disabled-color: #bbb !default;
+
+// Отступы инпутов такие же, чтобы не было сдвигов текста при переходе ячейки
+// в режим редактирования
+$ax-input-padding-v: $axGridCellVPadding !default;
+$ax-input-padding-h: $axGridCellHPadding !default;
+
+// Ширина кнопки инпута
+$ax-input-btn-width: 2.0em !default;
+$ax-input-wbtn-padding-right: 1.8em !default;
+
+$ax-input-btn-color: #aaa !default;
+$ax-input-btn-color_hover: #777 !default;
+
+$ax-btn-radius: 0px !default;
+$ax-btn-color: #aaa !default;
+$ax-btn-color_hover: #666 !default;
+
+$ax-btn-back-color_hover: #f3f4f5 !default;
+
+$ax-btn-color-primary: #4587f1 !default;
+$ax-btn-color-primary_focus: #2a67c5 !default;
+$ax-btn-color-primary_hover: #235bb2 !default;
+
+$ax-btn-color-danger: #e86565 !default;
+$ax-btn-color-danger_focus: #d55959 !default;
+$ax-btn-color-danger_hover: #b4000d !default;
+
+$ax-fore-color_inversed: #fff !default;

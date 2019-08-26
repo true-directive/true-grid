@@ -1,0 +1,89 @@
+<div #dropMarker class="true-grid-drop-marker"></div>
+<!-- всплывающее окно для фильтров -->
+<true-filter-popup #filterPopup *ngIf="state.settings.allowFilter"
+  (setFilter)="setFilter($event)"
+  (resetFilter)="resetFilter($event)"
+  (closed)="filterClosed($event)">
+</true-filter-popup>
+<!-- Элемент, который перетаскивается мышью, при reordering columns -->
+<div #dragItem true-drag-item class="true-grid-drag-item">
+  <true-grid-header *ngIf="isDragColumn()" [layout]="state.layoutDrag"></true-grid-header>
+  <div *ngIf="!isDragColumn()" class="true-drag-data" [ngClass]="settings.appearance.getDataClass()">
+    <table *ngFor="let r of draggedRows; let i=index"
+           [style.transform]="getDragTransform(i)"
+           [style.width]="getDragWidth()"
+           class="true-grid-data true-grid-data_fixed-height">
+      <colgroup>
+        <col *ngFor="let c of state.layoutDrag.columns" [style.width]="c.displayedWidthU" />
+      </colgroup>
+      <tbody>
+        <tr true-row
+            [row]="r"
+            [true-layout]="state.layoutDrag"
+            [true-state]="state"
+            [true-i]="i"
+            [style.height.px]="state.settings.rowHeight">
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<!-- Компонент, осуществляющий синхронный скроллинг данных и всех сопутствующих элементов -->
+<true-scroller #scroller
+  tabindex="-1"
+  [maxHeight]="maxHeight"
+  (keydown)="dataKeyDown($event)"
+  (autoscrollx)="gridAutoScrollX($event)"
+  (scroll)="gridScroll($event)">
+  <!-- Заголовки -->
+  <true-grid-header #gridHeader true-header
+    [layout]="state.layout"
+    [scroller]="scroller"
+    (toggleCheckColumn)="toggleCheckColumn($event)"
+    (resizeColumn)="resizeColumn($event)">
+  </true-grid-header>
+  <!-- Основная часть данных -->
+  <div true-data [ngClass]="settings.appearance.getDataClass()">
+    <table #gridData class="true-grid-data"
+          [class.true-grid-data_fixed-height]="state.settings.fixedRowHeight"
+          [style.width]="state.layout.dataWidth"
+          (mousedown)="dataMouseDown($event)">
+      <colgroup>
+        <!-- группировка и деревья -->
+        <col *ngFor="let c of state.layout.levelColumns" [style.width]="state.st.levelWidth" />
+        <!-- данные -->
+        <col *ngFor="let c of state.layout.columns" [style.width]="c.displayedWidthU" />
+      </colgroup>
+
+      <tbody *ngIf="!state.st.customTemplate">
+        <tr *ngFor="let r of RC.ghostRows('start'); trackBy: RC.trackGhostRowStart" [style.height.px]="r.H" style="border:0">
+          <td [style.height.px]="r.H" style="padding:0; border-right: 0;">&nbsp;</td>
+        </tr>
+        <tr *ngFor="let r of visibleRows; let i=index; trackBy: trackRow;"
+            true-row
+            [view-port-left]="viewPortLeft"
+            [view-port-width]="viewPortWidth"
+            [row]="r"
+            [true-locale]="locale"
+            [true-layout]="state.layout"
+            [true-state]="state"
+            [true-i]="i"
+            [style.height.px]="state.settings.rowHeight"
+            (toggleCheckbox)="toggleCheckbox($event)"
+            (click)="dataRowClick($event, r)"
+            (contextmenu)="dataContextMenu($event)"
+            (dblclick)="dataRowDblClick($event, r)"
+            #displayedRows>
+        </tr>
+        <tr *ngFor="let r of RC.ghostRows('end')" [style.height.px]="r.H">
+          <td [style.height.px]="r.H" style="padding:0; border-right: 0;">&nbsp;</td>
+        </tr>
+        <!--<tr *ngIf="visibleRows.length === 0"><td style="border: 0;"></td></tr>--> <!-- Вынести в стили -->
+      </tbody>
+       <!-- User's template -->
+      <ng-content *ngIf="state.st.customTemplate" select="[true-body]"></ng-content>
+    </table>
+  </div>
+  <!-- Footer -->
+  <true-grid-footer #gridFooter true-footer [layout]="state.layout"></true-grid-footer>
+</true-scroller>

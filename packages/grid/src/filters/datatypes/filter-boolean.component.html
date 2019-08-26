@@ -1,0 +1,13 @@
+<true-dialog-wrapper
+  #dialogWrapper
+  [dialog]="dialog"
+  (btnClick)="dialogBtnClick($event)">
+  <div class="true-filter-boolean__checkboxes">
+    <true-checkbox-wrapper class="true-filter-boolean__cb" >
+      <input #cb1 type="checkbox" [(ngModel)]="trueValues" /><span caption>{{'True' | trueTranslate}}</span>
+    </true-checkbox-wrapper>
+    <true-checkbox-wrapper class="true-filter-boolean__cb">
+      <input type="checkbox" [(ngModel)]="falseValues" /><span caption>{{'False' | trueTranslate}}</span>
+    </true-checkbox-wrapper>
+  </div>
+</true-dialog-wrapper>

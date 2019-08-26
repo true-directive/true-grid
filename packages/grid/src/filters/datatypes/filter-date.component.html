@@ -1,0 +1,46 @@
+<true-dialog-wrapper
+  [dialog]="dialog"
+  (btnClick)="dialogBtnClick($event)">
+  <div class="true-filter-date__dates">
+    <true-datepicker #datepicker1
+      pattern="date"
+      class="true-filter-date__datepicker"
+      popupPosition="ABSOLUTE"
+      [error]="inputError1"
+      [showError]="false"
+      [(ngModel)]="filter.value">
+    </true-datepicker>
+    <div class="true-filter-date__dash">&ndash;</div>
+    <true-datepicker #datepicker2
+      pattern="date"
+      class="true-filter-date__datepicker"
+      popupPosition="ABSOLUTE"
+      [error]="inputError2"
+      [showError]="false"
+      [(ngModel)]="filter.value2">
+    </true-datepicker>
+    <true-select #intervalSelector
+        class="true-filter-date__selector"
+        [(ngModel)]="currentInterval"
+        popupPosition="ABSOLUTE"
+        [valueField]="'id'"
+        [columns]="intervalColumns"
+        [settings]="intervalSettings"
+        [items]="intervals"
+        [parentState]="state"
+        [disableTextEditor]="true">
+    </true-select>
+  </div>
+  <div class="true-filter-date__options">
+    <a href=""
+      tabindex="-1" 
+      class="true-link"
+      (click)="showOM($event)">{{filter.operator.name | trueTranslate}}<span [class.true-turned]="operatorMenu.visible"
+                                                       class="true-turnable true-icon-angle-down"></span></a>
+    <true-menu #operatorMenu>
+      <true-menu-item *ngFor="let o of operators" (itemClick)="operator(o)">
+        <span [class.true-icon-ok]="filter.operator === o"></span>{{o.name | trueTranslate}}
+      </true-menu-item>
+    </true-menu>
+  </div>
+</true-dialog-wrapper>

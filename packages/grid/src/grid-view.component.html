@@ -1,0 +1,54 @@
+<!-- Filter popup -->
+<true-filter-popup #filterPopup *ngIf="state.settings.allowFilter"
+  (setFilter)="setFilter($event)"
+  (resetFilter)="resetFilter($event)"
+  (closed)="filterClosed($event)">
+</true-filter-popup>
+<!-- Scroll manager -->
+<true-scroller #scroller
+  tabindex="0"
+  (autoscrollx)="gridAutoScrollX($event)"
+  (scroll)="gridScroll($event)">
+  <!-- Заголовки -->
+  <true-grid-header #gridHeader true-header
+    [layout]="state.layout"
+    [scroller]="scroller">
+  </true-grid-header>
+  <div true-data [ngClass]="settings.appearance.getDataClass()">
+    <table #gridData class="true-grid-data"
+          [class.true-grid-data_fixed-height]="state.settings.fixedRowHeight"
+          [style.width]="state.layout.dataWidth">
+      <colgroup>
+        <!-- Level columns -->
+        <col *ngFor="let c of state.layout.levelColumns" [style.width]="state.st.levelWidth" />
+        <!-- Data columns -->
+        <col *ngFor="let c of state.layout.columns" [style.width]="c.displayedWidthU" />
+      </colgroup>
+
+      <tbody *ngIf="!state.st.customTemplate">
+        <tr *ngFor="let r of RC.ghostRows('start'); trackBy: RC.trackGhostRowStart" [style.height.px]="r.H" style="border:0">
+          <td [style.height.px]="r.H" style="padding:0; border-right: 0;">&nbsp;</td>
+        </tr>
+
+        <tr *ngFor="let r of visibleRows; let i=index; trackBy: trackRow;"
+            true-row
+            [row]="r"
+            [true-locale]="locale"
+            [true-layout]="state.layout"
+            [true-state]="state"
+            [true-i]="i"
+            [style.height.px]="state.settings.rowHeight"
+            #displayedRows>
+        </tr>
+        <tr *ngFor="let r of RC.ghostRows('end')" [style.height.px]="r.H">
+          <td [style.height.px]="r.H" style="padding:0; border-right: 0;">&nbsp;</td>
+        </tr>
+        <tr *ngIf="visibleRows.length === 0"><td style="border: 0;"></td></tr> 
+      </tbody>
+       <!-- User's template -->
+      <ng-content *ngIf="state.st.customTemplate" select="[true-body]"></ng-content>
+    </table>
+  </div>
+  <!-- Footer -->
+  <true-grid-footer #gridFooter true-footer [layout]="state.layout"></true-grid-footer>
+</true-scroller>

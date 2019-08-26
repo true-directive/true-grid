@@ -1,0 +1,132 @@
+// -- COMMON -------------------------------------------------------------------
+$axAccent: #4987eb !default;
+$axAccent__hover: #5182d1 !default;
+
+$axColor: #bfc5ce !default;
+$axBackColor: #282d34 !default;
+$axDragBackColor: $axBackColor !default;
+
+$axOuterBorder: 2px solid #30353e !default;
+
+// -- HEADER -------------------------------------------------------------------
+// Borders
+$axHeaderHorizontalBorder: 1px solid #373d48 !default;
+$axHeaderVerticalBorder: $axHeaderHorizontalBorder !default;
+$axHeaderOuterBorder: 0 !default;
+
+// Colors
+$axHeaderColor: #9ca1a8 !default;
+$axHeaderFontWeight: 500 !default;
+$axHeaderBackColor: #30353e !default;
+
+// Header button
+$axHeaderBtnColor: #9eb2bf !default;
+$axHeaderBtnColor_hover: #444 !default;
+$axHeaderBtnBackColor__hover: #424853 !default;
+
+// -- DATA -------------------------------------------------------------------
+// Borders
+$axDataBorderColor: #30363c !default;
+$axDataHorizontalBorder: 1px solid $axDataBorderColor !default;
+$axDataVerticalBorder: 1px solid $axDataBorderColor !default;
+
+// Colors
+$axRowHoveredBackColor: #2c323c !default;
+
+$axCellSelectedColor: unset !default;
+$axCellSelectedBackColor: #3f4551 !default;
+
+// Selection background colors
+$axCellSelectedBorderColor: #3d434c !default;
+$axCellSelectedBackColor2: #464e5c !default;
+$axCellSelectedBackColor3: #4b5363 !default;
+$axCellSelectedBackColor4: #525b6e !default;
+$axCellSelectedBackColor5: #59647b !default;
+
+// Checked row colors
+$axCellCheckedColor: #43557b !default;
+$axCellCheckedBorderColor: #465a83 !default;
+
+// Checked and selected back colors
+$axCellCheckedSelectedBackColor: #4a608e !default;
+$axCellCheckedSelectedBackColor2: #4d6597 !default;
+$axCellCheckedSelectedBackColor3: #506ba2 !default;
+$axCellCheckedSelectedBackColor4: #526fac !default;
+$axCellCheckedSelectedBackColor5: #5474b7 !default;
+
+// Focused cell styles
+$axCellFocusedOutlineWidth: 1px !default;
+$axCellFocusedBackColor: #313740 !default;
+
+// Checked and focused back color
+$axCellCheckedFocusedBackColor: #3e4e70 !default;
+
+// GROUPING
+$axGroupСolor: $axAccent !default;
+$axGroupBackColor: #24282e !default;
+$axGroupFontWeight: normal !default;
+$axGroupHorizontalBorder: $axDataHorizontalBorder !default;
+$axGroupVerticalBorder: 0 !default;
+
+$axGroupL1Color: $axAccent !default;
+$axGroupL1FontWeight: bold !default;
+$axGroupL1BackColor: #24282e !default;
+$axGroupL1VerticalBorder: 0 !default;
+
+$axGroupAreaBackColor1: #2b2f35 !default;
+$axGroupAreaBackColor2: #272c33 !default;
+
+// Indent borders
+$axIndentHorizontalBorder: $axDataHorizontalBorder !default;
+$axIndentVerticalBorder: 0 !default;
+
+// PADDINGS
+$axGridCellHPadding1: 2px !default;
+$axGridCellHPadding2: 3px !default;
+$axGridCellHPadding: $axGridCellHPadding1 + $axGridCellHPadding2;
+
+$axGridCellVPadding: 3px !default;
+
+$axErrorColor: #c82828 !default;
+
+// CONTROLS
+$ax-error-color: #c82828 !default;
+$ax-error-back-color: unset !default;
+
+$ax-control-border-color: #4c5562 !default;
+$ax-control-inner-border-color: #30353e !default;
+$ax-control-back-color: #21252b !default;
+
+$axPopupBackColor: #282d34 !default;
+$axPopupBorder: 1px solid #202327 !default;
+$axPopupShadow: 4px 4px 15px rgba(0,0,0,.35) !default;
+
+$ax-search-highlight-back: #335294 !default;
+$ax-selection-color: #a2b5d4 !default;
+$ax-text-disabled-color: #434a58 !default;
+
+// Отступы инпутов такие же, чтобы не было сдвигов текста при переходе ячейки
+// в режим редактирования
+$ax-input-padding-v: $axGridCellVPadding !default;
+$ax-input-padding-h: $axGridCellHPadding !default;
+
+// Ширина кнопки инпута
+$ax-input-btn-width: 2.0em !default;
+$ax-input-wbtn-padding-right: 1.8em !default;
+
+$ax-input-btn-color: #777 !default;
+$ax-input-btn-color_hover: #aaa !default;
+
+$ax-btn-radius: 0px !default;
+$ax-btn-color: #777 !default;
+$ax-btn-color_hover: #aaa !default;
+$ax-btn-back-color_hover: #2c323c !default;
+$ax-btn-color-primary: #d16819 !default;
+$ax-btn-color-primary_focus: #ea6b0c !default;
+$ax-btn-color-primary_hover: #ea6b0c !default;
+
+$ax-btn-color-danger: #e86565 !default;
+$ax-btn-color-danger_focus: #d55959 !default;
+$ax-btn-color-danger_hover: #b4000d !default;
+
+$ax-fore-color_inversed: #fff !default;

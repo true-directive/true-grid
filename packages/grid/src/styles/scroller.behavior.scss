@@ -1,0 +1,118 @@
+:host {
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+:host:focus {
+  outline: 0;
+}
+
+.true-scroller-header-area, .true-scroller-footer-area {
+  overflow-x: hidden;
+  flex-shrink: 0;
+  flex-grow: 0;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+}
+
+.true-scroller-hidden {
+  height: 0 !important;
+}
+
+.true-scroller-header {
+  overflow-x: hidden;
+  flex-grow: 1;
+  box-sizing: border-box;
+}
+
+.true-scroller-data-area-scroller {
+  flex: 1 1 auto;
+  overflow-y: hidden;
+  align-self: stretch;
+  height: 100%; // Нужна высота, чтобы внутренний элемент смог стать 100%
+}
+
+.true-scroller-data-area {
+  height: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+.true-scroller-data {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: auto;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.true-scroller-data-h {
+  overflow-x: visible;
+  -webkit-overflow-scrolling: touch;
+}
+
+// Автоматическая ширина колонок - не нужна горизонтальная прокрутка
+:host.true-v-scroll .true-scroller-data {
+  overflow-x: hidden !important;
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch;
+
+  .true-scroller-data-h {
+    overflow-x: hidden !important;
+  }
+}
+
+// -----------------------------------------------------------------------------
+.true-scroller-footer {
+  overflow-x: hidden;
+  flex-grow: 1;
+}
+
+// -----------------------------------------------------------------------------
+// Меняем стиль прокрутки на тач-устройствах
+// 1. Вертикальный скролл на уровень выше:
+:host.true-fix-touch:not(.true-v-scroll) .true-scroller-data-area-scroller {
+  height: 1px; // Необходимо задать высоту, чтобы вложенный элемент смог
+               // воспринять min-height: 100%
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+:host.true-fix-touch .true-scroller-data-area {
+  height: auto;
+  min-height: 100%;
+
+  display: -webkit-box;
+  align-content: stretch;
+  -webkit-overflow-scrolling: touch;
+}
+
+:host.true-fix-touch .true-scroller-data {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+
+  // Чтобы true-scroller-data-h не уменьшался меньше, чем родительский элемент
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  flex-direction: row;
+}
+
+// 2. Горизонтальный скролл - на уровень ниже
+:host.true-fix-touch:not(.true-v-scroll) .true-scroller-data-h {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+// Но если горизонтальная прокрутка не нужна, то так:
+:host.true-fix-touch.true-v-scroll .true-scroller-data-area-scroller {
+  overflow-y: scroll !important;
+  -webkit-overflow-scrolling: touch;
+}

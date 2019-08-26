@@ -1,0 +1,33 @@
+.true-grid-header > table,
+.true-grid-drag-item > table {
+  box-sizing: border-box;
+  table-layout: fixed;
+  border-spacing: 0;
+  border-collapse: collapse;
+  outline: none;
+}
+
+td.true-column-resizable
+{
+  cursor: ew-resize;
+}
+
+td:not(.true-column-resizable)
+{
+  cursor: default;
+}
+
+// Чтобы не было курсора ew-resize между колонкой, ширину которой нельзя изменить и
+// колонкой, ширину которой можно изменить
+td:not(.true-column-resizable) + td.true-column-resizable {
+  padding-left: 0 !important;
+}
+
+// Если колонку нельзя растягивать, то  отступы правее кнопки убираем
+// Только если показана кнопка фильтра/меню
+/deep/ .true-grid-header td:not(.true-column-resizable):not(.true-column-nobtn):not(.true-header-cell__checkbox) {
+  padding-right: 0 !important;
+  .true-header-cell {
+    padding-right: 0 !important;
+  }
+}

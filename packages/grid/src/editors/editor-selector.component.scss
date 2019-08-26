@@ -1,0 +1,22 @@
+:host {
+  box-sizing: border-box;
+  padding: 0;
+}
+.true-editor-selector__selector {
+
+  width: 100%;
+
+  /deep/ .true-selector__input {
+    height: 100%;
+  }
+
+  /deep/ input {
+    border: 0;
+  }
+}
+.true-editor-selector__container {
+  padding: 0;
+  margin: 0;
+  background-color: blue;
+  box-sizing: border-box;
+}

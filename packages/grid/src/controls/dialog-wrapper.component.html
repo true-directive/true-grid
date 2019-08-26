@@ -1,0 +1,21 @@
+<div *ngIf="dialog.showHeader" class="true-header">
+  <span>{{caption}}</span>
+  <button class="true-button flat" (click)="btnClick.emit(closeBtn)"><span class="true-close"></span></button>
+</div>
+<div class="true-body">
+  <div #alertContainer class="true-alert-container"></div>
+  <div class="true-content">
+    <ng-content></ng-content>
+  </div>
+  <div *ngIf="dialog.showFooter" class="true-footer">
+    <p>
+      <button
+        #buttons
+        *ngFor="let b of dialog.buttons"
+        class="true-button"
+        [ngClass]="b.cssClass"
+        (click)="btnClick.emit(b)"
+        [disabled]="b.disabled">{{b.caption}}</button>
+    </p>
+  </div>
+</div>

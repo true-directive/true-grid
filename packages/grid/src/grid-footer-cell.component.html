@@ -1,0 +1,36 @@
+<div *ngFor="let a of column.summaries"
+     class="true-aggr"
+     [style.height.px]="state.st.rowHeight"
+     (click)="toggleMenu($event, a)">
+  <div>
+    <span class="true-aggr-caption">{{a.type.shortName | trueTranslate}}&nbsp;</span>{{displayedValue(a)}}
+  </div>
+</div>
+<div
+  class="true-footer-btn-container"
+  *ngIf="!column.isCheckbox && column.summaries.length === 0">
+  <div #btn class="true-grid-btn" (click)="toggleMenu($event)"><span class="true-icon-sigma"></span></div>
+</div>
+
+<true-menu #menu
+  (show)="menuShow($event)"
+  (closed)="menuClosed($event)">
+  <true-menu-item
+    [hidden]="column.summaries.length === 0"
+    [true-menu-show]="submenu"
+    true-divide="true"><span></span>{{'Add' | trueTranslate}}</true-menu-item>
+  <true-menu-item
+    *ngFor="let t of summaryTypes; let i=index"
+    [true-divide]="i == 0 && column.summaries.length > 0"
+    (itemClick)="setAggr(t)"
+    [disabled]="!canApply(t)"><span [class.true-icon-ok]="hasAggr(t)"></span>{{t.name | trueTranslate}}</true-menu-item>
+  <true-menu-item (itemClick)="setAggr(null)" true-divide="true">
+    <span [class.true-icon-ok]="column.summaries.length === 0"></span>{{'None' | trueTranslate}}</true-menu-item>
+</true-menu>
+
+<true-menu #submenu>
+  <true-menu-item
+    *ngFor="let t of summaryTypes"
+    (itemClick)="addAggr($event, t)"
+    [disabled]="!canApply(t)"><span></span>{{t.name | trueTranslate}}</true-menu-item>
+</true-menu>

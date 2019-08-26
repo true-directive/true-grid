@@ -1,0 +1,22 @@
+<div class="true-scroller-header-area" *ngIf="state.settings.showHeader">
+  <div #header class="true-scroller-header" [ngClass]="state.settings.appearance.headerAreaClass">
+    <ng-content select="[true-header]"></ng-content>
+  </div>
+</div>
+
+<div #dataArea class="true-scroller-data-area-scroller" (scroll)="dataScroll($event)">
+  <div class="true-scroller-data-area" [style.max-height]="maxHeightU">
+    <div #data class="true-scroller-data" [ngClass]="state.sta.scrollboxClass" (scroll)="dataScroll($event)">
+      <div #datah class="true-scroller-data-h" (scroll)="dataScrollH($event)">
+        <ng-content select="[true-data]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="true-scroller-footer-area" *ngIf="state.settings.showFooter">
+  <div #footer class="true-scroller-footer"
+       [ngClass]="state.settings.appearance.footerAreaClass" >
+    <ng-content select="[true-footer]"></ng-content>
+  </div>
+</div>

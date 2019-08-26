@@ -1,0 +1,52 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+// Header
+:host > .true-header {
+  position: relative;
+  padding: 0.5em 0.7em 0.5em 0.7em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  z-index: 2;
+
+  & > span {
+    margin: 0 0.4em 0 0.6em;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// Body
+:host > .true-body {
+  position: relative;
+  display: block;
+  flex-grow: 1;
+  z-index: 1;
+
+  .true-content {
+    padding: 0.8em 1.2em;
+  }
+
+  // Footer
+  .true-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    padding: 0.8em 1.2em;
+
+    p {
+      margin: 0;
+    }
+
+    button {
+      padding: 0.6em 1.4em;
+      margin-left: 1.0em;
+    }
+  }
+}

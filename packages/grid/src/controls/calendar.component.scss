@@ -1,0 +1,31 @@
+:host > table {
+  table-layout: fixed;
+  border-collapse: separate;
+}
+
+:host > table:focus {
+  outline: 0;
+}
+
+:host table.true-days, :host table.true-months, :host table.true-years {
+  display: none;
+}
+
+:host.true-mode-days table.true-days,
+:host.true-mode-months table.true-months,
+:host.true-mode-years table.true-years
+{
+  display: table;
+}
+
+.true-calendar__controls {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  div:last-child {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+  }
+}

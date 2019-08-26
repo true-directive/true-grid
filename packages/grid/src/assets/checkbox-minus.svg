@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+  width="40" height="40" viewBox="0 0 39 39">
+  <defs>
+    <path id="icon" d="M12 19 L 27 19"/></defs>
+    <g>
+      <g transform="translate(0 0)">
+        <use fill="#555" stroke="#888" stroke-linecap="square" stroke-miterlimit="0" stroke-width="4" xlink:href="#icon"/>
+      </g>
+    </g>
+  </svg>
