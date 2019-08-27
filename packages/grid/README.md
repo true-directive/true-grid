@@ -35,12 +35,18 @@ import { NgModule } from '@angular/core';
 
 import { TrueDirectiveGridModule } from '@true-directive/grid';
 
+import { AppComponent } from './app.component';
+
 @NgModule({
-    imports: [
-        BrowserModule,
-        TrueDirectiveGridModule
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    TrueDirectiveGridModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
 ```
