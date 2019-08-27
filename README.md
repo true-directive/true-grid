@@ -56,7 +56,7 @@ export class AppModule { }
 Icons are used for some interface elements of the grid. They should be imported  by adding this line into the file *styles.scss*:
 
 ``` css
-@import "@true-directive/grid/icons/css/true-icon.css";
+@import "@true-directive/grid/icons/css/true-icons.css";
 ```
 
 To define your grid's appearance use one of the preinstalled themes also importing it:
