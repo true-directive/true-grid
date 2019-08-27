@@ -84,7 +84,7 @@ body, input, button {
 
 ### 3. Use GridComponent
 
-In order to add the grid into the template of the AppComponent use `true-grid` selector. The list of [columns](http://truedirective.com/docs/columns) and [data](http://truedirective.com/docs/data-binding) should be passed in `columns` and `data` attributes respectively.
+In order to add the grid into the template of the AppComponent use `true-grid` selector. The list of [columns](https://truedirective.com/docs/columns) and [data](https://truedirective.com/docs/data-binding) should be passed in `columns` and `data` attributes respectively.
 
 Edit *app.component.ts*:
 
