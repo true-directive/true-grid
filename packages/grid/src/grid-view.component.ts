@@ -958,7 +958,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     if (sChanges || aChanges) {
       if (this._viewInitialized) {
         this.setAppearance(this.state.settings.appearance.class);
-        this.updateView();
+        if (!this.checkSize()) {
+          this.updateView();
+        }
         return;
       }
     }
