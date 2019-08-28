@@ -45,6 +45,7 @@ export class PopupComponent {
   private readonly transform1 = 'translateX(0)';
 
   public static z: number = 19;
+  public static renderToBody = true;
 
   getZ() {
     return this.zIndex;
@@ -77,7 +78,8 @@ export class PopupComponent {
   private documentResizeBound: any;
 
   /**
-   * Ищем следующий элемент для перехода фокуса
+   * Focus trap
+   * Looking for the next element to switch focus.
    * @param  element  Элемент, относительно которого нужно найти следующий
    * @param  backward Поиск назад (Shift+Tab)
    * @param  parent   Родительский, в котором сейчас ищем
@@ -102,7 +104,6 @@ export class PopupComponent {
     }
 
     for (let i = 0; i < parent.children.length; i++) {
-
       const el = backward ? parent.children[parent.children.length - i - 1] : parent.children[i];
 
       if (el.hidden || el.disabled) {
@@ -158,7 +159,6 @@ export class PopupComponent {
     }
 
     if (e.keyCode === Keys.TAB) {
-
       // Ищем элемент, на который мы можем отправить фокус после target
       let res = this.getNextElement(e.target, e.shiftKey);
       // Не найдено после заданного? Ищем первый
@@ -405,7 +405,7 @@ export class PopupComponent {
     let t1 = this.transform1;
 
     if (this._visible) {
-      // Чтобы Z-индекс не обновлялся при ложных закрытиях
+      // To prevent the Z-index from being updated during false closures.
       return;
     }
 
@@ -425,11 +425,11 @@ export class PopupComponent {
         this._overlay.appendChild(this.popup.nativeElement);
       } else {
         this.updatePosition();
-        /*
-        if (this.position === 'RELATIVE') {
+
+        if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
           this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
           document.body.appendChild(this.popup.nativeElement);
-        }*/
+        }
         this.popup.nativeElement.style.transform = this.transform0;
       }
 
@@ -490,11 +490,10 @@ export class PopupComponent {
     this.popup.nativeElement.style.transform = this.transform0;
     this.popup.nativeElement.style.display = 'none';
 
-    /*
-    if (this.position === 'RELATIVE') {
+    if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
       this._renderer.removeChild(document.body, this.popup.nativeElement);
       this.elementRef.nativeElement.appendChild(this.popup.nativeElement);
-    }*/
+    }
 
     this.resetPosition();
     this.removeDocumentListeners();
