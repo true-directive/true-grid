@@ -525,10 +525,10 @@ a.true-link_disabled {
      }
 
      &:not(:disabled):hover, &:not(:disabled):active,  {
-       border-color: $axAccent__hover;
-       color: $axAccent__hover;
+       border-color: $axAccent_hover;
+       color: $axAccent_hover;
        span {
-         color: $axAccent__hover !important;
+         color: $axAccent_hover !important;
        }
      }
    }
