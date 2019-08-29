@@ -23,7 +23,14 @@ export class SortInfo {
   }
 
   public invert() {
-    this.sortType = this.sortType === SortType.ASC ? SortType.DESC : SortType.ASC;
+    if (this.sortType === SortType.NONE) {
+      this.sortType = SortType.ASC;
+    } else {
+      this.sortType = this.sortType === SortType.ASC ? SortType.DESC : SortType.NONE;
+    }
+    // Можно сделать так, чтобы клик по колонке, которая отсортирована в обратном порядке
+    // сортировалась в прямом порядке:
+    // this.sortType = this.sortType === SortType.ASC ? SortType.DESC : SortType.ASC;
   }
 
   public sort(fieldName: string) {

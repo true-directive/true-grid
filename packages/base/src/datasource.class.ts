@@ -248,6 +248,9 @@ export class DataSource {
     if (sortInfo && (add || this.sortings.length === 1)) {
         // Меняем направление сортировки на противоположное
         sortInfo.invert();
+        if (sortInfo.sortType === SortType.NONE) {
+          this.sortings.splice(this.sortings.indexOf(sortInfo), 1);
+        }
     } else {
       if (!add) {
         this.clearSorting();
