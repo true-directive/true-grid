@@ -14,13 +14,14 @@
   .true-grid-data {
     transition: opacity 0.4s ease, background-color 0.4s ease;
   }
-
+  
   .true-grid-drag-item-appearance {
 
     .true-grid-header {
       opacity: 0.97;
       border: $axOuterBorder;
       background-color: $axHeaderBackColor;
+
     }
 
     .true-drag-data {

@@ -7,7 +7,9 @@
 </true-filter-popup>
 <!-- Элемент, который перетаскивается мышью, при reordering columns -->
 <div #dragItem true-drag-item class="true-grid-drag-item">
-  <true-grid-header *ngIf="isDragColumn()" [layout]="state.layoutDrag"></true-grid-header>
+  <true-grid-header *ngIf="isDragColumn()"
+    [ngClass]="state.settings.appearance.headerAreaClass"
+    [layout]="state.layoutDrag"></true-grid-header>
   <div *ngIf="!isDragColumn()" class="true-drag-data" [ngClass]="settings.appearance.getDataClass()">
     <table *ngFor="let r of draggedRows; let i=index"
            [style.transform]="getDragTransform(i)"

@@ -11,6 +11,7 @@
   (scroll)="gridScroll($event)">
   <!-- Заголовки -->
   <true-grid-header #gridHeader true-header
+    [ngClass]="state.settings.appearance.headerAreaClass"
     [layout]="state.layout"
     [scroller]="scroller">
   </true-grid-header>
@@ -43,7 +44,7 @@
         <tr *ngFor="let r of RC.ghostRows('end')" [style.height.px]="r.H">
           <td [style.height.px]="r.H" style="padding:0; border-right: 0;">&nbsp;</td>
         </tr>
-        <tr *ngIf="visibleRows.length === 0"><td style="border: 0;"></td></tr> 
+        <tr *ngIf="visibleRows.length === 0"><td style="border: 0;"></td></tr>
       </tbody>
        <!-- User's template -->
       <ng-content *ngIf="state.st.customTemplate" select="[true-body]"></ng-content>
