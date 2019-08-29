@@ -1,7 +1,7 @@
 {
   "name": "@true-directive/grid",
   "description": "Fast and fully-functional good-looking visualizer of data in Angular-applications",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "test": "karma start",
     "clean": "rimraf dist",
@@ -30,7 +30,7 @@
   "typings": "./true-directive-grid.d.ts",
   "homepage": "https://truedirective.com/",
   "dependencies": {
-    "@true-directive/base": "^1.0.26"
+    "@true-directive/base": "^1.0.27"
   },
   "peerDependencies": {
     "@angular/core": "^7.2.0",
