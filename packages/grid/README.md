@@ -1,6 +1,6 @@
 # TrueDirective Grid
 
-TrueDirective Grid is a fast and fully-functional good-looking visualizer of data in Angular-applications.
+TrueDirective Grid is a fast and fully functional good looking visualizer of data in Angular-applications.
 
 #### [Demo](https://truedirective.com/demo)
 #### [Documentation](https://truedirective.com/docs)
