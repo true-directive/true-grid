@@ -15,4 +15,4 @@
 
 ### Added
 
-- README.md, CHANGELOG.md, LICENSE are included to package.
+- README.md, CHANGELOG.md, LICENSE are included in the package.
