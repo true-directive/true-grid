@@ -14,6 +14,7 @@ import { DropdownBaseComponent } from './dropdown-base.component';
 
 import { MaskDateDirective } from '../mask/mask-date.directive';
 
+import { Mask } from '@true-directive/base';
 import { Keys } from '@true-directive/base';
 
 /**
@@ -44,8 +45,31 @@ import { Keys } from '@true-directive/base';
   })
 export class DatepickerComponent extends DropdownBaseComponent {
 
+  _pattern = '';
+
   @Input('pattern')
-  pattern: string;
+  get pattern(): string {
+    return this._pattern;
+  }
+
+  set pattern(s: string) {
+    this._pattern = s;
+
+    let hasDateComponents = false;
+    const mask: Mask = new Mask();
+    mask.pattern = s;
+    mask.sections.forEach(section => {
+      if (section.sectionType.datePart === 'd' ||
+          section.sectionType.datePart === 'm' ||
+          section.sectionType.datePart === 'y' ||
+          section.sectionType.datePart === 'yy' ||
+          section.sectionType.datePart === 'yyyy'
+        ) {
+        hasDateComponents = true;
+      }
+    });
+    this.usePopup = hasDateComponents;
+  }
 
   @Input('error')
   error: string;
@@ -66,6 +90,9 @@ export class DatepickerComponent extends DropdownBaseComponent {
   maskDateDirective: MaskDateDirective;
 
   getIcon(): string {
+    if (!this.usePopup) {
+      return '';
+    }
     return 'true-icon-calendar-empty';
   }
 

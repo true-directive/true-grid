@@ -16,6 +16,8 @@ import { DataQuery } from '@true-directive/base';
  */
 export abstract class DropdownBaseComponent implements ControlValueAccessor, OnDestroy {
 
+  usePopup: boolean = true;
+  
   @ViewChild('popup')
   popup: PopupComponent;
 
@@ -173,6 +175,9 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
   }
 
   public showByTarget() {
+    if (!this.usePopup) {
+      return;
+    }
     this.popup.showByTarget(this.input.nativeElement);
   }
 
