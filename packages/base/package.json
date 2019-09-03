@@ -1,6 +1,6 @@
 {
   "name": "@true-directive/base",
-  "version": "1.0.27",
+  "version": "1.0.28",
   "description": "The set of base classes for TrueDirective Grid",
   "main": "./bundles/true-directive-base.umd.js",
   "scripts": {
