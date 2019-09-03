@@ -18,8 +18,9 @@ export class CellRange {
   public equals(range: CellRange, sm: SelectionMode): boolean {
     if (sm === SelectionMode.ROW || sm === SelectionMode.ROW_AND_RANGE) {
       if (this.fromCell.row === range.fromCell.row) {
-        if (this.toCell === null && range.toCell === null)
-        return true;
+        if (this.toCell === null && range.toCell === null) {
+          return true;
+        }
       }
     }
 
