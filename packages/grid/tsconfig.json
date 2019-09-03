@@ -8,6 +8,8 @@
     "declaration": true,
     "moduleResolution": "node",
     "importHelpers": false,
+    "inlineSourceMap": true,
+    "sourceMap": false, 
     "types": [
       "hammerjs",
       "jasmine",
