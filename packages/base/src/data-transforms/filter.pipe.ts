@@ -12,6 +12,10 @@ export class FilterPipe {
   private _searchStringApplicableForNumbers: boolean = false;
   private _searchStringApplicableForDates: boolean = false;
 
+  private isEmpty(v: any): boolean {
+    return v === null || v === undefined || v === '';
+  }
+
   public match(row: any, columns: Column[], filters: Filter[], searchString: string, valueFormatter: ValueFormatter = null): boolean {
     let res = true;
 
@@ -77,6 +81,14 @@ export class FilterPipe {
       let v2 = f.value2;
 
       const s: string = v ? (v + '').toLowerCase() : '';
+
+      if (f.operator === FilterOperator.EMPTY) {
+        res = this.isEmpty(v);
+      }
+
+      if (f.operator === FilterOperator.NOT_EMPTY) {
+        res = !this.isEmpty(v);
+      }
 
       if (f.type === ColumnType.DATETIME) {
         vv = vv !== null ? vv.getTime() : null;
