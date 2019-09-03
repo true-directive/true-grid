@@ -1,6 +1,12 @@
 # TrueDirective Grid
 
-TrueDirective Grid is a fast and fully functional good looking visualizer of data in Angular-applications.
+TrueDirective Grid is a fast and fully functional good-looking visualizer of the data in Angular applications.
+
+[![license](https://img.shields.io/github/license/true-directive/true-grid)](https://github.com/true-directive/true-grid/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/dt/@true-directive/grid)](https://npmjs.com/package/@true-directive/grid)
+[![npm](https://img.shields.io/npm/dw/@true-directive/grid)](https://npmjs.com/package/@true-directive/grid)
+[![Known Vulnerabilities](https://snyk.io/test/github/true-directive/true-grid/badge.svg?targetFile=packages/grid/package.json)](https://snyk.io/test/github/true-directive/true-grid?targetFile=packages/grid/package.json)
+
 
 #### [Demo](https://truedirective.com/demo)
 #### [Documentation](https://truedirective.com/docs)
@@ -14,6 +20,7 @@ Main features:
 - [Selection](https://truedirective.com/docs/selection) of data ranges.
 - Data autoscrolling on navigation and selection.
 - [Data summaries](https://truedirective.com/docs/data-summaries).
+- Internationalization.
 
 **TrueDirective Grid** package contains all necessary classes for [formatted](https://truedirective.com/docs/formatting-values) displaying and editing of dates and numbers. Multiline cells will be displayed quickly and flawlessly due to table-based html layout.
 
