@@ -37,16 +37,27 @@ const config =
     })]
   },
   module: {
-    rules: [{
-      test: /\.ts?$/,
-      exclude: /node_modules/,
-      use: [{
-        loader: 'awesome-typescript-loader',
-        query: {
-          declaration: false,
-        }
+    rules: [
+      {
+        test: /\.ts$/,
+        enforce: 'pre',
+        use: [
+            {
+                loader: 'tslint-loader',
+                options: {  }
+            }
+        ]
+      },
+      {
+        test: /\.ts?$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'awesome-typescript-loader',
+          query: {
+            declaration: false,
+          }
+        }]
       }]
-    }]
   },
   plugins: [
     new CopyWebpackPlugin([
