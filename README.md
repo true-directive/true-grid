@@ -5,7 +5,7 @@ TrueDirective Grid is a fast and fully functional good-looking visualizer of the
 [![license](https://img.shields.io/github/license/true-directive/true-grid)](https://github.com/true-directive/true-grid/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/dt/@true-directive/grid)](https://npmjs.com/package/@true-directive/grid)
 [![Build Status](https://travis-ci.org/true-directive/true-grid.svg?branch=master)](https://travis-ci.org/true-directive/true-grid)
-[![Known Vulnerabilities](https://snyk.io/test/github/true-directive/true-grid/badge.svg?targetFile=packages/grid/package.json)](https://snyk.io/test/github/true-directive/true-grid?targetFile=packages/grid/package.json)
+[![Known Vulnerabilities](https://snyk.io/test/github/true-directive/true-grid/badge.svg?targetFile=package.json)](https://snyk.io/test/github/true-directive/true-grid?targetFile=package.json)
 
 
 #### [Demo](https://truedirective.com/demo)
