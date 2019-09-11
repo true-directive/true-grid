@@ -36,6 +36,8 @@
 
 - Unit tests.
 
+## [1.0.6] - 2019-09-11
+
 ### Changed
 
 - @true-directive/base sources relocated to its own repository.
