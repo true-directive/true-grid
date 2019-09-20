@@ -41,3 +41,9 @@
 ### Changed
 
 - @true-directive/base sources relocated to its own repository.
+
+## [1.1.0] - 2019-09-20
+
+### Added
+
+- Column header context menu.

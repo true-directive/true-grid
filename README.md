@@ -17,7 +17,8 @@ Documentation is available on the [truedirective.com](https://truedirective.com/
 
 ![Screenshot](https://truedirective.com/assets/test-grid3.gif)
 
-Main features:
+## Main features
+
 - Two dimensional scrolling.
 - Data [sorting](https://truedirective.com/docs/data-sorting) and [filtering](https://truedirective.com/docs/data-filtering).
 - Keyboard interaction.

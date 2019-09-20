@@ -75,7 +75,6 @@ export class GridHeaderCellComponent extends BaseComponent {
   // Отсортирована ли колонка
   public isSorted(col: Column): boolean {
     return this.state.dataSource.sortedByField(col.fieldName) !== undefined;
-    // sortInfo.fieldName === col.fieldName;
   }
 
   // Если отсортирован, то как?..
@@ -113,6 +112,10 @@ export class GridHeaderCellComponent extends BaseComponent {
 
   touchStart(e: any) {
     this.captionTouchStart.emit(e);
+  }
+
+  contextMenu(e: any) {    
+    this.state.headerContextMenu(e, this.column);
   }
 
   // Клик по кнопке фильтра

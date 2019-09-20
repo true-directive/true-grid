@@ -2,6 +2,7 @@
   class="true-header-cell__caption"
   [class.true-header-cell__checkbox]="column.isCheckbox"
   [class.true-header-cell__filtered]="isFiltered()"
+  (contextmenu)="contextMenu($event)"
   (mousedown)="mouseDown($event)"
   (mouseup)="mouseUp($event)">
 
@@ -13,7 +14,7 @@
        class="true-header-cell__txt">
     {{column.caption}}
   </div>
-  
+
   <div #btn *ngIf="!column.isCheckbox && state.settings.allowFilter && (column.allowFilter || isFiltered())"
       class="true-grid-btn"
       (click)="btnClick($event)"

@@ -4,7 +4,7 @@
  * @license MIT
 */
 /*
-  View only. Missing options:
+  View only. Missing features:
     - Checkboxes.
     - Editing.
     - Selection.
@@ -20,8 +20,8 @@ import { takeUntil, take } from 'rxjs/operators';
 
 import { GridPart, RenderMode, DetectionMode, ColumnType } from '@true-directive/base';
 import { UIActionType, UIAction } from '@true-directive/base';
-import { Column, ColumnBand, CellPosition, GridSettings, RowLayout,
-         DataQuery, SortInfo, Filter, Selection } from '@true-directive/base';
+import { Column, ColumnBand, CellPosition, GridSettings, RowLayout, DataQuery,
+         SortInfo, SortType, Filter, Selection, MenuAction } from '@true-directive/base';
 import { PagePipe } from '@true-directive/base';
 import { RowCalculator } from '@true-directive/base';
 
@@ -40,6 +40,8 @@ import { FilterNumberComponent } from './filters/datatypes/filter-number.compone
 import { FilterBooleanComponent } from './filters/datatypes/filter-boolean.component';
 
 import { FilterPopupComponent } from './filters/filter-popup.component';
+
+import { MenuStarterComponent } from './controls/menu-starter.component';
 
 @Component({
   selector: 'true-grid-view',
@@ -192,6 +194,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   @Output()
   endProcess: EventEmitter<string> = new EventEmitter<string>();
 
+  @ViewChild('menuStarter') menuStarter: MenuStarterComponent;
+  @ViewChild('filterPopup') filterPopup: FilterPopupComponent; // Popup div with filter options
+
   @ViewChild('scroller') scroller: ScrollerComponent;
 
   @ViewChild('grid') grid: any;
@@ -199,13 +204,13 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   @ViewChild('gridData') gridData: any;
 
   @ViewChild('dragItem') dragItem : any; // Clone drag column / band header
-  @ViewChild('filterPopup') filterPopup: FilterPopupComponent; // Popup div with filter options
 
   @ContentChildren(RowDirective) displayedRows_template: QueryList<RowDirective>;
 
   @ViewChildren('displayedRows', { read: RowDirective }) displayedRowsCenter: QueryList<RowDirective>;
 
   @ViewChild('customTemplate') customTemplate: any;
+
 
   protected uiAction: UIAction = null;
   private _initialized: boolean = false; // Grid initialized
@@ -496,11 +501,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
       return;
     }
 
-    if (scrollPos < 0) {
-      return;
-    }
-
-    if (scrollPos > (this.scroller.scrollHeight - this.scroller.viewPortHeight)) {
+    if (scrollPos < 0 || scrollPos > (this.scroller.scrollHeight - this.scroller.viewPortHeight)) {
       return;
     }
 
@@ -545,6 +546,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * @param  dataAffected Is the data changed
    */
   public detectChanges(log: string = '', dataAffected: boolean = false) {
+
     if (dataAffected) {
       this.updateData();
       return;
@@ -737,7 +739,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   public checkSize(update_page = false): boolean {
     // Указываем ширину клиентской области.
     // Если она изменена, то в сеттере будет вызван updateLayouts
-    if (this.state.checkClientWidth(this.scroller.viewPortWidth)) {
+
+    if (this.state.checkClientWidth(this.scroller.viewPortWidth) ||
+        this.state.checkClientHeight(this.scroller.viewPortHeight)) {
       this.need_recalc_page = true;
       if (this._initialized) {
         this.updatePage('checkSize', true);
@@ -754,7 +758,6 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
   // Изменение размера окно
   protected windowResize(e: any) {
-
     this.checkSize(true);
   }
 
@@ -834,7 +837,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   }
 
   protected showFilter(e: any) {
-
+    this.menuStarter.finish();
     let l = e.target.tagName === 'SPAN' ? e.target.parentElement : e.target;
 
     if (this.filterPopup.visible) {
@@ -878,7 +881,21 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
     this.elementRef.nativeElement.classList.add(appearanceClass);
     this._currentAppearance = appearanceClass;
+  }
 
+  public menuItemClick(e: any) {
+    const col = e.target;
+    const action = e.action;
+
+    if (action === MenuAction.SORT_ASC) {
+      this.sort([new SortInfo(col.fieldName, SortType.ASC)]);
+    }
+    if (action === MenuAction.SORT_DESC) {
+      this.sort([new SortInfo(col.fieldName, SortType.DESC)]);
+    }
+    if (action === MenuAction.HIDE) {
+      this.state.hideColumn(col);
+    }
   }
 
   ngOnInit() {
@@ -965,13 +982,12 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
       }
     }
 
-    /*
     // Сверяем высоту грида. Это немного затормаживает нас.
     // Но дает гарантию, что данные будут вовремя отрисованы
     if (this.state.checkClientHeight(this.scroller.viewPortHeight)
         && this._viewInitialized) {
       this.updatePage();
-    }*/
+    }
   }
 
   ngOnDestroy() {
@@ -1027,5 +1043,24 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
       this.state.updateSummaries();
       this.updateView();
     });
+
+    this.state.onHeaderContextMenu.pipe(takeUntil(this.destroy$)).subscribe(e => {
+      const actions = this.state.settings.headerContextMenuActions;
+      const sorted = this.state.dataSource.sortedByField(e.column.fieldName);
+      if (actions.length > 0) {
+        actions.forEach(a => {
+          if (a === MenuAction.SORT_ASC) {
+            a.disabled = sorted && sorted.sortType === SortType.ASC;
+          }
+          if (a === MenuAction.SORT_DESC) {
+            a.disabled = sorted && sorted.sortType === SortType.DESC;
+          }
+        });
+        this.menuStarter.start(e.event, this.state.settings.headerContextMenuActions, e.column);
+        this.detectChanges();
+        e.event.preventDefault();
+      }
+    });
+
   }
 }

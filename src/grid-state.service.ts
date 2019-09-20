@@ -83,6 +83,10 @@ export class GridStateService extends GridState implements OnDestroy {
   protected _onRowUnfiltered: Subject<any> = new Subject();
   public readonly onRowUnfiltered: Observable<any> = this._onRowUnfiltered.asObservable();
 
+  // Контекстное меню колонки
+  protected _onHeaderContextMenu: Subject<any> = new Subject();
+  public readonly onHeaderContextMenu: Observable<any> = this._onHeaderContextMenu.asObservable();
+
   public selection: GridSelection = new GridSelection();
 
   focusChangedSubscription: any;
@@ -143,6 +147,10 @@ export class GridStateService extends GridState implements OnDestroy {
 
   protected stopEditingEvent(returnFocus: boolean) {
     this._onStopEditing.next(returnFocus);
+  }
+
+  protected headerContextMenuEvent(e: any, column: Column) {
+    this._onHeaderContextMenu.next({ event: e, column: column });
   }
 
   // Инициируем обновление данных со всеми пересчётами

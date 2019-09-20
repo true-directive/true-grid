@@ -1,3 +1,4 @@
+<true-menu-starter #menuStarter (itemClick)="menuItemClick($event)"></true-menu-starter>
 <!-- Filter popup -->
 <true-filter-popup #filterPopup *ngIf="state.settings.allowFilter"
   (setFilter)="setFilter($event)"

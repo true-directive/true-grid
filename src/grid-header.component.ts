@@ -59,29 +59,34 @@ export class GridHeaderComponent extends BaseComponent {
   _markerVisible = false;
 
   public resizeInProcess(value: boolean) {
-    if (!this.gridHeaderTable)
+    if (!this.gridHeaderTable) {
       return;
+    }
 
-    if (value)
+    if (value) {
       this.gridHeaderTable.nativeElement.classList.add('true-resize-in-process');
-    else
+    } else {
       this.gridHeaderTable.nativeElement.classList.remove('true-resize-in-process');
+    }
   }
 
   public dragInProcess(value: boolean) {
-    if (!this.gridHeaderTable)
+    if (!this.gridHeaderTable) {
       return;
+    }
 
-    if (value)
+    if (value) {
       this.gridHeaderTable.nativeElement.classList.add('true-drag-in-process');
-    else
+    } else {
       this.gridHeaderTable.nativeElement.classList.remove('true-drag-in-process');
+    }
   }
 
   //
   get isAutoScroll() {
-    if (this.scroller)
+    if (this.scroller) {
       return this.scroller.isAutoScroll;
+    }
     return false;
   }
 
@@ -278,14 +283,13 @@ export class GridHeaderComponent extends BaseComponent {
     return renderedBands;
   }
 
-  private inRect(mouseAction: UIAction, rect: any, itemRect: any): boolean {
-    let xx = mouseAction.x;
-    let yy = mouseAction.y;
-    return (xx >= rect.left) && (xx <= rect.right) && (xx >= itemRect.left) && (xx <= itemRect.right);
-  }
-
-  // Проверка позиции при перетаскивании заголовка колонки или бэнда
-  public canDrop(mouseAction: UIAction, show: boolean): any {
+  /**
+   * Проверка позиции при перетаскивании заголовка колонки или бэнда
+   * @param  mouseAction Позиция мыши
+   * @param  show        Показывать ли маркер
+   * @return             [description]
+   */
+  public canDrop(mouseAction: UIAction, show: boolean): { inColumns: boolean, item: any, pos: string,  } {
 
     //Здесь нужен прямоугольник родителя..
     if (!this._scrollerClientRect)
@@ -293,8 +297,8 @@ export class GridHeaderComponent extends BaseComponent {
 
     let r0 = this._scrollerClientRect;
 
-    let hasL: boolean = false; // hasL - имеется более левая составляющая заголовка
-    let hasR: boolean = false; // hasR - имеется более правая составляющая
+    let hasL: boolean = false; // имеется более левая составляющая заголовка
+    let hasR: boolean = false; // имеется более правая составляющая
 
     if (this.layout.place === GridPart.CENTER) {
       r0 = this.scroller.headerRect;
@@ -314,12 +318,7 @@ export class GridHeaderComponent extends BaseComponent {
       hasR = false;
     }
 
-    let result = null;
     const tg = mouseAction.target;
-
-    if (mouseAction.y < r0.top) {
-      return result;
-    }
 
     const isColumn = tg instanceof Column;
     const isBand = tg instanceof ColumnBand;
@@ -331,163 +330,7 @@ export class GridHeaderComponent extends BaseComponent {
       renderedItems = this.renderedBands;
     }
 
-    if (renderedItems.length === 0 && mouseAction.x >= r0.left && mouseAction.x < r0.right) {
-      return { inColumns: isColumn, item: null, pos: 'left', place: this.layout.place };
-    }
-
-    let mrX = 0;
-    let cbCol = this.state.columnCollection.prevCheckbox(tg);
-    // Необходимо перебрать колонки и понять, сможем ли мы бросить сюда наш заголовок.
-    for (let i=0; i < renderedItems.length; i++) {
-
-      const isFirst = i === 0;
-      const isLast = i === renderedItems.length - 1;
-
-      let rr = renderedItems[i].boundingRect;
-      let item = renderedItems[i].item;
-
-      if (this.inRect(mouseAction, r0, rr)) {
-
-        // проверяем, можно ли вставить колонку сюда..
-        let canDropLeft = true;
-        let canDropRight = true;
-
-        if (isColumn && tg.fieldName === item.fieldName) {
-          // Навели на себя же
-          canDropLeft = false;
-          canDropRight = false;
-        }
-
-        if (cbCol && cbCol.fieldName === item.fieldName) {
-          // Навели на чекбокс, который прилеплен к перетаскиваемой колонке
-          canDropLeft = false;
-          canDropRight = false;
-        }
-
-        if (item.isCheckbox && i < renderedItems.length - 1)
-          canDropRight = false; // между чекбоксом и норм столбцом не вклиниваемся
-
-        // Не самый первый элемент
-        if (!isFirst) {
-
-          const prevItem = renderedItems[i - 1].item;
-
-          // Простая проверка - для колонки
-          if (isColumn && prevItem.fieldName === tg.fieldName) {
-            canDropLeft = false;
-          }
-
-          if (isColumn && prevItem.isCheckbox) {
-            if (cbCol && cbCol.fieldName === prevItem.fieldName) {
-              canDropLeft = false;
-            }
-          }
-
-          if (isBand && tg.columns[tg.columns.length - 1].fieldName === prevItem.columns[prevItem.columns.length - 1].fieldName) {
-            canDropLeft = false;
-          }
-        }
-
-        // Бэнд
-        if (isBand) {
-          // Нельзя бросить бэнд слева от себя
-          if (tg.columns[0].fieldName === item.columns[0].fieldName) {
-            canDropLeft = false;
-          }
-
-          // Нельзя бросить справа от себя
-          if (tg.columns[tg.columns.length - 1].fieldName === item.columns[item.columns.length - 1].fieldName) {
-            canDropRight = false;
-          }
-
-          //
-          if (tg.columns[0].fieldName === item.columns[item.columns.length - 1].fieldName) {
-            canDropRight = false;
-          }
-
-          if (tg.columns[tg.columns.length - 1].fieldName === item.columns[0].fieldName) {
-            canDropLeft = false;
-          }
-        }
-
-        // Не последний элемент
-        if (!isLast) {
-
-          const nextItem = renderedItems[i + 1].item;
-          if (isColumn && nextItem.fieldName === tg.fieldName) {
-            canDropRight = false;
-          }
-
-          if (isBand && tg.columns[0].fieldName === nextItem.columns[0].fieldName) {
-            canDropRight = false;
-          }
-
-          if (isColumn && nextItem.isCheckbox) {
-            if (cbCol && cbCol.fieldName === nextItem.fieldName) {
-              canDropRight = false;
-            }
-          }
-        }
-
-        // Если мы вписываемся в наш компонент, то показываем сразу..
-        // Иначе нам нужно скрыть и немного проскроллить..
-        let showMarker = false;
-
-        if ((mouseAction.x - rr.left < rr.width / 2 || item.isCheckbox) && canDropLeft) {
-
-          if (i > 0 && renderedItems[i - 1].item.isCheckbox) {
-              // Колонка с чекбоксом неразделимы
-              item = renderedItems[i - 1].item;
-              rr =  renderedItems[i - 1].boundingRect;
-          }
-
-          mrX = rr.left - 1;
-          showMarker = true;
-          result = { inColumns: isColumn, item: item, pos: 'left' };
-        } else
-          if (mouseAction.x - rr.left >= rr.width / 2 && canDropRight) {
-            mrX = rr.right - 1;
-            showMarker = true;
-            result = { inColumns: isColumn, item: item, pos: 'right' };
-          }
-
-        // Возможно, этот метод вызван с show=false. Тогда мы даже не думаем про маркер.
-        if (!show) {
-          // this.hideMarker();
-          return result;
-        }
-
-        // Если выходим за границы и прокрутка = 0 - показываем чуть правее.. Эстетичнее.
-        if (mrX < r0.left && rr.left >= r0.left) {
-          mrX = r0.left;
-        }
-
-        if (mrX === r0.right - 1) {
-           mrX = r0.right - 3;
-        } else {
-          if (mrX === r0.right - 2) {
-            mrX = r0.right - 4;
-          }
-        }
-
-        if (mrX < r0.left && hasL) {
-          showMarker = false;
-        }
-
-        if (mrX > r0.right && hasR) {
-          showMarker = false;
-        }
-
-        if ((mrX >= r0.left) && mrX < r0.right && showMarker && show) {
-        //  this.showMarker(mrX, rr.top, 3, rr.height);
-        }
-        else {
-          result = null;
-        }
-      }
-    }
-
-    return result;
+    return this.layout.canDrop(mouseAction, renderedItems, r0, hasL, hasR, this.state.columnCollection);
   }
 
   public autoScrollX(dx: number) {
@@ -613,8 +456,9 @@ export class GridHeaderComponent extends BaseComponent {
 
     super.documentMouseUp(e);
 
-    if (this.scroller)
+    if (this.scroller) {
       this.scroller.stopAutoScroll();
+    }
 
     let xx = e.clientX;
     let yy = e.clientY;

@@ -3,7 +3,7 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { NgModule, Component, Input, Output, ViewChild, ContentChild, Renderer2,
+import { Component, Input, Output, ViewChild, ContentChild, Renderer2,
          EventEmitter, ElementRef } from '@angular/core';
 
 import { Utils, Keys, PopupPosition, CloseEvent } from '@true-directive/base';
@@ -327,6 +327,9 @@ export class PopupComponent {
     }
 
     if (this._x !== -1 || this._y !== -1) {
+      if (PopupComponent.renderToBody) {
+        this.popup.nativeElement.style.position = 'fixed';
+      }
       this.popup.nativeElement.style.left = this._x + 'px';
       this.popup.nativeElement.style.top = this._y + 'px';
       return;

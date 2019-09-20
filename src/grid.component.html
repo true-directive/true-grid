@@ -1,4 +1,6 @@
 <div #dropMarker class="true-grid-drop-marker"></div>
+
+<true-menu-starter #menuStarter (itemClick)="menuItemClick($event)"></true-menu-starter>
 <!-- всплывающее окно для фильтров -->
 <true-filter-popup #filterPopup *ngIf="state.settings.allowFilter"
   (setFilter)="setFilter($event)"

@@ -52,6 +52,7 @@ import { PopupComponent } from './controls/popup.component';
 import { MenuItemComponent } from './controls/menu-item.component';
 import { MenuComponent } from './controls/menu.component';
 import { MenuShowDirective } from './controls/menu-show.directive';
+import { MenuStarterComponent } from './controls/menu-starter.component';
 
 import { MaskDirective } from './mask/mask.directive';
 import { MaskDateDirective } from './mask/mask-date.directive';
@@ -94,7 +95,7 @@ import { TranslatePipe } from './internationalization/translate.pipe';
 
     // Popup&Menu
     PopupComponent,
-    MenuItemComponent, MenuComponent, MenuShowDirective,
+    MenuItemComponent, MenuComponent, MenuShowDirective, MenuStarterComponent,
 
     // Input masking
     MaskNumberDirective, MaskDateDirective, MaskDirective,
@@ -112,7 +113,9 @@ import { TranslatePipe } from './internationalization/translate.pipe';
 
                     CellHtmlComponent, CellRefComponent,
 
-                    DialogAlertComponent
+                    DialogAlertComponent,
+
+                    MenuStarterComponent
                   ],
 
   exports: [
@@ -132,7 +135,8 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     SelectComponent,
 
     MenuComponent,
-    MenuItemComponent
+    MenuItemComponent,
+    MenuStarterComponent
   ]
 })
 export class TrueDirectiveGridModule { }

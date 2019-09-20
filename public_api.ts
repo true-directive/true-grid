@@ -3,7 +3,7 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-export { ColumnType, DetectionMode, GridPart, SelectionMode, 
+export { ColumnType, DetectionMode, GridPart, SelectionMode,
     RenderMode, EditorShowMode, DataQuery, SortInfo, SortType,
     Filter, FilterOperator,
     CellPosition, CellRange } from '@true-directive/base';
@@ -22,6 +22,7 @@ export { CheckboxComponent } from './src/controls/checkbox.component';
 export { CheckboxWrapperComponent } from './src/controls/checkbox-wrapper.component';
 export { InputWrapperComponent } from './src/controls/input-wrapper.component';
 export { PopupComponent } from './src/controls/popup.component';
+export { MenuStarterComponent } from './src/controls/menu-starter.component';
 export { DialogWrapperComponent } from './src/controls/dialog-wrapper.component';
 export { DialogButton, DialogInfo } from './src/controls/dialog-info.class';
 export { RowCell } from './src/row-cell.class';

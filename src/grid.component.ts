@@ -219,6 +219,11 @@ export class GridComponent extends GridViewComponent {
   }
 
   public dataContextMenu(e: any) {
+    if (this.settings.dataContextMenuActions.length > 0) {
+      //
+      return;
+    }
+
     this.contextMenu.emit(
       new ContextMenuEvent(this.cellByXY(e.clientX, e.clientY), e)
     );
@@ -346,7 +351,7 @@ export class GridComponent extends GridViewComponent {
   public getDragTransform(i: number): string  {
     const l = this.draggedRows.length;
     const scale = Math.pow(0.97, l - i - 1);
-    const dx = -40; // (l - i - 1) * 6 - 40;
+    const dx = -40;
     const dy = -i * this.state.settings.rowHeight + (l - i - 1) * 7 - 40;
     const res = 'matrix(' + scale + ', 0, 0, 1, ' + dx + ', ' + dy + ')';
     return res;
@@ -427,23 +432,17 @@ export class GridComponent extends GridViewComponent {
     if (r.pos === 'in') {
       top -= rl.clientRect.height - 3;
       height = rl.clientRect.height - 6;
-      // left += this.state.settings.levelIndent;
     }
 
     if (left < centerRect.left) {
       left = centerRect.left;
     }
 
-    if ((left + width) > rl.clientRect.right) { // centerRect.right) {
-      width = rl.clientRect.right - left; // centerRect.right - left;
+    if ((left + width) > rl.clientRect.right) {
+      width = rl.clientRect.right - left;
     }
 
-    const rect = new DOMRect(
-        left,
-        top,
-        width, // centerRect.width - (left - centerRect.left),
-        height
-    );
+    const rect = new DOMRect(left, top, width, height);
 
     if (rect.top < centerRect.top - 1 || rect.top >= centerRect.bottom) {
       return null;
