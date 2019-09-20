@@ -1,7 +1,7 @@
 {
   "name": "@true-directive/grid",
   "description": "Fast and fully functional good-looking visualizer of the data in Angular applications",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "scripts": {
     "test": "karma start",
     "test-ci": "karma start --singleRun --browsers ChromeHeadless",
@@ -39,11 +39,7 @@
   "typings": "./true-directive-grid.d.ts",
   "homepage": "https://truedirective.com/",
   "dependencies": {
-    "@true-directive/base": "^1.0.30"
-  },
-  "peerDependencies": {
-    "@angular/core": "~7.2.15",
-    "@angular/forms": "~7.2.15"
+    "@true-directive/base": "^1.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
@@ -70,6 +66,7 @@
     "karma": "^4.3.0",
     "karma-chrome-launcher": "^3.1.0",
     "karma-coverage": "^2.0.1",
+    "karma-coveralls": "^2.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
     "karma-mocha-reporter": "^2.2.5",

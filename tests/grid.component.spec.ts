@@ -49,6 +49,7 @@ import { PopupComponent } from '../src/controls/popup.component';
 import { MenuItemComponent } from '../src/controls/menu-item.component';
 import { MenuComponent } from '../src/controls/menu.component';
 import { MenuShowDirective } from '../src/controls/menu-show.directive';
+import { MenuStarterComponent } from '../src/controls/menu-starter.component';
 
 import { MaskDirective } from '../src/mask/mask.directive';
 import { MaskDateDirective } from '../src/mask/mask-date.directive';
@@ -116,6 +117,7 @@ describe('Grid', () => {
 
               // Input masking
               MaskNumberDirective, MaskDateDirective, MaskDirective,
+              MenuStarterComponent,
 
               // Translate pipe
               TranslatePipe,
@@ -209,7 +211,7 @@ describe('Grid', () => {
     it('summaries', async(() => {
 
       const col = container.columnByField('col1');
-      col.addSummary(SummaryType.MIN);      
+      col.addSummary(SummaryType.MIN);
       container.grid.state.addSummary(col, SummaryType.MAX);
       container.grid.state.addSummary(col, SummaryType.SUM);
       container.grid.state.addSummary(col, SummaryType.AVERAGE);

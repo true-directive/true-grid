@@ -13,6 +13,7 @@ import { CalendarComponent } from './calendar.component';
 import { DropdownBaseComponent } from './dropdown-base.component';
 
 import { MaskDateDirective } from '../mask/mask-date.directive';
+import { InternationalizationService } from '../internationalization/internationalization.service';
 
 import { Mask } from '@true-directive/base';
 import { Keys } from '@true-directive/base';
@@ -54,21 +55,7 @@ export class DatepickerComponent extends DropdownBaseComponent {
 
   set pattern(s: string) {
     this._pattern = s;
-
-    let hasDateComponents = false;
-    const mask: Mask = new Mask();
-    mask.pattern = s;
-    mask.sections.forEach(section => {
-      if (section.sectionType.datePart === 'd' ||
-          section.sectionType.datePart === 'm' ||
-          section.sectionType.datePart === 'y' ||
-          section.sectionType.datePart === 'yy' ||
-          section.sectionType.datePart === 'yyyy'
-        ) {
-        hasDateComponents = true;
-      }
-    });
-    this.usePopup = hasDateComponents;
+    this.checkPattern();
   }
 
   @Input('error')
@@ -88,6 +75,24 @@ export class DatepickerComponent extends DropdownBaseComponent {
 
   @ViewChild('input', { read: MaskDateDirective })
   maskDateDirective: MaskDateDirective;
+
+  checkPattern() {
+
+    let hasDateComponents = false;
+    const mask: Mask = Mask.maskWithPattern(this.intl, this._pattern);
+
+    mask.sections.forEach(section => {
+      if (section.sectionType.datePart === 'd' ||
+          section.sectionType.datePart === 'm' ||
+          section.sectionType.datePart === 'y' ||
+          section.sectionType.datePart === 'yy' ||
+          section.sectionType.datePart === 'yyyy'
+        ) {
+        hasDateComponents = true;
+      }
+    });
+    this.usePopup = hasDateComponents;
+  }
 
   getIcon(): string {
     if (!this.usePopup) {
@@ -116,6 +121,7 @@ export class DatepickerComponent extends DropdownBaseComponent {
   }
 
   constructor(
+    protected intl: InternationalizationService,
     protected _elementRef: ElementRef,
     protected _renderer: Renderer2) {
       super(_elementRef, _renderer);
