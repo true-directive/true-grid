@@ -39,8 +39,8 @@ module.exports = function (config) {
       require('karma-jasmine-html-reporter'),
       require('karma-webpack'),
       require('karma-sourcemap-loader'),
-  //    require('karma-sourcemap-writer'),
-      require('ts-loader'),
+      require('karma-coveralls'),
+//      require('ts-loader'),
       require('karma-mocha-reporter'),
       require('karma-remap-coverage')
     ],
@@ -67,7 +67,8 @@ module.exports = function (config) {
     remapCoverageReporter: {
       'text': null,
       json: './coverage/coverage.json',
-      html: './coverage/html'
+      html: './coverage/html',
+      lcovonly: './coverage/coverage.lcov'
     },
 
     /**
@@ -96,7 +97,7 @@ module.exports = function (config) {
      * possible values: 'dots', 'progress'
      * available reporters: https://npmjs.org/browse/keyword/karma-reporter
      */
-    reporters: ['mocha', 'progress', 'coverage', 'kjhtml', 'remap-coverage'],
+    reporters: ['mocha', 'progress', 'coverage', 'coveralls', 'kjhtml', 'remap-coverage'],
 
     /**
      * Web server port.
