@@ -104,11 +104,12 @@ export class GridComponent extends GridViewComponent {
    * @param  ctrlKey Нажата ли клавиша Ctrl
    * @param  byTouch Инициировано ли тач-событием
    */
-  protected startAction(cp: CellPosition, eX: number, eY: number, place: GridPart, ctrlKey: boolean = false, byTouch: boolean = false) {
+  protected startAction(cp: CellPosition, eX: number, eY: number, place: GridPart,
+    ctrlKey: boolean = false, byTouch: boolean = false, button: number = 0) {
     if (cp && cp.row) {
       this.scroller.prepareAutoScroll();
-      const uiType = this.state.startAction(cp, ctrlKey, byTouch);
-      if (uiType) {
+      const uiType = this.state.startAction(cp, ctrlKey, byTouch, button);
+      if (uiType) { 
         this.uiAction = new UIAction(uiType, null, eX, eY);
         this.addDocumentMouseListeners();
       }
@@ -203,11 +204,11 @@ export class GridComponent extends GridViewComponent {
 
     if (!e.defaultPrevented) {
       const cp: CellPosition = this.cellByXY(e.clientX, e.clientY);
-      if (this.state.mouseDown(cp)) {
+      if (this.state.mouseDown(cp, false, e.button)) {
         // This event has been handled.
         return;
       }
-      this.startAction(cp, e.clientX, e.clientY, GridPart.CENTER, e.ctrlKey);
+      this.startAction(cp, e.clientX, e.clientY, GridPart.CENTER, e.ctrlKey, false, e.button);
     }
   }
 
@@ -219,8 +220,10 @@ export class GridComponent extends GridViewComponent {
   }
 
   public dataContextMenu(e: any) {
-    if (this.settings.dataContextMenuActions.length > 0) {
-      //
+    if (this.settings.enableDataContextMenu && this.settings.dataContextMenuActions.length > 0) {
+      this.menuStarter.start(e, this.state.settings.dataContextMenuActions, 'selection');
+      this.detectChanges();
+      e.preventDefault();
       return;
     }
 
@@ -737,7 +740,7 @@ export class GridComponent extends GridViewComponent {
    * @param  e Параметры события
    */
   public toggleCheckbox(e: any) {
-    this.state.toggleCheck(e.row, e.fieldName);
+    this.state.toggleCheck(e.row, e.fieldName, e.value);
   }
 
   public toggleCheckColumn(col: Column) {

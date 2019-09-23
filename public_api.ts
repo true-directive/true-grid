@@ -30,6 +30,8 @@ export { RowDirective } from './src/row.directive';
 export { BaseComponent } from './src/base.component';
 export { FilterPopupComponent } from './src/filters/filter-popup.component';
 export { GridHeaderComponent } from './src/grid-header.component';
+export { GridHeaderCellComponent } from './src/grid-header-cell.component';
+export { GridHeaderBandComponent } from './src/grid-header-band.component';
 export { GridComponent } from './src/grid.component';
 export { ScrollerComponent } from './src/scroller.component';
 

@@ -47,3 +47,11 @@
 ### Added
 
 - Column header context menu.
+
+## [1.2.0] - 2019-09-23
+
+### Added
+
+- Data context menu.
+- enableDataContextMenu and enabledHeaderContextMenu settings.
+- headerContextMenu event.

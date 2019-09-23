@@ -129,6 +129,8 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     GridComponent,
     RowDirective,
     GridHeaderComponent,
+    GridHeaderCellComponent,
+    GridHeaderBandComponent,
     GridFooterComponent,
     FilterPopupComponent,
 

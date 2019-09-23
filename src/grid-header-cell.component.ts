@@ -74,24 +74,34 @@ export class GridHeaderCellComponent extends BaseComponent {
 
   // Отсортирована ли колонка
   public isSorted(col: Column): boolean {
-    return this.state.dataSource.sortedByField(col.fieldName) !== undefined;
+    return this.sorted !== null;
+  }
+
+  public get sorted(): SortType {
+    const res = this.state.dataSource.sortedByField(this.column.fieldName);
+    return !res ? null : res.sortType;
+  }
+
+  public get sortedUp(): boolean {
+    return this.sorted === SortType.ASC;
+  }
+
+  public get sortedDown(): boolean {
+    return this.sorted === SortType.DESC;
   }
 
   // Если отсортирован, то как?..
   sortIndicatorClass() {
 
-    const sortInfo = this.state.dataSource.sortedByField(this.column.fieldName);
-    if (!sortInfo) {
-      return '';
+    if (this.sortedUp) {
+      return this.state.sta.sortedUpIconClass;
     }
 
-    if (sortInfo.sortType === SortType.ASC) {
-      return this.state.sta.sortedUpIconClass;
-    } else {
-      if (sortInfo.sortType === SortType.DESC) {
-        return this.state.sta.sortedDownIconClass;
-      }
+    if (this.sortedDown) {
+      return this.state.sta.sortedDownIconClass;
     }
+
+    return '';
   }
 
   toggleCheck(e: any) {
@@ -114,7 +124,7 @@ export class GridHeaderCellComponent extends BaseComponent {
     this.captionTouchStart.emit(e);
   }
 
-  contextMenu(e: any) {    
+  contextMenu(e: any) {
     this.state.headerContextMenu(e, this.column);
   }
 
