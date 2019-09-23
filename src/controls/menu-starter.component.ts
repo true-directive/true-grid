@@ -58,7 +58,7 @@ export class MenuStarterComponent {
   public start(e: any, items: MenuAction[], target: any) {
     this.finish();
     this.target = target;
-    this.items = items;
+    this.items = items;    
     this.menu.showByXY(e.clientX, e.clientY);
   }
 
