@@ -1,7 +1,7 @@
 {
   "name": "@true-directive/grid",
-  "description": "Fast and fully functional good-looking visualizer of the data in Angular applications",
-  "version": "1.1.0",
+  "description": "Fully featured data grid for Angular. Smooth scrolling over 100K rows.",
+  "version": "1.2.0",
   "scripts": {
     "test": "karma start",
     "test-ci": "karma start --singleRun --browsers ChromeHeadless",
@@ -30,7 +30,9 @@
     "data sorting",
     "data filtering",
     "data summaries",
-    "inline editing"
+    "inline editing",
+    "virtual scrolling",
+    "formatted input"
   ],
   "author": "Aleksey Melnikov <m_alx@list.ru>",
   "license": "MIT",
