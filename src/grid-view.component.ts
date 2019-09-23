@@ -194,6 +194,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   @Output()
   endProcess: EventEmitter<string> = new EventEmitter<string>();
 
+  @Output()
+  headerContextMenu: EventEmitter<any> = new EventEmitter<any>();
+
   @ViewChild('menuStarter') menuStarter: MenuStarterComponent;
   @ViewChild('filterPopup') filterPopup: FilterPopupComponent; // Popup div with filter options
 
@@ -546,7 +549,6 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * @param  dataAffected Is the data changed
    */
   public detectChanges(log: string = '', dataAffected: boolean = false) {
-
     if (dataAffected) {
       this.updateData();
       return;
@@ -1030,7 +1032,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     // Изменена структура
     this.state.onQueryChanged.pipe(takeUntil(this.destroy$)).subscribe(q => {
       if (this._initialized) {
-        this.updateData()
+        this.updateData();
       }
       this.queryChanged.emit(q);
     });
@@ -1045,21 +1047,24 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     });
 
     this.state.onHeaderContextMenu.pipe(takeUntil(this.destroy$)).subscribe(e => {
-      const actions = this.state.settings.headerContextMenuActions;
-      const sorted = this.state.dataSource.sortedByField(e.column.fieldName);
-      if (actions.length > 0) {
-        actions.forEach(a => {
-          if (a === MenuAction.SORT_ASC) {
-            a.disabled = sorted && sorted.sortType === SortType.ASC;
-          }
-          if (a === MenuAction.SORT_DESC) {
-            a.disabled = sorted && sorted.sortType === SortType.DESC;
-          }
-        });
-        this.menuStarter.start(e.event, this.state.settings.headerContextMenuActions, e.column);
-        this.detectChanges();
-        e.event.preventDefault();
+      if (this.state.settings.enableHeaderContextMenu) {
+        const actions = this.state.settings.headerContextMenuActions;
+        const sorted = this.state.dataSource.sortedByField(e.column.fieldName);
+        if (actions.length > 0) {
+          actions.forEach(a => {
+            if (a === MenuAction.SORT_ASC) {
+              a.disabled = sorted && sorted.sortType === SortType.ASC;
+            }
+            if (a === MenuAction.SORT_DESC) {
+              a.disabled = sorted && sorted.sortType === SortType.DESC;
+            }
+          });
+          this.menuStarter.start(e.event, this.state.settings.headerContextMenuActions, e.column);
+          this.detectChanges();
+          e.event.preventDefault();
+        }
       }
+      this.headerContextMenu.emit(e);
     });
 
   }
