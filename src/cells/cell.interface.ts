@@ -25,6 +25,9 @@ export interface ICell {
   // Grid's state
   state: GridStateService;
 
+  //
+  disabled: boolean;
+
   /**
    * Cell's initialization
    * @param value Current value of a cell

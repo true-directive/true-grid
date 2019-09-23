@@ -38,6 +38,7 @@ export class CellRefComponent implements ICell {
   column: Column;
   row: any;
   state: GridStateService;
+  disabled: boolean = false;
 
   /**
    * Found substring's Highlighting

@@ -31,6 +31,7 @@ export class CellHtmlComponent implements ICell {
   column: Column;
   row: any;
   state: GridStateService;
+  disabled: boolean = false;
 
   init(value: any) {
     this.value = value;
