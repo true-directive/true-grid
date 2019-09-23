@@ -141,7 +141,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     private _checkedAppearance = false;
 
     // Подписки на изменения в редакторе
-    private _subscribes: any[] = [];
+    protected _subscribes: any[] = [];
 
     /**
      * Предыдущее значение общего текстового фильтра
@@ -164,9 +164,9 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       return this.elementRef.nativeElement.children;
     }
 
-    private _editorRef: any = null;
-    private readonly _customCellRefs: any[] = [];
-    private readonly _skips: { element: HTMLElement, fromIndex: number, toIndex: number }[] = [];
+    protected _editorRef: any = null;
+    protected readonly _customCellRefs: any[] = [];
+    protected readonly _skips: { element: HTMLElement, fromIndex: number, toIndex: number }[] = [];
 
     public firstCellRect(): any {
       for (let i = 0; i < this.children.length; i++) {
@@ -345,16 +345,39 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         this._renderer.removeChild(this.elementRef.nativeElement, this.children[0]);
       }
 
-      if (this._editorRef) {
-        this._editorRef.destroy();
-        this._editorRef = null;
-      }
-
       if (this._customCellRefs.length > 0) {
         this._customCellRefs.forEach(r => r.destroy());
         this._customCellRefs.splice(0, this._customCellRefs.length);
-        //this._customCellRef.destroy();
-        //this._customCellRef = null;
+      }
+
+      this.clearEditor();
+    }
+
+    protected clearEditor() {
+      this._height0 = this.firstCellClientHeight();
+      if (this._editorRef && this._wasEditor) {
+        const cp = this._wasEditor;
+        this.cells.forEach(cell => {
+          if (cell.fieldName === cp.fieldName && this.rowData === cp.row) {
+
+            this._renderer.removeClass(cell.element, 'true-cell-input');
+            while (cell.element.children.length > 0) {
+              this._renderer.removeChild(cell.element, cell.element.children[0]);
+            }
+            const col = this.state.columnByFieldName(cp.fieldName);
+            const rowData = this.rowData;
+            const v = this.rowData[col.fieldName];
+            const v_displayed = this.getDisplayedValue(col, rowData, v);
+            this.fillCell(cell, col, rowData, false, v, v_displayed);
+            cell.value = v;
+          }
+          /*
+              this._editorRef.destroy();
+              this._editorRef = null;
+          */
+
+          this._wasEditor = null;
+        });
       }
     }
 
@@ -362,7 +385,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     // от наличия бордеров и ширины ячейки, было бы неплохо создать
     // промежуточный div с display: flex. Но вызов еще одного createElement
     // сильно замедляет процесс создания строки.
-    private renderBoolean(rowData: any, cell: RowCell, col: Column, v: any) {
+    protected renderBoolean(rowData: any, cell: RowCell, col: Column, v: any) {
       const divEl = this._renderer.createElement('div');
       if (this.st.canEditColumnCell(col)) {
         this._renderer.addClass(divEl, this.sta.checkboxClass);
@@ -383,7 +406,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       cell.setChecked(v);
     }
 
-    private renderCheckbox(cell: RowCell, col: Column, v: any) {
+    protected renderCheckbox(cell: RowCell, col: Column, v: any) {
       const divEl = this._renderer.createElement('div');
 
       this._renderer.addClass(divEl, this.sta.checkboxClass);
@@ -400,7 +423,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       cell.setChecked(v);
     }
 
-    private renderEditor(rowData: any, cell: RowCell, col: Column, v: any) {
+    protected renderEditor(rowData: any, cell: RowCell, col: Column, v: any) {
       this._renderer.addClass(cell.element, 'true-cell-input');
 
       let editorType: any = EditorTextComponent;
@@ -621,10 +644,6 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         this._renderer.setAttribute(tdEl, 'colspan', span + '');
       }
 
-      if (!render) {
-        return cell;
-      }
-
       if (render) {
         const v_displayed = this.getDisplayedValue(col, rowData, v);
         this.fillCell(cell, col, rowData, isFirst, v, v_displayed);
@@ -642,6 +661,24 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       const tdEl = this._renderer.createElement('td');
       this._renderer.setAttribute(tdEl, 'colspan', skipCount + '');
       return tdEl;
+    }
+
+    protected renderRowEditor() {
+      for (let i = 0; i < this.layout.columns.length; i++) {
+        const col: Column = this.layout.columns[i];
+        const cell = this.cells[i];
+
+        if (this.state.editor !== null &&
+            this.state.editor.fieldName === col.fieldName &&
+            this.state.editor.row === this.rowData) {
+          // Заголовок группы не может быть отредактирован, отправляются исходные
+          // данные
+          console.log(cell);
+          const v = this.rowData[col.fieldName];
+          this.renderEditor(this.rowData, cell, col, v);
+          return cell;
+        }
+      }
     }
 
     // Заполнение строки (создание разметки и вставка данных)
@@ -826,7 +863,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     }
 
     // Проверяем, нужно ли пересоздать по причине включения или выключения редактора
-    private checkEditor() {
+    private checkEditor(): boolean {
 
       if (this._wasEditor === null && this.state.editor === null) {
         // Всё ок.
@@ -994,9 +1031,17 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         const cell = this.cells[i];
         const rowData = this.rowData;
         if (rowData[cell.fieldName] !== cell.value) {
+
           if (cell.cbElement) {
             cell.setChecked(this.row[cell.fieldName]);
           } else {
+            // Даём шанс редактору не инициировать перерисовку всей строки
+            if (this._wasEditor &&
+                this._wasEditor.fieldName === cell.fieldName &&
+                this._wasEditor.row === this.rowData) {
+              i++;
+              continue;
+            }
             return false;
           }
         }
@@ -1038,18 +1083,17 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       }
 
       let valuesChanged = false;
-      let editorChanged = false;
+      //let editorChanged = false;
 
       const columnsChanged = !this.checkColumns();
       if (!columnsChanged) {
         valuesChanged = !this.checkValues();
-        if (!valuesChanged) {
-          editorChanged = !this.checkEditor();
-        }
+        //if (!valuesChanged) {
+          //editorChanged = !this.checkEditor();
+        //}
       }
-
-      return !(columnsChanged || valuesChanged ||
-               editorChanged || settingsChanged || localeChanged);
+      return !(columnsChanged || valuesChanged || //editorChanged ||
+        settingsChanged || localeChanged);
     }
 
     ngOnChanges(changes: {[property: string]: SimpleChange }) {
@@ -1070,12 +1114,18 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         // И заново формируем строку
         this.renderRow();
         return;
-      } else {
-        // Изменились параметры отображения
-        if (!this.checkViewPort()) {
-          // Формируем только те ячейки, которые добавлены к уже отрендеренным
-          this.renderByViewPort();
-        }
+      }
+
+      //
+      if (!this.checkEditor()) {
+        this.clearEditor();
+        this.renderRowEditor();
+      }
+
+      // Изменились параметры отображения
+      if (!this.checkViewPort()) {
+        // Формируем только те ячейки, которые добавлены к уже отрендеренным
+        this.renderByViewPort();
       }
 
       this.setSelection();
