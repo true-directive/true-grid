@@ -55,3 +55,14 @@
 - Data context menu.
 - enableDataContextMenu and enabledHeaderContextMenu settings.
 - headerContextMenu event.
+
+## [1.2.1] - 2019-09-27
+
+### Fixed
+
+- Summary text translates.
+- Toggle checkboxes in touchend events instead of touchstart.
+
+### Added
+
+- Export mask directives in TrueDirectiveGridModule.
