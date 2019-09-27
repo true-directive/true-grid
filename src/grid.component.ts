@@ -109,7 +109,7 @@ export class GridComponent extends GridViewComponent {
     if (cp && cp.row) {
       this.scroller.prepareAutoScroll();
       const uiType = this.state.startAction(cp, ctrlKey, byTouch, button);
-      if (uiType) { 
+      if (uiType) {
         this.uiAction = new UIAction(uiType, null, eX, eY);
         this.addDocumentMouseListeners();
       }
@@ -140,9 +140,11 @@ export class GridComponent extends GridViewComponent {
       this._cellTouched = this.cellByXY(touches[0].clientX, touches[0].clientY);
       // Если обработано как mousedown - больше не делаем ничего
       // (возможно переключили чекбокс или включили редактирование)
+      /*
       if (this.state.touchStart(this._cellTouched)) {
         return;
       }
+      */
 
       // Запоминаем положение прокрутки
       this._cellTouchedScrollPos = {
@@ -150,6 +152,12 @@ export class GridComponent extends GridViewComponent {
         Y: this.scroller.scrollTop
       };
     }
+  }
+
+  // Проверим, не было ли скролла во время касания
+  protected get touchScroll() {
+    return this._cellTouchedScrollPos.X !== this.scroller.scrollLeft ||
+    this._cellTouchedScrollPos.Y !== this.scroller.scrollTop
   }
 
   /**
@@ -162,27 +170,29 @@ export class GridComponent extends GridViewComponent {
     if (touches.length >= 1) {
       let rr = this.cellByXY(touches[0].clientX, touches[0].clientY);
       if (rr !== null &&
-          rr.equals(this._cellTouched) &&
-          // Проверим, не было ли скролла во время касания
-          this._cellTouchedScrollPos.X === this.scroller.scrollLeft &&
-          this._cellTouchedScrollPos.Y === this.scroller.scrollTop
+          rr.equals(this._cellTouched) && !this.touchScroll
         ) {
-
-        if (!rr.equals(this.state.focusedCell)) {
-          // Если клик не на выделенной ячейке, то начинаем выделение.
-          // Начало и окончание выделения вынесено сюда, т.к. мы не можем
-          // сразу понять, действие пользователя - это прокрутка или
-          // выделение строки.
-          // Поэтому, если положение прокрутки не изменилось - выделяем
-          this.startAction(rr, touches[0].clientX, touches[0].clientY, GridPart.CENTER, false, true);
+        // Should we toggle a checkbox in this cell?
+        if (this.state.settings.checkByCellClick && this.state.canToggleCheck(rr)) {
+          // Yes, we should.
+          this.state.toggleCheck(rr.row, rr.fieldName);
         } else {
-          // Редактирование и фокус на редакторе
-          this.state.startAction(this._cellTouched, false, true);
-          e.stopPropagation();
-          return;
+          // Something will be selected.
+          if (!rr.equals(this.state.focusedCell)) {
+            // Если клик не на выделенной ячейке, то начинаем выделение.
+            // Начало и окончание выделения вынесено сюда, т.к. мы не можем
+            // сразу понять, действие пользователя - это прокрутка или
+            // выделение строки.
+            // Поэтому, если положение прокрутки не изменилось - выделяем
+            this.startAction(rr, touches[0].clientX, touches[0].clientY, GridPart.CENTER, false, true);
+          } else {
+            // Редактирование и фокус на редакторе
+            this.state.startAction(this._cellTouched, false, true);
+            e.stopPropagation();
+            return;
+          }
         }
-
-        // Заканчиваем выделение в любом случае
+        // End selecting anyway
         this.state.endSelect(rr, true);
       }
     }
