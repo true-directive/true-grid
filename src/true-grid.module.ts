@@ -138,7 +138,11 @@ import { TranslatePipe } from './internationalization/translate.pipe';
 
     MenuComponent,
     MenuItemComponent,
-    MenuStarterComponent
+    MenuStarterComponent,
+
+    MaskDirective,
+    MaskDateDirective,
+    MaskNumberDirective
   ]
 })
 export class TrueDirectiveGridModule { }
