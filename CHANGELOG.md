@@ -66,3 +66,9 @@
 ### Added
 
 - Export mask directives in TrueDirectiveGridModule.
+
+## [1.2.2] - 2019-09-27
+
+### Fixed
+
+- Mask regular expressions.
