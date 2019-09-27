@@ -673,7 +673,6 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
             this.state.editor.row === this.rowData) {
           // Заголовок группы не может быть отредактирован, отправляются исходные
           // данные
-          console.log(cell);
           const v = this.rowData[col.fieldName];
           this.renderEditor(this.rowData, cell, col, v);
           return cell;
