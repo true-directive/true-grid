@@ -125,6 +125,9 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     CheckboxComponent,
     DialogWrapperComponent,
     PopupComponent,
+    DatepickerComponent,
+    CalendarComponent,
+    SelectComponent,
     GridViewComponent,
     GridComponent,
     RowDirective,
@@ -133,8 +136,6 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     GridHeaderBandComponent,
     GridFooterComponent,
     FilterPopupComponent,
-
-    SelectComponent,
 
     MenuComponent,
     MenuItemComponent,

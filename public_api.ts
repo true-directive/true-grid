@@ -22,6 +22,11 @@ export { CheckboxComponent } from './src/controls/checkbox.component';
 export { CheckboxWrapperComponent } from './src/controls/checkbox-wrapper.component';
 export { InputWrapperComponent } from './src/controls/input-wrapper.component';
 export { PopupComponent } from './src/controls/popup.component';
+
+export { CalendarComponent } from './src/controls/calendar.component';
+export { DatepickerComponent } from './src/controls/datepicker.component';
+export { SelectComponent } from './src/controls/select.component';
+
 export { MenuStarterComponent } from './src/controls/menu-starter.component';
 export { DialogWrapperComponent } from './src/controls/dialog-wrapper.component';
 export { DialogButton, DialogInfo } from './src/controls/dialog-info.class';
