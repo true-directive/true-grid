@@ -72,3 +72,9 @@
 ### Fixed
 
 - Mask regular expressions.
+
+## [1.2.3] - 2019-09-29
+
+### Added
+
+- Export controls: Datepicker, Calendar, Select.
