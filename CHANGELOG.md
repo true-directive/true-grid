@@ -78,3 +78,9 @@
 ### Added
 
 - Export controls: Datepicker, Calendar, Select.
+
+## [1.2.4] - 2019-10-04
+
+### Fixed
+
+- Cancel dropdown popup when user clicks or taps on disabled input.
