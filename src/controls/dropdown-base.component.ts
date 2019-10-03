@@ -17,7 +17,7 @@ import { DataQuery } from '@true-directive/base';
 export abstract class DropdownBaseComponent implements ControlValueAccessor, OnDestroy {
 
   usePopup: boolean = true;
-  
+
   @ViewChild('popup')
   popup: PopupComponent;
 
@@ -108,6 +108,12 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
   }
 
   inputClick(e: any) {
+
+    // Prevent popup from disabled input
+    if (this.disabled) {
+      return;
+    }
+
     if (this.disableTextEditor) {
       if (this.popupVisible) {
         this.closePopup();
