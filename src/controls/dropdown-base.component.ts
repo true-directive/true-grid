@@ -128,6 +128,7 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
   private _touched = false;
   inputTouchStart(e: any) {
     this._touched = true;
+
     if (this.disableTextEditor) {
       e.stopPropagation();
       e.preventDefault();
@@ -139,7 +140,8 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
   }
 
   inputTouchEnd(e: any) {
-    if (this.disableTextEditor) {
+
+    if (!this.disabled && this.disableTextEditor) {
       if (!this.popupVisible && this._touched) {
         // Show the popup window by touchend event
         this.showByTarget();
