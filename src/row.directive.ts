@@ -340,10 +340,16 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       this._subscribes = [];
 
       this.cells.splice(0, this.cells.length);
-
-      while (this.children.length > 0) {
-        this._renderer.removeChild(this.elementRef.nativeElement, this.children[0]);
+      let res = true;
+      let itemsToRemove = [];
+      let i = 0;
+      while (i < this.children.length) {
+        if (this.children[i].tagName === 'td') {
+          itemsToRemove.push(this.children[i]);
+        }
+        i++;
       }
+      itemsToRemove.forEach(item => this._renderer.removeChild(this.elementRef.nativeElement, item));
 
       if (this._customCellRefs.length > 0) {
         this._customCellRefs.forEach(r => r.destroy());
@@ -361,7 +367,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
           if (cell.fieldName === cp.fieldName && this.rowData === cp.row) {
 
             this._renderer.removeClass(cell.element, 'true-cell-input');
-            while (cell.element.children.length > 0) {
+            if (cell.element.children.length > 0) {
               this._renderer.removeChild(cell.element, cell.element.children[0]);
             }
             const col = this.state.columnByFieldName(cp.fieldName);
@@ -625,24 +631,29 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       return render;
     }
 
+    protected createTd(span: number): HTMLElement {
+      const tdEl = this._renderer.createElement('td');
+
+      if (span > 1) {
+        this._renderer.setAttribute(tdEl, 'colspan', span + '');
+      }
+
+      return tdEl;
+    }
+
     /**
      * Создание ячейки
      * @param  col   Колонка
      * @param  span  Количество объединенных ячеек
      * @return       Объект RowCell
      */
-    private createCell(col: Column, span: number = 1, isFirst: boolean = false, xPos: number = -1, render: boolean = true): RowCell {
+    protected createCell(col: Column, span: number = 1, isFirst: boolean = false, xPos: number = -1, render: boolean = true): RowCell {
 
       const rowData = this.rowData;
       const v = rowData[col.fieldName];
       const cell = new RowCell(col.fieldName, v, null);
 
-      const tdEl = this._renderer.createElement('td');
-      cell.element = tdEl;
-
-      if (span > 1) {
-        this._renderer.setAttribute(tdEl, 'colspan', span + '');
-      }
+      cell.element = this.createTd(span);
 
       if (render) {
         const v_displayed = this.getDisplayedValue(col, rowData, v);
