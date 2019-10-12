@@ -22,7 +22,7 @@
 
 ### Fixed
 
-- If pattern doesn't have date components, calendar switches off while editing Date Time values.
+- If pattern doesn't have date components, calendar switches off while editing DateTime values.
 
 ## [1.0.4] - 2019-09-09
 
@@ -84,3 +84,9 @@
 ### Fixed
 
 - Cancel dropdown popup when user clicks or taps on disabled input.
+
+## [1.2.5] - 2019-10-12
+
+### Fixed
+
+- Conflict with BrowserAnimationsModule.
