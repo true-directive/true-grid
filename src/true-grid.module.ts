@@ -143,7 +143,9 @@ import { TranslatePipe } from './internationalization/translate.pipe';
 
     MaskDirective,
     MaskDateDirective,
-    MaskNumberDirective
+    MaskNumberDirective,
+    
+    TranslatePipe
   ]
 })
 export class TrueDirectiveGridModule { }

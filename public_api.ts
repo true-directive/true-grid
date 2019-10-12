@@ -16,6 +16,7 @@ export { Keys, Utils } from '@true-directive/base';
 export { GridSettings } from '@true-directive/base';
 
 export { InternationalizationService } from './src/internationalization/internationalization.service';
+export { TranslatePipe } from './src/internationalization/translate.pipe';
 export { GridStateService } from './src/grid-state.service';
 
 export { CheckboxComponent } from './src/controls/checkbox.component';
