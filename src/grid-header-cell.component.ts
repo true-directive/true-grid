@@ -106,6 +106,7 @@ export class GridHeaderCellComponent extends BaseComponent {
 
   toggleCheck(e: any) {
     this.toggleCheckColumn.emit(e);
+    e.preventDefault();
   }
 
   headerMouseDown(e: any) {
