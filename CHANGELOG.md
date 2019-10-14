@@ -96,3 +96,9 @@
 ### Changed
 
 - More efficient scrolling.
+
+## [1.2.7] - 2019-10-15
+
+### Fixed
+
+- Popups didn't appear if BrowserAnimationsModule imported. 
