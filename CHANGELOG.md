@@ -90,3 +90,9 @@
 ### Fixed
 
 - Conflict with BrowserAnimationsModule.
+
+## [1.2.6] - 2019-10-15
+
+### Changed
+
+- More efficient scrolling.
