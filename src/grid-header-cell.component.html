@@ -6,7 +6,9 @@
   (mousedown)="mouseDown($event)"
   (mouseup)="mouseUp($event)">
 
-  <div *ngIf="column.isCheckbox" [ngClass]="state.settings.headerCheckboxClass(column.isChecked)" (click)="toggleCheck($event)"></div>
+  <div *ngIf="column.isCheckbox"
+    [ngClass]="state.settings.headerCheckboxClass(column.isChecked)"
+    (click)="toggleCheck($event)"></div>
   <div *ngIf="isSorted(column)"
         class="true-header-cell__sort-indicator" [ngClass]="sortIndicatorClass()"></div>
   <div *ngIf="!column.isCheckbox"

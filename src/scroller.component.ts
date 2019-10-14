@@ -3,7 +3,7 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { Component, Input, Output, ViewChild,
+import { Component, Input, Output, ViewChild, ChangeDetectorRef,
          ElementRef, Renderer2, Inject, HostBinding,
          EventEmitter } from '@angular/core';
 import { timer } from 'rxjs';
@@ -297,7 +297,7 @@ export class ScrollerComponent {
     return r0;
   }
 
-  public checkAutoScrollY(yy: number) {
+  public checkAutoScrollY(yy: number): any {
     const r0 = this._scrollRect;
     if (!r0) {
       return null;
@@ -318,8 +318,6 @@ export class ScrollerComponent {
     if (this.scrollSpeedY !== 0) {
       this.startAutoScroll();
     }
-
-    return r0;
   }
 
   public scrollParts() { }
@@ -349,5 +347,6 @@ export class ScrollerComponent {
   constructor(
     @Inject('gridState') public state: GridStateService,
     protected elementRef: ElementRef,
+    protected changeDetector: ChangeDetectorRef,
     protected renderer: Renderer2) { }
 }

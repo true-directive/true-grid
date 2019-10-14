@@ -340,16 +340,16 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       this._subscribes = [];
 
       this.cells.splice(0, this.cells.length);
-      let res = true;
+
       let itemsToRemove = [];
       let i = 0;
       while (i < this.children.length) {
-        if (this.children[i].tagName === 'td') {
-          itemsToRemove.push(this.children[i]);
-        }
+      //  this.children[i].style.display = 'none';
+        //itemsToRemove.push(this.children[i]);
         i++;
       }
-      itemsToRemove.forEach(item => this._renderer.removeChild(this.elementRef.nativeElement, item));
+      // itemsToRemove.forEach(item => this._renderer.removeChild(this.elementRef.nativeElement, item));
+      this.elementRef.nativeElement.innerHTML = '';
 
       if (this._customCellRefs.length > 0) {
         this._customCellRefs.forEach(r => r.destroy());
@@ -367,9 +367,14 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
           if (cell.fieldName === cp.fieldName && this.rowData === cp.row) {
 
             this._renderer.removeClass(cell.element, 'true-cell-input');
-            if (cell.element.children.length > 0) {
-              this._renderer.removeChild(cell.element, cell.element.children[0]);
+            let itemsToRemove = [];
+            let i = 0;
+            while (i < cell.element.children.length) {
+              itemsToRemove.push(cell.element.children[i]);
+              i++;
             }
+            itemsToRemove.forEach(item => this._renderer.removeChild(cell.element, item));
+
             const col = this.state.columnByFieldName(cp.fieldName);
             const rowData = this.rowData;
             const v = this.rowData[col.fieldName];

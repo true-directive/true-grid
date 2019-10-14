@@ -11,7 +11,7 @@
  */
 import { Component, Input, Output, ViewChild, ViewChildren, ContentChildren,
          ElementRef, QueryList, ChangeDetectorRef,  KeyValueDiffer,
-         KeyValueDiffers, EventEmitter, HostListener, Inject,
+         KeyValueDiffers, EventEmitter, Inject,
          DoCheck, OnDestroy
        } from '@angular/core';
 
@@ -214,9 +214,8 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
   @ViewChild('customTemplate') customTemplate: any;
 
-
   protected uiAction: UIAction = null;
-  private _initialized: boolean = false; // Grid initialized
+  protected _initialized: boolean = false; // Grid initialized
   private _viewInitialized: boolean = false; // View initialized
   private _lastUpdateTime: number = 0; // Last page refresh time
 
@@ -471,6 +470,10 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this._lastUpdateTime = Date.now();
   }
 
+  protected fixScroll() {
+    // Корректируем положение других блоков
+  }
+
   /**
    * Scrolling data vertically
    * @param  e Scroll event
@@ -483,6 +486,8 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     const dscroll = scrollPos - this._lastScroll.renderedPos;
 
     this._lastScroll.pos = scrollPos;
+
+    this.RC.currentScrollPos = scrollPos;
 
     let needUpdate = false;
 
@@ -497,14 +502,18 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     }
 
     if (!needUpdate) {
+      // заменим на явное задание margin-top у
+      this.fixScroll();
       return;
     }
 
     if (this._inProcess && this.state.iOS) {
+      this.fixScroll();
       return;
     }
 
     if (scrollPos < 0 || scrollPos > (this.scroller.scrollHeight - this.scroller.viewPortHeight)) {
+      this.fixScroll();
       return;
     }
 
@@ -549,6 +558,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * @param  dataAffected Is the data changed
    */
   public detectChanges(log: string = '', dataAffected: boolean = false) {
+
     if (dataAffected) {
       this.updateData();
       return;
@@ -649,10 +659,10 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
     if (rowTop < scrollTop) {
       this.scroller.scrollTo(-1, rowTop);
-    }
-
-    if (rowBottom > (scrollTop + scrollAreaHeight)) {
-      this.scroller.scrollTo(-1, rowBottom - scrollAreaHeight);
+    } else {
+      if (rowBottom > (scrollTop + scrollAreaHeight)) {
+        this.scroller.scrollTo(-1, rowBottom - scrollAreaHeight);
+      }
     }
 
     // Теперь по горизонтали
@@ -962,14 +972,18 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this._viewInitialized = true;
   }
 
-  ngDoCheck() {
-
+  protected doCheckParts() {
     // Обновляем изменение
     // Фильтры не виновaты, что у нас отключен детектор изменений
     if (this.filterPopup && this.filterPopup.visible) {
       // Поэтому даём знать об изменениях
       this.filterPopup.changes();
     }
+  }
+
+  ngDoCheck() {
+
+    this.doCheckParts();
 
     // Сверяем настройки
     const sChanges = this._settingsDiffer.diff(this.state.settings);

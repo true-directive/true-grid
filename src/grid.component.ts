@@ -291,7 +291,7 @@ export class GridComponent extends GridViewComponent {
       // Поэтому принимаем тяжелое решение и...
       // 1. Игнорируем нажатие, если еще не обработали предыдущее:
       if (this._paging) {
-        return;
+        return true;
       }
 
       // 2. Рендерим с запасом
@@ -318,7 +318,8 @@ export class GridComponent extends GridViewComponent {
         // 8. Done
         this._paging = false;
       }, 50);
-      return;
+
+      return true;
     }
     // Остальное намного проще
     let pageCapacity = this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows);

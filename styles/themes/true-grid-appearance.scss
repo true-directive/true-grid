@@ -15,6 +15,14 @@
     transition: opacity 0.4s ease, background-color 0.4s ease;
   }
 
+  .true-scroller-header-left, .true-scroller-footer-left, .true-scroller-data-left {
+    border-right: $axOuterBorder;
+  }
+
+  .true-scroller-header-right, .true-scroller-footer-right, .true-scroller-data-right {
+    border-left: $axOuterBorder;
+  }
+
   .true-grid-drag-item-appearance {
 
     .true-grid-header {
@@ -244,14 +252,14 @@
 
   // -- HORIZONTAL LINES -------------------------------------------------------
   .true-grid-data-appearance.true-h-lines {
-    & > table > tbody > tr > td {
+    & > table > tbody > tr > td, & > div > table > tbody > tr > td {
       border-bottom: $axDataHorizontalBorder;
     }
   }
 
   &.true-fix-ie .true-grid-data-appearance.true-h-lines {
     margin-top: -1px;
-    & > table > tbody > tr > td {
+    & > table > tbody > tr > td, & > div > table > tbody > tr > td {
       border-top: $axDataHorizontalBorder;
     }
   }
@@ -264,7 +272,8 @@
 
   // -- VERTICAL LINES -----------------------------------------------------------
   .true-grid-data-appearance.true-v-lines {
-    & > table > tbody > tr > td:not(.true-cell-checkbox) {
+    & > table > tbody > tr > td:not(.true-cell-checkbox),
+    & > div > table > tbody > tr > td:not(.true-cell-checkbox) {
       border-right: $axDataVerticalBorder;
     }
 
@@ -289,7 +298,8 @@
   }
 
   // -- DATA CELLS -------------------------------------------------------------
-  .true-grid-data-appearance > table > tbody > tr > td {
+  .true-grid-data-appearance > table > tbody > tr > td,
+  .true-grid-data-appearance > div > table > tbody > tr > td {
     padding: $axGridCellVPadding $axGridCellHPadding;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     // При перетаскивании колонки плавно затухаем
@@ -399,7 +409,10 @@
 
   // Выделение ячейки, в которой находится фокус
   // Реально фокус в ней не находится, но мы это имитируем..
-  .true-grid-data-appearance.true-focused-cell-hl:not(.true-drag-in-process) > table > tbody > tr > td.true-cell-focused:not(.true-indent-cell) {
+  .true-grid-data-appearance.true-focused-cell-hl:not(.true-drag-in-process) > table > tbody > tr > td.true-cell-focused:not(.true-indent-cell),
+  .true-grid-data-appearance.true-focused-cell-hl:not(.true-drag-in-process) > div > table > tbody > tr > td.true-cell-focused:not(.true-indent-cell),
+  {
+
     outline-offset: -1px;
     outline-style: solid;
     outline-color: $axAccent;
