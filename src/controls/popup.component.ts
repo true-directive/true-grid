@@ -4,6 +4,7 @@
  * @license MIT
 */
 import { Component, Input, Output, ViewChild, ContentChild, Renderer2,
+         ChangeDetectorRef,
          EventEmitter, ElementRef } from '@angular/core';
 
 import { Utils, Keys, PopupPosition, CloseEvent } from '@true-directive/base';
@@ -309,7 +310,7 @@ export class PopupComponent {
 
   private removeOverlay() {
     if (this._overlay) {
-      this._renderer.removeChild(document.body, this._overlay);
+      document.body.removeChild(this._overlay);
       PopupComponent.z--;
     }
     this._overlay = null;
@@ -431,6 +432,7 @@ export class PopupComponent {
 
         if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
           this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
+          this._changeDetector.detectChanges();          
           document.body.appendChild(this.popup.nativeElement);
         }
         this.popup.nativeElement.style.transform = this.transform0;
@@ -495,6 +497,7 @@ export class PopupComponent {
 
     if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
       this._renderer.removeChild(document.body, this.popup.nativeElement);
+      this._changeDetector.detectChanges();
       this.elementRef.nativeElement.appendChild(this.popup.nativeElement);
     }
 
@@ -512,5 +515,8 @@ export class PopupComponent {
     }
   }
 
-  constructor(public elementRef: ElementRef, private _renderer: Renderer2) { }
+  constructor(
+    public elementRef: ElementRef,
+    private _changeDetector: ChangeDetectorRef,
+    private _renderer: Renderer2) { }
 }
