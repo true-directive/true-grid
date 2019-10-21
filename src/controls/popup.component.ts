@@ -431,8 +431,9 @@ export class PopupComponent {
         this.updatePosition();
 
         if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
+          this.popup.nativeElement.style.opacity = 0.0;
           this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
-          this._changeDetector.detectChanges();          
+          this._changeDetector.detectChanges();
           document.body.appendChild(this.popup.nativeElement);
         }
         this.popup.nativeElement.style.transform = this.transform0;
