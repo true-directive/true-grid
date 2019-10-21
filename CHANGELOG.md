@@ -101,4 +101,10 @@
 
 ### Fixed
 
-- Popups didn't appear if BrowserAnimationsModule imported. 
+- Popups didn't appear if BrowserAnimationsModule imported.
+
+## [1.2.8] - 2019-10-21
+
+### Fixed
+
+- Popups smooth appearance.
