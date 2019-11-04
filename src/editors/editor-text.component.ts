@@ -144,12 +144,14 @@ export class EditorTextComponent implements IEditor {
   // Если у нас есть информация о высоте строки - берем её и не
   // назначаем никакого класса
   getClass() {
-    if ((this.height !== null && this.height > 0))
+    if ((this.height !== null && this.height > 0)) {
       return 'true-grid__input-container';
-    if (this.ie)
+    }
+    if (this.ie) {
       return 'true-grid-editor-ie';
-    else
+    } else {
       return 'true-grid-editor-100p';
+    }
   }
 
   getH() {
