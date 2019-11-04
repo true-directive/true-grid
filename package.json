@@ -1,7 +1,7 @@
 {
   "name": "@true-directive/grid",
   "description": "Fast and fully functional good-looking data grid for Angular.",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "scripts": {
     "test": "karma start",
     "test-ci": "karma start --singleRun --browsers ChromeHeadless",

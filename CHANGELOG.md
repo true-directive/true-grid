@@ -108,3 +108,13 @@
 ### Fixed
 
 - Popups smooth appearance.
+
+## [1.3.0] - 2019-11-04
+
+### Fixed
+
+- Appearance of a text editor on boolean cells.
+
+### Changed
+
+- Borders and shadows of popups.
