@@ -76,6 +76,7 @@ export class MaskDateDirective extends MaskBaseDirective implements ControlValue
     protected toModel() {
       // Retrieving value
       this._dateValue = DateParserFormatter.parse(this._txtValue, this._mask);
+      this.maskValueChanged.emit(this._dateValue);
       // Sending to model
       this.onChange(this._dateValue);
       // Updating the state
@@ -96,7 +97,7 @@ export class MaskDateDirective extends MaskBaseDirective implements ControlValue
     // Formatter: Ctrl --> View
     writeValue(value: any) {
       this._dateValue = value;
-      let txt = DateParserFormatter.format(value, this._mask);
+      const txt = DateParserFormatter.format(value, this._mask);      
       if (txt !== this._txtValue) {
         this.setText(txt, false);
       }

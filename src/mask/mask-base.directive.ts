@@ -31,6 +31,9 @@ export abstract class MaskBaseDirective implements OnDestroy {
     @Output('stateChange')
     stateChange = new EventEmitter<MaskState>();
 
+    @Output('maskValueChanged')
+    maskValueChanged = new EventEmitter<any>();
+
     // Fetching mask state
     private _state: MaskState = null;
 
@@ -177,7 +180,7 @@ export abstract class MaskBaseDirective implements OnDestroy {
       }
 
       // Applying everything that's left
-      const res: MaskResult = this._mask.applyKeyAtPos(s, e.keyCode, c, selStart, selEnd);      
+      const res: MaskResult = this._mask.applyKeyAtPos(s, e.keyCode, c, selStart, selEnd);
       if (res !== null && res.action === MaskSectionAction.APPLY) {
         // If value has been changed we'll add it to UNDO stack
         if (res.newValue !== s) {
