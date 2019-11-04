@@ -37,7 +37,6 @@ export abstract class FilterBaseComponent implements IFilter {
   public abstract init(): void;
   public abstract validate(): boolean;
 
-
   _dialog: DialogInfo = null;
   get dialog(): DialogInfo {
     if (this._dialog === null) {
