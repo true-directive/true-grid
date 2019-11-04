@@ -130,7 +130,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     /**
      *  Row height in previous render
      */
-    private _height0: number = null;
+    protected _height0: number = null;
 
     /**
      * Locale in previous render
@@ -342,13 +342,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       this.cells.splice(0, this.cells.length);
 
       let itemsToRemove = [];
-      let i = 0;
-      while (i < this.children.length) {
-      //  this.children[i].style.display = 'none';
-        //itemsToRemove.push(this.children[i]);
-        i++;
-      }
-      // itemsToRemove.forEach(item => this._renderer.removeChild(this.elementRef.nativeElement, item));
+      // Fastest way
       this.elementRef.nativeElement.innerHTML = '';
 
       if (this._customCellRefs.length > 0) {
@@ -361,11 +355,12 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
 
     protected clearEditor() {
       this._height0 = this.firstCellClientHeight();
+
       if (this._editorRef && this._wasEditor) {
         const cp = this._wasEditor;
         this.cells.forEach(cell => {
           if (cell.fieldName === cp.fieldName && this.rowData === cp.row) {
-
+            cell.element.style.height = 'unset';
             this._renderer.removeClass(cell.element, 'true-cell-input');
             let itemsToRemove = [];
             let i = 0;
@@ -434,9 +429,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       cell.setChecked(v);
     }
 
-    protected renderEditor(rowData: any, cell: RowCell, col: Column, v: any) {
-      this._renderer.addClass(cell.element, 'true-cell-input');
-
+    protected getEditorComponentType(col: Column): any {
       let editorType: any = EditorTextComponent;
 
       if (col.type === ColumnType.DATETIME) {
@@ -455,7 +448,35 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         editorType = col.editorComponentType;
       }
 
+      return editorType;
+    }
+
+    protected getDh(): number {
+      // Один пиксел добавим, если видны горизонтальные линии
+      let dh = 0;
+      if (this.axI !== 0 && !this.state.IE && this.sta.horizontalLines) {
+        dh = 1;
+      }
+      return dh;
+    }
+
+    protected setEditorHeight(cell : RowCell) {
+      // Тест, когда всё редакторы
+      if (this._height0 === null && this.state.editorHeight !== null) {
+        // Если в состоянии сохранена высота, то используем её
+        this._height0 = this.state.editorHeight;
+      } else {
+        // Иначе наоборот - сохраняем высоту
+        this.state.editorHeight = this._height0;
+      }
+    }
+
+    protected renderEditor(rowData: any, cell: RowCell, col: Column, v: any) {
+      this._renderer.addClass(cell.element, 'true-cell-input');
+
+      const editorType = this.getEditorComponentType(col);
       const componentFactory = this._cfResolver.resolveComponentFactory(editorType);
+
       this._editorRef = componentFactory.create(this._injector, [], cell.element);
 
       this._appRef.attachView(this._editorRef.hostView);
@@ -465,20 +486,9 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       this._editorRef.instance.column = col;
       this._editorRef.instance.row = rowData;
 
-      // Тест, когда всё редакторы
-      if (this._height0 === null && this.state.editorHeight !== null) {
-        // Если в состоянии сохранена высота, то используем её
-        this._height0 = this.state.editorHeight;
-      } else {
-        // Иначе наоборот - сохраняем высоту
-        this.state.editorHeight = this._height0;
-      }
+      this.setEditorHeight(cell);
 
-      // Один пиксел добавим
-      let dh = 0;
-      if (this.axI !== 0 && !this.state.IE && this.sta.horizontalLines) {
-        dh = 1;
-      }
+      const dh = this.getDh();
 
       // Изменение значения. Сохраняем измененное.
       const s_change = this._editorRef.instance.change.subscribe((v: any) => {
@@ -682,6 +692,11 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     protected renderRowEditor() {
       for (let i = 0; i < this.layout.columns.length; i++) {
         const col: Column = this.layout.columns[i];
+
+        if (col.isBoolean) {
+          continue;
+        }
+
         const cell = this.cells[i];
 
         if (this.state.editor !== null &&
