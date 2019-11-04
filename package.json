@@ -41,7 +41,7 @@
   "typings": "./true-directive-grid.d.ts",
   "homepage": "https://truedirective.com/",
   "dependencies": {
-    "@true-directive/base": "1.2.3"
+    "@true-directive/base": "1.2.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.13.0",
