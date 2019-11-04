@@ -268,16 +268,17 @@ describe('Grid', () => {
 
     }));
 
-    it('filter show', async(() => {
+    it('filter show', (done) => {
       let filterBtn: HTMLElement = componentFixture.elementRef.nativeElement.querySelector('.true-grid-btn');
       let booleanFilter: HTMLElement = componentFixture.elementRef.nativeElement.querySelector('.true-filter-boolean__checkboxes');
+      expect(booleanFilter).toBeNull();
 
-      componentFixture.whenStable().then(() => {
-        expect(booleanFilter).toBeNull();
-        triggerEvent(filterBtn, 'click', 'MouseEvent');
+      triggerEvent(filterBtn, 'click', 'MouseEvent');
+      setTimeout(() => {
         let booleanFilter2 = componentFixture.elementRef.nativeElement.querySelector('.true-filter-boolean__checkboxes');
         expect(booleanFilter2).not.toBeNull();
         container.grid.filterPopup.closePopup();
-      });      
-    }));
+        done();
+      }, 100);
+    });
 });
