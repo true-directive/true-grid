@@ -124,6 +124,7 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     CheckboxWrapperComponent,
     CheckboxComponent,
     DialogWrapperComponent,
+    DialogAlertComponent,
     PopupComponent,
     DatepickerComponent,
     CalendarComponent,
@@ -144,7 +145,7 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     MaskDirective,
     MaskDateDirective,
     MaskNumberDirective,
-    
+
     TranslatePipe
   ]
 })
