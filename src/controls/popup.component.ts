@@ -45,6 +45,12 @@ export class PopupComponent {
   private readonly transform0 = 'translateX(15px)';
   private readonly transform1 = 'translateX(0)';
 
+  // Number of pixels for shifting the popup to right when position is [left].
+  protected shiftDx = 6;
+
+  // Popup will not be closed if value of this property more than 0
+  public static freeze = 0;
+
   public static z: number = 19;
   public static renderToBody = true;
 
@@ -260,6 +266,10 @@ export class PopupComponent {
   }
 
   documentMouseDown(e: MouseEvent) {
+    if (PopupComponent.freeze > 0) {
+      PopupComponent.freeze--;
+      return;
+    }
     this.checkClose(e.target);
   }
 
@@ -272,7 +282,7 @@ export class PopupComponent {
   _target: any;
   _direction: string;
   _visible: boolean = false;
-
+  _animating: boolean = false;
   _overlay: HTMLElement = null;
 
   public get visible(): boolean {
@@ -317,15 +327,16 @@ export class PopupComponent {
   }
 
   private resetPosition() {
+    this.popup.nativeElement.style.transform = 'scale(1.0)';
     this.popup.nativeElement.style.top = '0px';
     this.popup.nativeElement.style.left = '0px';
   }
 
   public updatePosition() {
 
-    if (!this._visible) {
-      return;
-    }
+    //if (!this._visible) {
+      //return;
+    //}
 
     if (this._x !== -1 || this._y !== -1) {
       if (PopupComponent.renderToBody) {
@@ -366,12 +377,12 @@ export class PopupComponent {
     let yy = targetRect.bottom;
 
     if (this._direction.toLowerCase() === 'left') {
-      xx = targetRect.right - popupRect.width + 6;
+      xx = targetRect.right - popupRect.width + this.shiftDx;
     }
 
     if (this._direction.toLowerCase() === 'right') {
       xx = targetRect.right;
-      yy = targetRect.top - 6;
+      yy = targetRect.top - this.shiftDx;
     }
 
     if (yy + popupRect.height > window.innerHeight && this._direction !== 'right') {
@@ -405,47 +416,63 @@ export class PopupComponent {
     this.popup.nativeElement.style.top = yy + 'px';
   }
 
-  private display() {
+  protected resetAnimation() {
+    let t0 = this.transform0;
+    if (this.position === 'MODAL') {
+      t0 = 'translateY(-15px)';
+    }
+    this.popup.nativeElement.style.opacity = 0.0;
+    this.popup.nativeElement.style.transform = t0;
+  }
+
+  protected startAnimation() {
     let t1 = this.transform1;
+    if (this.position === 'MODAL') {
+      t1 = 'translateY(0)';
+    }
+    this.popup.nativeElement.style.opacity = 1.0;
+    this.popup.nativeElement.style.transform = t1;
+  }
+
+  private display() {
 
     if (this._visible) {
       // To prevent the Z-index from being updated during false closures.
       return;
     }
-
-    this._visible = true;
-
+    this.popup.nativeElement.style.display = 'none';
+    this.resetAnimation();
     this.resetPosition();
+
     setTimeout(() => {
       this.popup.nativeElement.style.display = 'block';
       this.updatePosition();
+      this._visible = true;
 
       if (this.position === 'MODAL') {
         this.makeOverlay();
-        this.popup.nativeElement.style.opacity = 0.0;
-        this.popup.nativeElement.style.transform = 'translateY(-15px)';
+      //  this.resetAnimation();
         this.popup.nativeElement.style.position = 'absolute';
-        t1 = 'translateY(0)';
         this._overlay.appendChild(this.popup.nativeElement);
       } else {
-        this.updatePosition();
+        // this.updatePosition();
 
         if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
           this.popup.nativeElement.style.opacity = 0.0;
           this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
-          this._changeDetector.detectChanges();
+          this.changeDetector.detectChanges();
           document.body.appendChild(this.popup.nativeElement);
         }
-        this.popup.nativeElement.style.transform = this.transform0;
+        //this.resetAnimation();
       }
 
       PopupComponent.z++
       this.zIndex = PopupComponent.z;
       this.popup.nativeElement.style.zIndex = this.zIndex;
+      this.resetAnimation();
 
       setTimeout(()=> {
-        this.popup.nativeElement.style.opacity = 1.0;
-        this.popup.nativeElement.style.transform = t1;
+        this.startAnimation();
       }, 50);
       this.addDocumentListeners();
       this.show.emit();
@@ -492,17 +519,19 @@ export class PopupComponent {
     this._target = null;
     this._x = -1;
     this._y = -1;
-    this.popup.nativeElement.style.opacity = 0.0;
-    this.popup.nativeElement.style.transform = this.transform0;
+    this.resetAnimation();
+
     this.popup.nativeElement.style.display = 'none';
 
     if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
       this._renderer.removeChild(document.body, this.popup.nativeElement);
-      this._changeDetector.detectChanges();
+      this.changeDetector.detectChanges();
       this.elementRef.nativeElement.appendChild(this.popup.nativeElement);
+    } else {
+      this.changeDetector.detectChanges();
     }
 
-    this.resetPosition();
+    // this.resetPosition();
     this.removeDocumentListeners();
 
     this.closed.emit(result);
@@ -518,6 +547,6 @@ export class PopupComponent {
 
   constructor(
     public elementRef: ElementRef,
-    private _changeDetector: ChangeDetectorRef,
+    protected changeDetector: ChangeDetectorRef,
     private _renderer: Renderer2) { }
 }
