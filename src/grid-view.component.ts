@@ -75,7 +75,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     }
 
     if (ds instanceof Observable) {
-      // Subscribe to new data
+      // Subscribe for new data
       this._data = ds;
       this._dataSubscription = this._data
         .pipe(takeUntil(this.destroy$))
@@ -558,7 +558,6 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * @param  dataAffected Is the data changed
    */
   public detectChanges(log: string = '', dataAffected: boolean = false) {
-
     if (dataAffected) {
       this.updateData();
       return;
@@ -867,7 +866,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     const filterType = this.getFilterComponentType(e.filter);
 
     if (filterType !== null) {
-      this.filterPopup.showByTarget(l, e.filter, filterType, this.state.model);
+      setTimeout(() => {
+        this.filterPopup.showByTarget(l, e.filter, filterType, this.state.model);
+      }, 10);
     }
   }
 
