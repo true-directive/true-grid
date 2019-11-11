@@ -82,6 +82,10 @@ export class GridHeaderComponent extends BaseComponent {
     }
   }
 
+  public trackCol(i: number, c: Column) {
+    return c;
+  }
+
   //
   get isAutoScroll() {
     if (this.scroller) {
@@ -118,6 +122,8 @@ export class GridHeaderComponent extends BaseComponent {
   }
 
   captionTouchMove(e: any, col: Column) {
+    //
+    e.stopPropagation();
 
     const touches = e.changedTouches;
     if (touches.length === 1 && this.uiAction.target === col) {
@@ -134,10 +140,10 @@ export class GridHeaderComponent extends BaseComponent {
         this.proceedReordering(xx, yy);
       }
     }
-    e.stopPropagation();
   }
 
   captionTouchEnd(e: any) {
+
     this.removeTouchMoveListeners();
 
     if (this.scroller) {
@@ -162,6 +168,7 @@ export class GridHeaderComponent extends BaseComponent {
 
     let xx: number;
     let yy: number;
+
     if (e.touches) {
       if (!e.changedTouches || e.changedTouches.length !== 1) {
         return;
@@ -180,6 +187,7 @@ export class GridHeaderComponent extends BaseComponent {
       this.touchCancelListenFunc = this.renderer.listen(event.target, 'touchcancel', (e: any) => {
         this.captionTouchEnd(e);
       });
+
     } else {
       // Mouse event
       this.addDocumentMouseListeners();
