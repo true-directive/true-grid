@@ -692,16 +692,14 @@ export class GridComponent extends GridViewComponent {
     this._drag_x0 = e.x;
     this._drag_y0 = e.y;
 
-    var showMarker = false;
-
     let dropInfo: any = null;
     this.headerParts.forEach(p => {
       if (p && !dropInfo) {
-        dropInfo = p.canDrop(e, showMarker);
+        dropInfo = p.canDrop(e, false); //showMarker);
       }
     });
 
-    if (dropInfo && !showMarker) {
+    if (dropInfo) {
       if (e.target instanceof ColumnBand) {
         this.state.reorderBand(e.target, dropInfo);
       } else {
