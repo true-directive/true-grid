@@ -22,7 +22,7 @@
         <td *ngIf="layout.isCenter" style="border:0;"></td>
       </tr>
       <tr>
-        <td *ngFor="let c of layout.columns"
+        <td *ngFor="let c of layout.columns; trackBy: trackCol;"
             [ngClass]="state.settings.headerCellClass(c)"
             [style.height.px]="state.settings.rowHeight"
             (mousedown)="headerCellMouseDown($event, c)">
