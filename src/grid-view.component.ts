@@ -470,12 +470,8 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this._lastUpdateTime = Date.now();
   }
 
-  protected fixScroll() {
-    // Корректируем положение других блоков
-  }
-
   /**
-   * Scrolling data vertically
+   * Scrolling data
    * @param  e Scroll event
    */
   public gridScroll(e: any) {
@@ -503,17 +499,18 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
     if (!needUpdate) {
       // заменим на явное задание margin-top у
-      this.fixScroll();
       return;
     }
 
     if (this._inProcess && this.state.iOS) {
-      this.fixScroll();
+      return;
+    }
+
+    if (scrollPosH < 0) {
       return;
     }
 
     if (scrollPos < 0 || scrollPos > (this.scroller.scrollHeight - this.scroller.viewPortHeight)) {
-      this.fixScroll();
       return;
     }
 
@@ -527,7 +524,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     const ms = dt - this._lastUpdateTime;
     let dms  = this.state.IE ? 40: 10;
 
-    if (ms < dms && !this.state.iOS) {
+    if (ms < dms && !this.state.safari) {
       // Delaying
       const delay = dms * 4;
       setTimeout(() => {
