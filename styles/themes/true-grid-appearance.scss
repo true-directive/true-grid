@@ -488,7 +488,8 @@
 
   .true-grid-data-appearance.true-h-lines {
     tr:not(:first-child) > td > .true-grid__input-container {
-      margin-top: -1px; // Спорное решение для того, чтобы высота инпута при
+      border: 0;
+      margin: -1px 0 0 0; // Спорное решение для того, чтобы высота инпута при
                         // наличии horizontal borders оставалась одинаковой
                         // (в первой строке или без horizontal borders)
                         // В AxRowDirective устанавливается высота редактора +1px.
@@ -500,6 +501,7 @@
 
   .true-grid-input {
     // Те же paddings, что и у ячейки
+    // margin: 0 !important;
     padding-top: $axGridCellVPadding;
     padding-bottom: $axGridCellVPadding;
     padding-left: $axGridCellHPadding;

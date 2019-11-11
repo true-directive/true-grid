@@ -47,6 +47,8 @@ input.true-disable-te:not(:disabled) {
 
 .true-input__btn {
   color: $ax-input-btn-color;
+  line-height: 1em;
+  vertical-align: baseline;
   border: none;
   background: none;
   transition: color 0.15s ease;

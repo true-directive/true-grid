@@ -334,10 +334,6 @@ export class PopupComponent {
 
   public updatePosition() {
 
-    //if (!this._visible) {
-      //return;
-    //}
-
     if (this._x !== -1 || this._y !== -1) {
       if (PopupComponent.renderToBody) {
         this.popup.nativeElement.style.position = 'fixed';
@@ -354,7 +350,7 @@ export class PopupComponent {
       return;
     }
 
-    let popupRect = this.popup.nativeElement.getBoundingClientRect();
+    const popupRect = this.popup.nativeElement.getBoundingClientRect();
 
     if (this.position === 'MODAL') {
 
@@ -421,7 +417,7 @@ export class PopupComponent {
     if (this.position === 'MODAL') {
       t0 = 'translateY(-15px)';
     }
-    this.popup.nativeElement.style.opacity = 0.0;
+    this.popup.nativeElement.style.opacity = '0';
     this.popup.nativeElement.style.transform = t0;
   }
 
@@ -430,35 +426,40 @@ export class PopupComponent {
     if (this.position === 'MODAL') {
       t1 = 'translateY(0)';
     }
-    this.popup.nativeElement.style.opacity = 1.0;
+    this.popup.nativeElement.style.opacity = '1.0';
     this.popup.nativeElement.style.transform = t1;
   }
 
   private display() {
-
     if (this._visible) {
       // To prevent the Z-index from being updated during false closures.
       return;
     }
+    this._visible = true;
+
     this.popup.nativeElement.style.display = 'none';
     this.resetAnimation();
     this.resetPosition();
 
     setTimeout(() => {
-      this.popup.nativeElement.style.display = 'block';
-      this.updatePosition();
-      this._visible = true;
+      //this.updatePosition();
+      //this._visible = true;
 
       if (this.position === 'MODAL') {
         this.makeOverlay();
       //  this.resetAnimation();
         this.popup.nativeElement.style.position = 'absolute';
+        this.popup.nativeElement.style.opacity = '0';
+        this.popup.nativeElement.style.display = 'block';
         this._overlay.appendChild(this.popup.nativeElement);
+
+        this.updatePosition();
       } else {
-        // this.updatePosition();
+        this.popup.nativeElement.style.display = 'block';
+        this.updatePosition();
 
         if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
-          this.popup.nativeElement.style.opacity = 0.0;
+          this.popup.nativeElement.style.opacity = '0';
           this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
           this.changeDetector.detectChanges();
           document.body.appendChild(this.popup.nativeElement);
@@ -496,6 +497,8 @@ export class PopupComponent {
       return; // Чтобы Z-индекс не обновлялся при ложных закрытиях
     }
 
+    this._visible = false;
+
     // можно отменить закрытие
     const event = new CloseEvent(result);
     event.confirmed = confirmed;
@@ -511,11 +514,11 @@ export class PopupComponent {
 
     if (this.position === 'MODAL') {
       this._overlay.removeChild(this.popup.nativeElement);
-      this.elementRef.nativeElement.appendChild(this.popup.nativeElement);
       this.removeOverlay();
+      this.elementRef.nativeElement.appendChild(this.popup.nativeElement);
     }
 
-    this._visible = false;
+    //this._visible = false;
     this._target = null;
     this._x = -1;
     this._y = -1;

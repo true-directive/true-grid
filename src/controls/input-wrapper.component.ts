@@ -37,7 +37,7 @@ import { Component, Input, Output, HostBinding, EventEmitter } from '@angular/co
       }
 
       :host > div:first-child {
-        width:100%;
+        width: 100%;
         height: 100%;
         display: inline-flex;
       }
@@ -82,5 +82,6 @@ export class InputWrapperComponent {
 
   btnClick(e: any) {
     this.onBtnClick.emit(e);
+    e.stopPropagation();
   }
 }

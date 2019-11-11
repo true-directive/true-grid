@@ -33,6 +33,8 @@ import { IEditor } from "./editor.interface";
   styles: [`
     :host {
       padding: 0;
+      margin: 0;
+      border: 0;
     }
     .true-editor-date__datepicker {
       width: 100%;

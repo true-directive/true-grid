@@ -145,6 +145,9 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
       if (!this.popupVisible && this._touched) {
         // Show the popup window by touchend event
         this.showByTarget();
+        if (e.cancelable) {
+          e.preventDefault();
+        }
       }
       e.stopPropagation();
     }

@@ -1015,6 +1015,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
                     s.fromIndex++;
                   }
                 });
+                // Don't forget to reset selection
                 changed = true;
                 i++;
               } else {
@@ -1027,7 +1028,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         i++;
       }
 
-      // Render what fit on the screen after changing the columns.
+      // Render what fit on the screen after changing the columns
       this.renderByViewPort();
       if (changed) {
         this.setSelection();
