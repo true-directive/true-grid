@@ -166,6 +166,10 @@ export class GridHeaderComponent extends BaseComponent {
 
   captionStartDrag(e: any, col: Column) {
 
+    if (col.isCheckbox) {
+      return;
+    }
+
     let xx: number;
     let yy: number;
 

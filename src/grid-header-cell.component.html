@@ -3,6 +3,7 @@
   [class.true-header-cell__checkbox]="column.isCheckbox"
   [class.true-header-cell__filtered]="isFiltered()"
   (contextmenu)="contextMenu($event)"
+  (touchstart)="touchStart($event)"
   (mousedown)="mouseDown($event)"
   (mouseup)="mouseUp($event)">
 

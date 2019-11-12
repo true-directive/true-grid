@@ -27,6 +27,7 @@ import { GridStateService } from './grid-state.service';
 
 // Editor components
 import { EditorTextComponent } from './editors/editor-text.component';
+import { EditorTestComponent } from './editors/editor-test.component';
 import { EditorSelectTrueComponent } from './editors/editor-select-true.component';
 import { EditorNumberComponent } from './editors/editor-number.component';
 import { EditorDateComponent } from './editors/editor-date.component';
@@ -468,6 +469,9 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       } else {
         // Иначе наоборот - сохраняем высоту
         this.state.editorHeight = this._height0;
+      }
+      if (this._height0 >= this.state.settings.rowHeight) {
+        cell.element.style.height = (this._height0 - 1) + 'px';
       }
     }
 

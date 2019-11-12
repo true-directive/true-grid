@@ -27,6 +27,7 @@ import { FilterNumberComponent } from './filters/datatypes/filter-number.compone
 import { FilterBooleanComponent } from './filters/datatypes/filter-boolean.component';
 
 // Editors
+import { EditorTestComponent } from './editors/editor-test.component';
 import { EditorTextComponent } from './editors/editor-text.component';
 import { EditorSelectComponent } from './editors/editor-select.component';
 import { EditorSelectTrueComponent } from './editors/editor-select-true.component';
@@ -77,8 +78,8 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     FilterTextComponent, FilterDateComponent, FilterNumberComponent, FilterBooleanComponent,
 
     // Editors
-    EditorTextComponent, EditorSelectComponent, EditorDateComponent, EditorNumberComponent,
-    EditorSelectTrueComponent,
+    EditorTestComponent, EditorTextComponent, EditorSelectComponent, EditorDateComponent,
+    EditorNumberComponent, EditorSelectTrueComponent,
 
     // Cells
     CellHtmlComponent, CellRefComponent,
@@ -107,6 +108,7 @@ import { TranslatePipe } from './internationalization/translate.pipe';
   entryComponents: [FilterTextComponent, FilterDateComponent,
                     FilterNumberComponent, FilterBooleanComponent,
 
+                    EditorTestComponent,
                     EditorTextComponent, EditorSelectComponent,
                     EditorDateComponent, EditorNumberComponent,
                     EditorSelectTrueComponent,
