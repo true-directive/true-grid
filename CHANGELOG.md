@@ -118,3 +118,18 @@
 ### Changed
 
 - Borders and shadows of popups.
+
+## [1.3.1] - 2019-11-11
+
+### Fixed
+
+- Columns reordering in Safari browser (iOS)
+- Horizontal scrolling lags in Safari browser (iOS)
+- Popup animation on touch devices
+
+## [1.3.2] - 2019-11-12
+
+### Fixed
+
+- Date editor rendering in Safari (iOS)
+- Select editor rendering in Safari (iOS)
