@@ -24,19 +24,22 @@ import { Keys } from '@true-directive/base';
 @Component({
   selector: 'true-datepicker',
   templateUrl: './datepicker.component.html',
+  /* removed:  :host { display: inline-block; } - invalid iOS render */
   styles: [`
     :host {
-      display: inline-block;
+      padding: 0;
     }
-
     .true-datepicker__input {
       width: 100%;
       height: 100%;
+      padding: 0;
+      margin: 0;
     }
 
     input {
       box-sizing: border-box;
       width: 100%;
+      margin: 0;
     }
   `],
   providers: [{

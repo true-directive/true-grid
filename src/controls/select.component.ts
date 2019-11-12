@@ -58,10 +58,10 @@ import { Keys, Utils } from '@true-directive/base';
         <div *ngIf="updating()" class="true-select__updating">Загрузка...</div>
       </true-popup>
     `,
+    /*
+      Removed: :host { display: inline-block; } - invalid ios rendering.
+     */
   styles: [`
-    :host {
-      display: inline-block;
-    }
 
     .true-select__input {
       width: 100%;

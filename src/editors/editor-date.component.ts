@@ -3,12 +3,13 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
 
 import { DatepickerComponent } from '../controls/datepicker.component';
 import { Column } from '@true-directive/base';
 import { GridStateService } from '../grid-state.service';
 import { Keys, PopupPosition } from '@true-directive/base';
+import { EditorUtils } from './editor-utils.class';
 
 import { IEditor } from "./editor.interface";
 
@@ -19,17 +20,18 @@ import { IEditor } from "./editor.interface";
 @Component({
   selector: 'true-editor-date',
   template:
-  `<true-datepicker #datepicker
-    class="true-grid__input-container"
-    [pattern]="column.format"
-    [ngClass]="getClass()"
-    [style.height]="getH()"
-    [inputClass]="datepickerInputClass"
-    [showError]="false"
-    [(ngModel)]="value"
-    (keydown)="inputKeyDown($event)"
-    (ngModelChange)="datepickerChange($event)">
-  </true-datepicker>`,
+  `<div class="true-grid__input-container" [style.height]="getH()">
+    <true-datepicker #datepicker
+      class="true-editor-date__datepicker"
+      [pattern]="column.format"
+      [ngClass]="getClass()"
+      [inputClass]="datepickerInputClass"
+      [showError]="false"
+      [(ngModel)]="value"
+      (keydown)="inputKeyDown($event)"
+      (ngModelChange)="datepickerChange($event)">
+    </true-datepicker>
+  </div>`,
   styles: [`
     :host {
       padding: 0;
@@ -38,6 +40,9 @@ import { IEditor } from "./editor.interface";
     }
     .true-editor-date__datepicker {
       width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
     }
     `]
   })
@@ -81,6 +86,10 @@ export class EditorDateComponent implements IEditor  {
     this.valueTemp = value;
     this.valueChanged = valueChanged;
     this.height = height;
+
+    if (this.state.iOS) {
+      EditorUtils.focusAndOpenKeyboard(this.datepicker.input.nativeElement, 50);
+    }
   }
 
   ngAfterContentInit() {
@@ -99,6 +108,9 @@ export class EditorDateComponent implements IEditor  {
         this._initialized = true;
       });
     }
+
+    // Не помогает
+    // setTimeout(() => this.changeDetector.detectChanges(), 100);
   }
 
   datepickerChange(e: any) {
@@ -156,4 +168,6 @@ export class EditorDateComponent implements IEditor  {
     }
     return v;
   }
+
+  constructor(private changeDetector: ChangeDetectorRef) { }
 }

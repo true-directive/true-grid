@@ -5,8 +5,7 @@
   [disabled]="disabled"
   [error]="error"
   [showError]="showError"
-  [icon]="getIcon()">
-  <input #input
+  [icon]="getIcon()"><input #input
      [ngClass]="inputClass"
      [true-mask-date]="pattern"
      [readonly]="disableTextEditor"
@@ -15,9 +14,8 @@
      (blur)="inputBlur($event)"
      (focus)="inputFocus($event)"
      (mousedown)="$event.stopPropagation()"
-     (keydown)="inputKeyDown($event)"/>
-</true-input-wrapper>
-<true-popup #popup (close)="popupClose($event)">
+     (keydown)="inputKeyDown($event)" />
+</true-input-wrapper><true-popup #popup (close)="popupClose($event)">
   <true-calendar #calendar
       *ngIf="popupVisible"
       [(ngModel)]="value"

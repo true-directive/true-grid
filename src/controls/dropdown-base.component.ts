@@ -212,7 +212,7 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
       return;
     }
 
-    if (e.keyCode === Keys.DOWN && (e.altKey || !this.useAltDown) && !this.popup.visible) { //
+    if (e.keyCode === Keys.DOWN && (e.altKey || !this.useAltDown) && !this.popup.visible) {
       this.shownByKey = true;
       this.showByTarget();
       setTimeout(() => this.focusPopup());
@@ -265,18 +265,22 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
     }
   }
 
-  btnClick(e: any) {
+  togglePopup() {
     if (this.disabled) {
       return;
     }
 
-    this.popup.toggle(this._elementRef.nativeElement, '');
+    this.popup.toggle(this.input.nativeElement, '');
 
     setTimeout(() => {
       if (this.popupVisible) {
         this.focusPopup();
       }
     });
+  }
+
+  btnClick(e: any) {
+    this.togglePopup();
   }
 
   public setValueFromDisplayed() {

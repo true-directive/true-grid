@@ -18,7 +18,7 @@ import { IEditor } from "./editor.interface";
 
 @Component({
   selector: 'true-editor-select-true',
-  template: `<div [ngClass]="getClass()">
+  template: `<div [ngClass]="getClass()" [style.height]="getH()">
               <true-select #input
                 class="true-editor-select__selector"
                 [(ngModel)]="value"

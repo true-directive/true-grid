@@ -61,7 +61,6 @@ export class EditorSelectComponent  {
     this.input.nativeElement.focus();
   }
 
-  //
   inputMouseDown(e: any) {
     e.stopPropagation();
   }
