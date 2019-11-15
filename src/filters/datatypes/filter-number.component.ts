@@ -28,12 +28,16 @@ export class FilterNumberComponent extends FilterBaseComponent {
 
   // IFilter implementation
   // Initialization
-  public init() {
+  protected firstFocus() {
     setTimeout(() => {
       this.selectMode = this.filter.operator === FilterOperator.SET ? true : null;
       this.input1.nativeElement.select();
       this.input1.nativeElement.focus();
     }, 10);
+  }
+
+  public init() {
+    this.firstFocus();
   }
 
   // Ошибка пользовательского ввода
