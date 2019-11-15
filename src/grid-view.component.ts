@@ -197,6 +197,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   @Output()
   headerContextMenu: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  customCellEvent: EventEmitter<any> = new EventEmitter<any>();
+
   @ViewChild('menuStarter') menuStarter: MenuStarterComponent;
   @ViewChild('filterPopup') filterPopup: FilterPopupComponent; // Popup div with filter options
 
@@ -1079,5 +1082,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
       this.headerContextMenu.emit(e);
     });
 
+    // Custom cell event
+    this.state.onCustomCellEvent.pipe(takeUntil(this.destroy$)).subscribe(e => {
+      this.customCellEvent.emit(e);
+    });
   }
 }

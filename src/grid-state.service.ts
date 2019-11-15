@@ -87,6 +87,10 @@ export class GridStateService extends GridState implements OnDestroy {
   protected _onHeaderContextMenu: Subject<any> = new Subject();
   public readonly onHeaderContextMenu: Observable<any> = this._onHeaderContextMenu.asObservable();
 
+  // Событие кастомной ячейки
+  protected _onCustomCellEvent: Subject<any> = new Subject();
+  public readonly onCustomCellEvent: Observable<any> = this._onCustomCellEvent.asObservable();
+
   public selection: GridSelection = new GridSelection();
 
   focusChangedSubscription: any;
@@ -151,6 +155,10 @@ export class GridStateService extends GridState implements OnDestroy {
 
   protected headerContextMenuEvent(e: any, column: Column) {
     this._onHeaderContextMenu.next({ event: e, column: column });
+  }
+
+  protected customCellEvent(e: any) {
+    this._onCustomCellEvent.next(e);
   }
 
   // Инициируем обновление данных со всеми пересчётами

@@ -27,7 +27,6 @@ import { GridStateService } from './grid-state.service';
 
 // Editor components
 import { EditorTextComponent } from './editors/editor-text.component';
-import { EditorTestComponent } from './editors/editor-test.component';
 import { EditorSelectTrueComponent } from './editors/editor-select-true.component';
 import { EditorNumberComponent } from './editors/editor-number.component';
 import { EditorDateComponent } from './editors/editor-date.component';
@@ -547,6 +546,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       // Подтверждение редактирования. Отправляем в данные
       const s = cr.instance.event.subscribe((e: any)=> {
         // вызываем в стэйте
+        this.state.emitCustomCellEvent(e);
       });
 
       this._customCellRefs.push(cr);
