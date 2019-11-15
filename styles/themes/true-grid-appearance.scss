@@ -588,11 +588,14 @@
 
 // -- POPUP ---------------------------------------------------------------
 .true-popup {
-    z-index: 9;
-    background-color: $axPopupBackColor;
-    border: $axPopupBorder;
-    box-shadow: $axPopupShadow;
-    transition: opacity 0.2s ease, transform 0.15s ease-out;
+  z-index: 9;
+  background-color: $axPopupBackColor;
+  border: $axPopupBorder;
+  box-shadow: $axPopupShadow;
+  transition: opacity 0.2s ease, transform 0.15s ease-out;
+  &.true-snack {
+    border-radius: 6px;
+  }
 }
 
 .true-button {
