@@ -133,3 +133,11 @@
 
 - Date editor rendering in Safari (iOS)
 - Select editor rendering in Safari (iOS)
+
+
+## [1.3.3] - 2019-11-15
+
+### Added
+
+- SnackBar.
+- CustomCell events.
