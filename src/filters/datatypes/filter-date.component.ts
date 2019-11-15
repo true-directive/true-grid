@@ -179,26 +179,19 @@ export class FilterDateComponent extends FilterBaseComponent {
     }
     return this._intervalSettings;
   }
-/*
-  (dataQuery)="intervalQuery($event)"
-
-  intervalQuery(e: any) {
-    setTimeout(() => {
-      // Имитируем 200мс задержку
-      let res = this.intervals.concat().filter(r => r.name.toLowerCase().indexOf(e.searchString.toLowerCase()) >= 0);
-      this.intervalSelector.fetchData(e.queryId, res);
-    }, 200);
-  }
-*/
 
   @ViewChild('datepicker1') datepicker1: any;
   @ViewChild('datepicker2') datepicker2: any;
   @ViewChild('intervalSelector') intervalSelector: DropdownBaseComponent;
 
-  ngAfterContentInit() {
+  protected focusFirst() {
     if (!Utils.detectMobile()) {
       setTimeout(() => this.datepicker1.focus());
     }
+  }
+
+  ngAfterContentInit() {
+    this.focusFirst();
   }
 
   constructor(protected intl: InternationalizationService) {
