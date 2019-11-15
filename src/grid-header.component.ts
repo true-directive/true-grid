@@ -233,7 +233,7 @@ export class GridHeaderComponent extends BaseComponent {
     }
 
     if (this.uiAction.target === col && this.uiAction.action === UIActionType.CLICK) {
-      if (!col.isCheckbox) {
+      if (!col.isCheckbox && col.allowSorting) {
         this.state.sortByColumn(col, e.shiftKey);
         e.stopPropagation();
         e.preventDefault();
