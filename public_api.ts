@@ -29,6 +29,7 @@ export { DatepickerComponent } from './src/controls/datepicker.component';
 export { SelectComponent } from './src/controls/select.component';
 
 export { MenuStarterComponent } from './src/controls/menu-starter.component';
+export { MenuComponent } from './src/controls/menu.component';
 export { DialogAlertComponent } from './src/controls/dialog-alert.component';
 export { DialogWrapperComponent } from './src/controls/dialog-wrapper.component';
 export { DialogButton, DialogInfo } from './src/controls/dialog-info.class';
@@ -37,6 +38,9 @@ export { RowDirective } from './src/row.directive';
 export { BaseComponent } from './src/base.component';
 export { FilterPopupComponent } from './src/filters/filter-popup.component';
 export { FilterBaseComponent } from './src/filters/datatypes/filter-base.component';
+export { FilterBooleanComponent } from './src/filters/datatypes/filter-boolean.component';
+export { FilterDateComponent } from './src/filters/datatypes/filter-date.component';
+export { FilterNumberComponent } from './src/filters/datatypes/filter-number.component';
 export { GridHeaderComponent } from './src/grid-header.component';
 export { GridHeaderCellComponent } from './src/grid-header-cell.component';
 export { GridHeaderBandComponent } from './src/grid-header-band.component';
@@ -44,7 +48,7 @@ export { GridComponent } from './src/grid.component';
 export { ScrollerComponent } from './src/scroller.component';
 
 export { MaskDateDirective } from './src/mask/mask-date.directive';
-export { MaskNumberDirective } from './src/mask/mask-number.directive'; 
+export { MaskNumberDirective } from './src/mask/mask-number.directive';
 
 export { ICell } from './src/cells/cell.interface';
 export { IEditor } from './src/editors/editor.interface';
