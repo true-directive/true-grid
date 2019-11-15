@@ -34,11 +34,11 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
   maxDropDownHeight = '300px';
 
   @Input('popupPosition')
-  public get popupPosition(): 'RELATIVE' | 'ABSOLUTE' | 'MODAL' {
+  public get popupPosition(): 'RELATIVE' | 'ABSOLUTE' | 'MODAL' | 'SNACK' {
     return this.popup.position;
   }
 
-  public set popupPosition(pos: 'RELATIVE' | 'ABSOLUTE' | 'MODAL') {
+  public set popupPosition(pos: 'RELATIVE' | 'ABSOLUTE' | 'MODAL' | 'SNACK') {
     this.popup.position = pos;
   }
 

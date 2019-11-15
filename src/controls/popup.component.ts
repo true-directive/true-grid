@@ -13,11 +13,12 @@ import { Utils, Keys, PopupPosition, CloseEvent } from '@true-directive/base';
   selector: 'true-popup',
   template:  `
     <div [style.zIndex]="getZ()" class="true-popup"
+      [class.true-snack]="position==='SNACK'"
       (mousedown)="popupMouseDown($event)"
       (touchstart)="popupTouchStart($event)"
       (keydown)="popupKeyDown($event)" #popup>
       <ng-content #content></ng-content>
-     </div>`,
+    </div>`,
   styles: [
     `
     :host > div {
@@ -45,6 +46,10 @@ export class PopupComponent {
   private readonly transform0 = 'translateX(15px)';
   private readonly transform1 = 'translateX(0)';
 
+  private readonly modalTransform0 = 'translateY(-20px)';
+  private readonly modalTransform1 = 'translateY(0)';
+  private readonly modalTransform2 = 'translateY(20px)';
+
   // Number of pixels for shifting the popup to right when position is [left].
   protected shiftDx = 6;
 
@@ -53,10 +58,6 @@ export class PopupComponent {
 
   public static z: number = 19;
   public static renderToBody = true;
-
-  getZ() {
-    return this.zIndex;
-  }
 
   @ViewChild('popup')
   popup: any;
@@ -71,18 +72,32 @@ export class PopupComponent {
   show: EventEmitter<any> = new EventEmitter<any>();
 
   @Input('position')
-  position: 'RELATIVE' | 'ABSOLUTE' | 'MODAL' = 'RELATIVE';
+  position: 'RELATIVE' | 'ABSOLUTE' | 'MODAL' | 'SNACK' = 'RELATIVE';
 
   @Input('keepOnTargetClick')
   keepOnTargetClick = true;
 
-  private zIndex: number;
+
+  private _x = -1;
+  private _y = -1;
+  private _direction: string;
+  private _visible: boolean = false;
+  private _stillVisible: boolean = false;
+  private _animating: boolean = false;
+  private _overlay: HTMLElement = null;
 
   private documentContextMenuBound: any;
   private documentMouseDownBound: any;
   private documentTouchStartBound: any;
   private documentScrollBound: any;
   private documentResizeBound: any;
+
+  protected _target: any;
+  protected zIndex: number;
+
+  getZ() {
+    return this.zIndex;
+  }
 
   /**
    * Focus trap
@@ -239,26 +254,33 @@ export class PopupComponent {
     this.updatePosition();
   }
 
-  checkClose(target: any) {
+  checkClose(target: any): boolean {
     const l = target;
 
     if (this._target === l && this.keepOnTargetClick) {
-      return;
+      return false;
     }
 
     if (this._target && Utils.isAncestor(this._target, l) && this.keepOnTargetClick) {
-      return;
+      return false;
     }
 
     if (Utils.isAncestor(this.popup.nativeElement, l)) {
-      return;
+      return false;
     } else {
       if (this.zIndex < this.maxZIndex(l)) {
         // Мы кликнули на более высокий уровень
-        return;
+        return false;
       }
     }
+
+    if (PopupComponent.freeze > 0) {
+      PopupComponent.freeze--;
+      return false;
+    }
+
     this.closePopup();
+    return true;
   }
 
   documentTouchStart(e: TouchEvent) {
@@ -266,24 +288,12 @@ export class PopupComponent {
   }
 
   documentMouseDown(e: MouseEvent) {
-    if (PopupComponent.freeze > 0) {
-      PopupComponent.freeze--;
-      return;
-    }
     this.checkClose(e.target);
   }
 
   documentContextMenu(e: any) {
     this.checkClose(e.target);
   }
-
-  _x = -1;
-  _y = -1;
-  _target: any;
-  _direction: string;
-  _visible: boolean = false;
-  _animating: boolean = false;
-  _overlay: HTMLElement = null;
 
   public get visible(): boolean {
     return this._visible;
@@ -352,7 +362,7 @@ export class PopupComponent {
 
     const popupRect = this.popup.nativeElement.getBoundingClientRect();
 
-    if (this.position === 'MODAL') {
+    if (this.position === 'MODAL' || this.position === 'SNACK') {
 
       const ww = document.body.clientWidth;
 
@@ -414,8 +424,8 @@ export class PopupComponent {
 
   protected resetAnimation() {
     let t0 = this.transform0;
-    if (this.position === 'MODAL') {
-      t0 = 'translateY(-15px)';
+    if (this.position === 'MODAL' || this.position === 'SNACK') {
+      t0 = this.modalTransform0;
     }
     this.popup.nativeElement.style.opacity = '0';
     this.popup.nativeElement.style.transform = t0;
@@ -423,8 +433,8 @@ export class PopupComponent {
 
   protected startAnimation() {
     let t1 = this.transform1;
-    if (this.position === 'MODAL') {
-      t1 = 'translateY(0)';
+    if (this.position === 'MODAL' || this.position === 'SNACK') {
+      t1 = this.modalTransform1;
     }
     this.popup.nativeElement.style.opacity = '1.0';
     this.popup.nativeElement.style.transform = t1;
@@ -442,29 +452,31 @@ export class PopupComponent {
     this.resetPosition();
 
     setTimeout(() => {
-      //this.updatePosition();
-      //this._visible = true;
 
-      if (this.position === 'MODAL') {
-        this.makeOverlay();
-      //  this.resetAnimation();
-        this.popup.nativeElement.style.position = 'absolute';
-        this.popup.nativeElement.style.opacity = '0';
+      if (this.position === 'MODAL' || this.position === 'SNACK') {
+        this.popup.nativeElement.style.position = 'fixed';
         this.popup.nativeElement.style.display = 'block';
-        this._overlay.appendChild(this.popup.nativeElement);
+        //this.popup.nativeElement.style.opacity = '0';
 
+        if (this.position === 'MODAL') {
+          this.makeOverlay();
+          this._overlay.appendChild(this.popup.nativeElement);
+        } else {
+          // this.popup.nativeElement.style.opacity = '0.5';
+          this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
+          this.changeDetector.detectChanges();
+          document.body.appendChild(this.popup.nativeElement);
+        }
         this.updatePosition();
       } else {
         this.popup.nativeElement.style.display = 'block';
         this.updatePosition();
-
         if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
           this.popup.nativeElement.style.opacity = '0';
           this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
           this.changeDetector.detectChanges();
           document.body.appendChild(this.popup.nativeElement);
         }
-        //this.resetAnimation();
       }
 
       PopupComponent.z++
@@ -474,10 +486,26 @@ export class PopupComponent {
 
       setTimeout(()=> {
         this.startAnimation();
-      }, 50);
+        if (this.position === 'SNACK') {
+          this.closeSnack();
+        }
+      }, 10);
       this.addDocumentListeners();
       this.show.emit();
     });
+  }
+
+  public closeSnack() {
+    this._stillVisible = true;
+    setTimeout(() => {
+      if (this._stillVisible) {
+        this.popup.nativeElement.style.opacity = '0';
+        this.popup.nativeElement.style.transform = this.modalTransform2;
+        setTimeout(() =>  {
+          this.closePopup();
+        }, 300);
+      }
+    }, 1000);
   }
 
   public showByXY(x: number, y: number) {
@@ -492,12 +520,20 @@ export class PopupComponent {
     this.display();
   }
 
+  public showPopup() {
+    if (this._visible) {
+      this.closePopup();
+    }
+    this.showByTarget();
+  }
+
   public closePopup(result: any = null, confirmed: boolean = false) {
     if (!this._visible) {
       return; // Чтобы Z-индекс не обновлялся при ложных закрытиях
     }
 
     this._visible = false;
+    this._stillVisible = false;
 
     // можно отменить закрытие
     const event = new CloseEvent(result);
@@ -518,13 +554,16 @@ export class PopupComponent {
       this.elementRef.nativeElement.appendChild(this.popup.nativeElement);
     }
 
-    //this._visible = false;
+    if (this.position === 'SNACK') {
+      document.body.removeChild(this.popup.nativeElement);
+      this.elementRef.nativeElement.appendChild(this.popup.nativeElement);
+    }
+
     this._target = null;
     this._x = -1;
     this._y = -1;
-    this.resetAnimation();
-
     this.popup.nativeElement.style.display = 'none';
+    this.resetAnimation();
 
     if (this.position === 'RELATIVE' && PopupComponent.renderToBody) {
       this._renderer.removeChild(document.body, this.popup.nativeElement);
@@ -536,7 +575,6 @@ export class PopupComponent {
 
     // this.resetPosition();
     this.removeDocumentListeners();
-
     this.closed.emit(result);
   }
 
