@@ -5,7 +5,7 @@
 */
 export { ColumnType, DetectionMode, GridPart, SelectionMode,
     RenderMode, EditorShowMode, DataQuery, SortInfo, SortType,
-    Filter, FilterOperator,
+    Filter, FilterOperator, ValueChangedEvent, CheckedChangedEvent,
     CellPosition, CellRange } from '@true-directive/base';
 
 export { Column } from '@true-directive/base';
