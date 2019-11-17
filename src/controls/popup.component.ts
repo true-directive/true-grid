@@ -50,6 +50,10 @@ export class PopupComponent {
   private readonly modalTransform1 = 'translateY(0)';
   private readonly modalTransform2 = 'translateY(20px)';
 
+  private readonly snackTransform0 = 'scale(0.8)';
+  private readonly snackTransform1 = 'scale(1.0)';
+  private readonly snackTransform2 = 'scale(1.5)';
+
   // Number of pixels for shifting the popup to right when position is [left].
   protected shiftDx = 6;
 
@@ -109,7 +113,7 @@ export class PopupComponent {
    * @return          Элемент, на который следует перевести фокус
    */
   private getNextElement(
-      element: any, //
+      element: any, 
       backward: boolean = false,
       parent: any = null,
       found: boolean = false
@@ -372,7 +376,6 @@ export class PopupComponent {
         modalX = 10;
         width = ww - 20;
       }
-
       this.popup.nativeElement.style.left = modalX + 'px';
       this.popup.nativeElement.style.top = '35px';
       return;
@@ -395,16 +398,16 @@ export class PopupComponent {
       yy = targetRect.top - popupRect.height;
     }
 
-    if (yy + popupRect.height > window.innerHeight && this._direction === 'right')
+    if (yy + popupRect.height > window.innerHeight && this._direction === 'right') {
       yy = targetRect.bottom - popupRect.height + 4;
+    }
 
-
-    if (this._direction.toLowerCase() === 'upleft') {
+    if (this._direction === 'AboveLeft') {
       xx = targetRect.right - popupRect.width + 6;
       yy = targetRect.top - popupRect.height;
     }
 
-    if (this._direction.toLowerCase() === 'upright') {
+    if (this._direction === 'AboveRight') {
       xx = targetRect.left - 6;
       yy = targetRect.top - popupRect.height;
     }
@@ -424,8 +427,11 @@ export class PopupComponent {
 
   protected resetAnimation() {
     let t0 = this.transform0;
-    if (this.position === 'MODAL' || this.position === 'SNACK') {
+    if (this.position === 'MODAL') {
       t0 = this.modalTransform0;
+    }
+    if (this.position === 'SNACK') {
+      t0 = this.snackTransform0;
     }
     this.popup.nativeElement.style.opacity = '0';
     this.popup.nativeElement.style.transform = t0;
@@ -433,8 +439,11 @@ export class PopupComponent {
 
   protected startAnimation() {
     let t1 = this.transform1;
-    if (this.position === 'MODAL' || this.position === 'SNACK') {
+    if (this.position === 'MODAL') {
       t1 = this.modalTransform1;
+    }
+    if (this.position === 'SNACK') {
+      t1 = this.snackTransform1;
     }
     this.popup.nativeElement.style.opacity = '1.0';
     this.popup.nativeElement.style.transform = t1;
@@ -456,16 +465,16 @@ export class PopupComponent {
       if (this.position === 'MODAL' || this.position === 'SNACK') {
         this.popup.nativeElement.style.position = 'fixed';
         this.popup.nativeElement.style.display = 'block';
-        //this.popup.nativeElement.style.opacity = '0';
 
         if (this.position === 'MODAL') {
           this.makeOverlay();
           this._overlay.appendChild(this.popup.nativeElement);
+          this.resetAnimation();
         } else {
-          // this.popup.nativeElement.style.opacity = '0.5';
           this._renderer.removeChild(this.elementRef.nativeElement, this.popup.nativeElement);
           this.changeDetector.detectChanges();
           document.body.appendChild(this.popup.nativeElement);
+          this.resetAnimation();
         }
         this.updatePosition();
       } else {
@@ -489,7 +498,7 @@ export class PopupComponent {
         if (this.position === 'SNACK') {
           this.closeSnack();
         }
-      }, 10);
+      }, 50);
       this.addDocumentListeners();
       this.show.emit();
     });
@@ -500,7 +509,7 @@ export class PopupComponent {
     setTimeout(() => {
       if (this._stillVisible) {
         this.popup.nativeElement.style.opacity = '0';
-        this.popup.nativeElement.style.transform = this.modalTransform2;
+        this.popup.nativeElement.style.transform = this.snackTransform2;
         setTimeout(() =>  {
           this.closePopup();
         }, 300);
@@ -573,7 +582,6 @@ export class PopupComponent {
       this.changeDetector.detectChanges();
     }
 
-    // this.resetPosition();
     this.removeDocumentListeners();
     this.closed.emit(result);
   }

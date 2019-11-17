@@ -592,7 +592,7 @@
   background-color: $axPopupBackColor;
   border: $axPopupBorder;
   box-shadow: $axPopupShadow;
-  transition: opacity 0.2s ease, transform 0.15s ease-out;
+  transition: opacity 0.15s ease, transform 0.2s ease-out;
   &.true-snack {
     border-radius: 6px;
   }

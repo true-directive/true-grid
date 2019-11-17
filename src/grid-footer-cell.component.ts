@@ -24,6 +24,8 @@ import { Column } from '@true-directive/base';
 })
 export class GridFooterCellComponent {
 
+  _currentSummary: Summary = null;
+
   readonly summaryTypes = [
     SummaryType.SUM, SummaryType.MIN, SummaryType.MAX,
     SummaryType.COUNT, SummaryType.AVERAGE
@@ -76,8 +78,6 @@ export class GridFooterCellComponent {
     this.state.addSummary(this.column, t);
   }
 
-  _currentSummary: Summary = null;
-
   toggleMenu(e: any, a: Summary = null) {
 
     let l = e.target.tagName === 'SPAN' ? e.target.parentElement : e.target;
@@ -89,7 +89,7 @@ export class GridFooterCellComponent {
       this.menu.closePopup();
     } else {
       this._currentSummary = a;
-      this.menu.showByTarget(l, this.column.isNumeric ? 'UpLeft' : 'UpRight');
+      this.menu.showByTarget(l, this.column.isNumeric ? 'AboveLeft' : 'AboveRight');
       this.changeDetector.detectChanges();
     }
   }

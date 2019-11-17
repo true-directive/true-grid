@@ -141,3 +141,9 @@
 
 - SnackBar.
 - CustomCell events.
+
+## [1.3.4] - 2019-11-18
+
+### Added
+
+- CheckedChanged event.
