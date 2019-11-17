@@ -14,7 +14,7 @@ import { GridState } from '@true-directive/base';
 import { Column } from '@true-directive/base';
 import { CellPosition } from '@true-directive/base';
 import { DataQuery } from '@true-directive/base';
-import { ValueChangedEvent, FilterShowEvent } from '@true-directive/base';
+import { CheckedChangedEvent, ValueChangedEvent, FilterShowEvent } from '@true-directive/base';
 import { UIAction } from '@true-directive/base';
 
 @Injectable()
@@ -44,6 +44,10 @@ export class GridStateService extends GridState implements OnDestroy {
   // При изменении значения ячейки
   protected _onValueChanged: Subject<ValueChangedEvent> = new Subject();
   public readonly onValueChanged: Observable<ValueChangedEvent> = this._onValueChanged.asObservable();
+
+  // При изменении чекбокс
+  protected _onCheckedChanged: Subject<CheckedChangedEvent> = new Subject();
+  public readonly onCheckedChanged: Observable<CheckedChangedEvent> = this._onCheckedChanged.asObservable();
 
   // Перетаскивание колонки
   // Тащим
@@ -123,6 +127,10 @@ export class GridStateService extends GridState implements OnDestroy {
 
   protected valueChangedEvent(e: ValueChangedEvent) {
     this._onValueChanged.next(e);
+  }
+
+  protected checkedChangedEvent(e: CheckedChangedEvent) {
+    this._onCheckedChanged.next(e);
   }
 
   protected dragEvent(e: UIAction) {

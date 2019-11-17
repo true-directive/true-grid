@@ -25,7 +25,7 @@ import { RowDirective } from './row.directive';
 import { GridStateService } from './grid-state.service';
 import { InternationalizationService } from './internationalization/internationalization.service';
 
-import { RowDragEvent, RowClickEvent, ContextMenuEvent,
+import { RowDragEvent, RowClickEvent, ContextMenuEvent, CheckedChangedEvent,
          CellClickEvent } from '@true-directive/base';
 
 @Component({
@@ -62,6 +62,9 @@ export class GridComponent extends GridViewComponent {
 
   @Output('selectionChanged')
   selectionChanged: EventEmitter<Selection> = new EventEmitter<Selection>();
+
+  @Output('checkedChanged')
+  checkedChanged: EventEmitter<CheckedChangedEvent> = new EventEmitter<CheckedChangedEvent>();
 
   /**
    * Пользователь перетащил строки. Событие возникает до того, как строки будут перенесены
@@ -243,16 +246,13 @@ export class GridComponent extends GridViewComponent {
   }
 
   public dataRowClick(e: any, r: any) {
-
     this.rowClick.emit(new RowClickEvent(r, e));
     this.cellClick.emit(new CellClickEvent(this.cellByXY(e.clientX, e.clientY), e));
-
     if (this._cellTouched) {
       // Skip this click.
       this._cellTouched = null;
       return;
     }
-
     this.doRowClick(e);
   }
 
@@ -273,7 +273,7 @@ export class GridComponent extends GridViewComponent {
       return;
     }
 
-    let keyCode: number = keyEvent.keyCode;
+    const keyCode: number = keyEvent.keyCode;
 
     if (keyCode === Keys.SPACE && this.state.focusedRow) {
       let f = this.state.firstCheckableField();
@@ -331,6 +331,14 @@ export class GridComponent extends GridViewComponent {
       e.preventDefault();
       e.stopPropagation();
     }
+  }
+
+  public checkAll(fieldName: string) {
+    this.state.setColumnCheck(this.state.columnCollection.columnByFieldName(fieldName), true);
+  }
+
+  public uncheckAll(fieldName: string) {
+    this.state.setColumnCheck(this.state.columnCollection.columnByFieldName(fieldName), false);
   }
 
   /**
@@ -801,6 +809,9 @@ export class GridComponent extends GridViewComponent {
 
       // Изменение значения
       this.state.onValueChanged.pipe(takeUntil(this.destroy$)).subscribe(v => this.detectChanges('valueChanged'));
+
+      // Изменение значения чекбокса
+      this.state.onCheckedChanged.pipe(takeUntil(this.destroy$)).subscribe(e => this.checkedChanged.emit(e));
 
       // Включение редактирования
       this.state.onStartEditing.pipe(takeUntil(this.destroy$)).subscribe(v => this.detectChanges('startEditing'));
