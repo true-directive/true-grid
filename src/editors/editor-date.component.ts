@@ -9,7 +9,7 @@ import { DatepickerComponent } from '../controls/datepicker.component';
 import { Column } from '@true-directive/base';
 import { GridStateService } from '../grid-state.service';
 import { Keys, PopupPosition } from '@true-directive/base';
-import { EditorUtils } from './editor-utils.class';
+import { DOMUtils } from '../common/dom-utils.class';
 
 import { IEditor } from "./editor.interface";
 
@@ -88,7 +88,7 @@ export class EditorDateComponent implements IEditor  {
     this.height = height;
 
     if (this.state.iOS) {
-      EditorUtils.focusAndOpenKeyboard(this.datepicker.input.nativeElement, 50);
+      DOMUtils.focusAndOpenKeyboard(this.datepicker.input.nativeElement, 50);
     }
   }
 

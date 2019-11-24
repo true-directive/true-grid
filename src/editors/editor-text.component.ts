@@ -12,7 +12,7 @@ import { Keys } from '@true-directive/base';
 import { GridStateService } from '../grid-state.service';
 import { IEditor } from "./editor.interface";
 
-import { EditorUtils } from './editor-utils.class';
+import { DOMUtils } from '../common/dom-utils.class';
 
 @Component({
   selector: 'true-editor-text',
@@ -59,7 +59,7 @@ export class EditorTextComponent implements IEditor {
     this.height = height;
     this.ie = ie;
     if (this.state.iOS) {
-      EditorUtils.focusAndOpenKeyboard(this.input.nativeElement, 50);
+      DOMUtils.focusAndOpenKeyboard(this.input.nativeElement, 50);
     }
   }
 
