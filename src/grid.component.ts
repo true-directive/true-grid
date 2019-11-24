@@ -141,14 +141,6 @@ export class GridComponent extends GridViewComponent {
     if (touches.length === 1) {
       // Если касание одно, то запоминаем ячейку, которой касаемся
       this._cellTouched = this.cellByXY(touches[0].clientX, touches[0].clientY);
-      // Если обработано как mousedown - больше не делаем ничего
-      // (возможно переключили чекбокс или включили редактирование)
-      /*
-      if (this.state.touchStart(this._cellTouched)) {
-        return;
-      }
-      */
-
       // Запоминаем положение прокрутки
       this._cellTouchedScrollPos = {
         X: this.scroller.scrollLeft,
@@ -353,6 +345,22 @@ export class GridComponent extends GridViewComponent {
 
     this.scroller.checkAutoScrollX(e.clientX);
     this.scroller.checkAutoScrollY(e.clientY);
+  }
+
+  /**
+   * Selection of the grid
+   * @return GridSelection instance with selected ranges list.
+   */
+  public get selection() {
+    return this.state.selection;
+  }
+
+  /**
+   * Returns data which contained in selected ranges
+   * @return Array with the data
+   */
+  public get selectedData(): any[] {
+    return this.state.getSelectedData(this.selection).result;
   }
 
   public get draggedRows(): any[] {
@@ -595,12 +603,6 @@ export class GridComponent extends GridViewComponent {
   }
 
   private showMarker(mrX: number, mrY: number, mrW: number, mrH: number, rowDrag: boolean = false) {
-
-    if (rowDrag) {
-      // this.dropMarker.nativeElement.style.border = '2px solid rgba(0,0,0,0.0)';
-    } else {
-
-    }
 
     this.dropMarker.nativeElement.style.top = mrY + 'px';
     this.dropMarker.nativeElement.style.left = mrX + 'px';
