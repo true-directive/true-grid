@@ -14,6 +14,7 @@ export { Locale } from '@true-directive/base';
 export { Keys, Utils } from '@true-directive/base';
 
 export { GridSettings } from '@true-directive/base';
+export { MenuAction } from '@true-directive/base';
 
 export { InternationalizationService } from './src/internationalization/internationalization.service';
 export { TranslatePipe } from './src/internationalization/translate.pipe';
