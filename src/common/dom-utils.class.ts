@@ -22,7 +22,7 @@ export class DOMUtils {
     }
   }
 
-  public static downloadCSV(filename, text) {
+  public static downloadCSV(filename: string, text: string) {
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(text));
     element.setAttribute('download', filename);
@@ -32,7 +32,7 @@ export class DOMUtils {
     document.body.removeChild(element);
   }
 
-  public static copyToClipboard(text): boolean {
+  public static copyToClipboard(text: string): boolean {
     var ta = document.createElement("textarea");
     ta.value = text;
     ta.style.position='fixed';
