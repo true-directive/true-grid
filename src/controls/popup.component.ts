@@ -50,7 +50,7 @@ export class PopupComponent {
   private readonly modalTransform1 = 'translateY(0)';
   private readonly modalTransform2 = 'translateY(20px)';
 
-  private readonly snackTransform0 = 'scale(0.8)';
+  private readonly snackTransform0 = 'scale(0.85)';
   private readonly snackTransform1 = 'scale(1.0)';
   private readonly snackTransform2 = 'scale(1.5)';
 
@@ -113,7 +113,7 @@ export class PopupComponent {
    * @return          Элемент, на который следует перевести фокус
    */
   private getNextElement(
-      element: any, 
+      element: any,
       backward: boolean = false,
       parent: any = null,
       found: boolean = false
