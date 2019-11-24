@@ -200,6 +200,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   @Output()
   customCellEvent: EventEmitter<any> = new EventEmitter<any>();
 
+  @Output()
+  menuAction: EventEmitter<any> = new EventEmitter<any>();
+
   @ViewChild('menuStarter') menuStarter: MenuStarterComponent;
   @ViewChild('filterPopup') filterPopup: FilterPopupComponent; // Popup div with filter options
 
@@ -902,13 +905,18 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
     if (action === MenuAction.SORT_ASC) {
       this.sort([new SortInfo(col.fieldName, SortType.ASC)]);
+      return;
     }
     if (action === MenuAction.SORT_DESC) {
       this.sort([new SortInfo(col.fieldName, SortType.DESC)]);
+      return;
     }
     if (action === MenuAction.HIDE) {
       this.state.hideColumn(col);
+      return;
     }
+
+    this.menuAction.emit(e);
   }
 
   ngOnInit() {
