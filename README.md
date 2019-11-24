@@ -15,7 +15,7 @@ See [Live Demo](https://truedirective.com/demo) and example on the [StackBlitz](
 
 Documentation is available on the [truedirective.com](https://truedirective.com/docs).
 
-![Screenshot](https://truedirective.com/assets/test-grid4.gif)
+![Screenshot](https://truedirective.com/assets/true-screen-6.png)
 
 ## Main features
 

@@ -134,7 +134,6 @@
 - Date editor rendering in Safari (iOS)
 - Select editor rendering in Safari (iOS)
 
-
 ## [1.3.3] - 2019-11-15
 
 ### Added
@@ -147,3 +146,12 @@
 ### Added
 
 - CheckedChanged event.
+
+## [1.3.5] - 2019-11-24
+
+### added
+
+- I18n: header text translation.
+- Selection and SelectedData getters in GridComponent class.
+- Copying to clipboard.
+- Exporting to CSV.
