@@ -10,12 +10,13 @@ import { Subject } from 'rxjs';
 import { GridSelection } from './grid-selection.class';
 import { InternationalizationService } from './internationalization/internationalization.service';
 
-import { GridState } from '@true-directive/base';
+import { GridState, GridExporter } from '@true-directive/base';
 import { Column } from '@true-directive/base';
 import { CellPosition } from '@true-directive/base';
 import { DataQuery } from '@true-directive/base';
 import { CheckedChangedEvent, ValueChangedEvent, FilterShowEvent } from '@true-directive/base';
 import { UIAction } from '@true-directive/base';
+import { DOMUtils } from './common/dom-utils.class';
 
 @Injectable()
 export class GridStateService extends GridState implements OnDestroy {
@@ -193,6 +194,15 @@ export class GridStateService extends GridState implements OnDestroy {
     });
 
     return subject;
+  }
+
+  public copySelectionToClipboard(withHeaders: boolean) {
+    DOMUtils.copyToClipboard(this.getSelectedData(this.selection).toString(withHeaders, '\t')
+    );
+  }
+
+  public exportToCSV(fileName: string, columnSeparator: string = ',') { 
+    DOMUtils.downloadCSV(fileName, this.dataToExport().toString(true, columnSeparator, true));
   }
 
   ngOnDestroy() {
