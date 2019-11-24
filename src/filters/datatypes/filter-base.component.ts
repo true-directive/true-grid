@@ -42,7 +42,7 @@ export abstract class FilterBaseComponent implements IFilter {
     if (this._dialog === null) {
       this._dialog = DialogInfo
         .new()
-        .header(this.filter.caption)
+        .header(this.intl.translate(this.filter.caption))
         .button('set', this.intl.translate('SET'), 'primary')
         .button('reset', this.intl.translate('Reset'), 'primary outline', !this.filter.active);
     }
