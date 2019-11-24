@@ -15,7 +15,7 @@ import { ColumnBand } from '@true-directive/base';
   <div class="true-header-band__caption" [style.min-height.px]="state.settings.rowHeight"
     (mousedown)="bandMouseDown($event)">
     <div class="true-header-band__txt">
-      {{band.caption}}
+      {{band.caption | trueTranslate}}
     </div>
   </div>
   `,

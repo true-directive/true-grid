@@ -15,7 +15,7 @@
   <div *ngIf="!column.isCheckbox"
        [class.true-header-cell__txt_nowrap]="!state.settings.headerWordWrap"
        class="true-header-cell__txt">
-    {{column.caption}}
+    {{column.caption | trueTranslate}}
   </div>
 
   <div #btn *ngIf="!column.isCheckbox && state.settings.allowFilter && (column.allowFilter || isFiltered())"
