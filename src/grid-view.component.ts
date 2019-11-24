@@ -851,7 +851,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   }
 
   protected showFilter(e: any) {
-    this.menuStarter.finish();
+    if (this.menuStarter) {
+      this.menuStarter.finish();
+    }
     let l = e.target.tagName === 'SPAN' ? e.target.parentElement : e.target;
 
     if (this.filterPopup.visible) {
