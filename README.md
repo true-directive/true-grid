@@ -74,13 +74,13 @@ Icons are used for some interface elements of the grid. They should be imported 
 To define your grid's appearance use one of the preinstalled themes also importing it:
 
 ``` css
-@import "@true-directive/grid/themes/compiled/theme-light.scss";
+@import "@true-directive/grid/themes/compiled/theme-light.css";
 ```
 
 Or
 
 ``` css
-@import "@true-directive/grid/themes/compiled/theme-dark.scss";
+@import "@true-directive/grid/themes/compiled/theme-dark.css";
 ```
 
 > Theme contains styles for the grid and used controls (inputs, buttons). You can import only styles of the grid without controls' styles so that interface elements correspond to your project styles. For further information see in [Features / Themes](https://truedirective.com/docs/themes).
@@ -102,7 +102,7 @@ Edit *app.component.ts*:
 
 
 ``` ts
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'; 
 
 // Import necessary classes
 import * as TD from '@true-directive/grid';
