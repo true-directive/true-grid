@@ -155,3 +155,9 @@
 - Selection and SelectedData getters in GridComponent class.
 - Copying to clipboard.
 - Exporting to CSV.
+
+## [1.3.6] - 2019-11-25
+
+### fixed
+
+- README misprints (compiled css file names).
