@@ -149,7 +149,7 @@
 
 ## [1.3.5] - 2019-11-24
 
-### added
+### Added
 
 - I18n: header text translation.
 - Selection and SelectedData getters in GridComponent class.
@@ -158,6 +158,6 @@
 
 ## [1.3.6] - 2019-11-25
 
-### fixed
+### Fixed
 
 - README misprints (compiled css file names).
