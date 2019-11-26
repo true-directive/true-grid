@@ -157,3 +157,15 @@
 ### Fixed
 
 - README misprints (compiled css file names).
+
+## [1.3.7] - 2019-11-26
+
+### Added
+
+- GridViewComponet.getAppearanceClass() overridable method.
+
+## [1.3.8] - 2019-11-26
+
+### Fixed
+
+- Updating appearance after changing grid settings.
