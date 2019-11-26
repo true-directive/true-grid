@@ -766,8 +766,8 @@ export class GridComponent extends GridViewComponent {
     this.state.toggleCheckColumn(col);
   }
 
-  public setAppearance(appearanceClass: string) {
-    super.setAppearance(appearanceClass);
+  public setAppearance() {
+    super.setAppearance();
     this.dragItem.nativeElement.classList.add(this.state.sta.dragItemClass);
   }
 
