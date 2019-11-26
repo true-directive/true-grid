@@ -19,12 +19,13 @@ Documentation is available on the [truedirective.com](https://truedirective.com/
 
 ## Main features
 
-- Two dimensional scrolling.
+- Two dimensional virtual scrolling.
 - Data [sorting](https://truedirective.com/docs/data-sorting) and [filtering](https://truedirective.com/docs/data-filtering).
 - Keyboard interaction.
 - [Selection](https://truedirective.com/docs/selection) of data ranges.
 - Data autoscrolling on navigation and selection.
 - [Data summaries](https://truedirective.com/docs/data-summaries).
+- Inline editing.
 - Internationalization.
 
 **TrueDirective Grid** package contains all necessary classes for [formatted](https://truedirective.com/docs/formatting-values) displaying and editing of dates and numbers. Multiline cells will be displayed quickly and flawlessly due to table-based html layout.
@@ -102,7 +103,7 @@ Edit *app.component.ts*:
 
 
 ``` ts
-import { Component } from '@angular/core'; 
+import { Component } from '@angular/core';
 
 // Import necessary classes
 import * as TD from '@true-directive/grid';
