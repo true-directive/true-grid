@@ -881,7 +881,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this.scroller.focus();
   }
 
-  protected getAppearanceClass(): string {
+  protected get appearanceClass(): string {
     return this.state.sta.class;
   }
 
@@ -889,7 +889,9 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * Установка класса внешнего вида
    * @param  appearanceClass Класс, который будет применен к компоненту
    */
-  public setAppearance(appearanceClass: string) {
+  public setAppearance() {
+
+    const appearanceClass = this.appearanceClass;
 
     if (appearanceClass === this._currentAppearance) {
       // Без изменений
@@ -933,7 +935,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     }
 
     // Grid appearance
-    this.setAppearance(this.getAppearanceClass());
+    this.setAppearance();
 
     if (this.state.iOS || this.state.android) {
       this.elementRef.nativeElement.classList.add('true-fix-touch');
@@ -1005,7 +1007,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     const aChanges = this._appearanceDiffer.diff(this.state.settings.appearance);
     if (sChanges || aChanges) {
       if (this._viewInitialized) {
-        this.setAppearance(this.state.settings.appearance.class);
+        this.setAppearance();
         if (!this.checkSize()) {
           this.updateView();
         }
