@@ -169,3 +169,9 @@
 ### Fixed
 
 - Updating appearance after changing grid settings.
+
+## [1.3.9] - 2019-11-29
+
+### Added
+
+- Reexport classes from the @true-directive/base.
