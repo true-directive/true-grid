@@ -346,7 +346,7 @@ Result:
 
 ### 7. Providing Observable object as data source and settings of the grid's height.
 
-Let's create file *heroe.model.ts* in folder */src/app* of the project:
+Let's create file *hero.model.ts* in folder */src/app* of the project:
 
 ``` ts
 export class HeroModel {
