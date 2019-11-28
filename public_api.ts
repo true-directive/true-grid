@@ -8,12 +8,12 @@ export { ColumnType, DetectionMode, GridPart, SelectionMode,
     Filter, FilterOperator, ValueChangedEvent, CheckedChangedEvent,
     CellPosition, CellRange } from '@true-directive/base';
 
-export { Column } from '@true-directive/base';
-export { Summary, SummaryType } from '@true-directive/base';
+export { Column, ColumnBand } from '@true-directive/base';
+export { Summary, SummaryType, UIAction, UIActionType } from '@true-directive/base';
 export { Locale } from '@true-directive/base';
-export { Keys, Utils } from '@true-directive/base';
+export { Keys, Utils, Dates } from '@true-directive/base';
 
-export { GridSettings } from '@true-directive/base';
+export { GridSettings, GridState, GridLayout } from '@true-directive/base';
 export { MenuAction } from '@true-directive/base';
 
 export { InternationalizationService } from './src/internationalization/internationalization.service';
