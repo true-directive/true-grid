@@ -257,15 +257,15 @@ export class GridComponent extends GridViewComponent {
    * Key event handler
    * @param  keyEvent Key event parameters
    */
-  public processKey(keyEvent: any) {
+  public processKey(e: any) {
 
-    this.rowKeyDown.emit(keyEvent);
+    this.rowKeyDown.emit(e);
 
-    if (keyEvent.defaultPrevented) {
+    if (e.defaultPrevented) {
       return;
     }
 
-    const keyCode: number = keyEvent.keyCode;
+    const keyCode: number = e.keyCode;
 
     if (keyCode === Keys.SPACE && this.state.focusedRow) {
       let f = this.state.firstCheckableField();
@@ -306,7 +306,9 @@ export class GridComponent extends GridViewComponent {
         // 6. Теперь мы можем точно рассчитать емкость предыдущей страницы
         const newPageCapacity = this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows);
         // 7. Handle key
-        this.state.processKey(newPageCapacity, keyEvent);
+        if (this.state.processKey(newPageCapacity, e)) {
+          e.stopPropagation();
+        }
         // 8. Done
         this._paging = false;
       }, 50);
@@ -315,7 +317,7 @@ export class GridComponent extends GridViewComponent {
     }
     // Остальное намного проще
     let pageCapacity = this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows);
-    return this.state.processKey(pageCapacity, keyEvent);
+    return this.state.processKey(pageCapacity, e);
   }
 
   public dataKeyDown(e: any) {
@@ -821,7 +823,7 @@ export class GridComponent extends GridViewComponent {
       // Выключение редактирования
       this.state.onStopEditing.pipe(takeUntil(this.destroy$)).subscribe(returnFocus => {
         this.detectChanges();
-        if (returnFocus) {
+        if (returnFocus && this.state.settings.autoFocusAfterEditor) {
           this.focus();
         }
       });
