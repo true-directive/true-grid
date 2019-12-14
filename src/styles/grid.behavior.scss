@@ -65,7 +65,7 @@
 }
 
 // Buttton in header and footer
-/deep/ .true-grid-btn {
+::ng-deep .true-grid-btn {
   cursor: pointer;
 
   align-self: stretch;
@@ -81,14 +81,14 @@
 }
 
 // Классы выравнивания контента
-/deep/ .true-align-right {
+::ng-deep .true-align-right {
   text-align: right;
 }
 
-/deep/ .true-align-center {
+::ng-deep .true-align-center {
   text-align: center;
 }
 
-/deep/ .true-align-left {
+::ng-deep .true-align-left {
   text-align: left !important;
 }

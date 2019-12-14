@@ -1,5 +1,5 @@
 /*
-/deep/ .true-close, .true-bool {
+::ng-deep .true-close, .true-bool {
   display: inline-block;
   width: 1.2em;
   height: 1.2em;
@@ -10,11 +10,11 @@
   background-position-y: center;
 }
 
-/deep/ .true-bool:not(.checked) {
+::ng-deep .true-bool:not(.checked) {
   opacity: 0.4;
 }
 
-/deep/ .true-bool:not(.checked), /deep/ .true-close {
+::ng-deep .true-bool:not(.checked), ::ng-deep .true-close {
   background-size: 100%;
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmci
   IHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIgogIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0Jve
@@ -51,7 +51,7 @@
 }
 
 // ---------------------------------------------------------------------------
-/deep/ .true-cb {
+::ng-deep .true-cb {
   display: inline-block;
   box-sizing: border-box;
   vertical-align: middle;

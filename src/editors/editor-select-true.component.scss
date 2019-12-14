@@ -6,11 +6,11 @@
 
   width: 100%;
 
-  /deep/ .true-select__input {
+  >>> .true-select__input {
     height: 100%;
   }
 
-  /deep/ input {
+  >>> input {
     border: 0;
   }
 }

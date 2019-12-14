@@ -25,7 +25,7 @@ td:not(.true-column-resizable) + td.true-column-resizable {
 
 // Если колонку нельзя растягивать, то  отступы правее кнопки убираем
 // Только если показана кнопка фильтра/меню
-/deep/ .true-grid-header td:not(.true-column-resizable):not(.true-column-nobtn):not(.true-header-cell__checkbox) {
+::ng-deep .true-grid-header td:not(.true-column-resizable):not(.true-column-nobtn):not(.true-header-cell__checkbox) {
   padding-right: 0 !important;
   .true-header-cell {
     padding-right: 0 !important;
