@@ -494,7 +494,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       const dh = this.getDh();
 
       // Изменение значения. Сохраняем измененное.
-      const s_change = this._editorRef.instance.change.subscribe((v: any) => {
+      const s_change = this._editorRef.instance.change.subscribe((v: any) => { 
         this.state.editorValue = v;
       });
 
@@ -566,9 +566,12 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         }
       });
 
+      if (col.classField !== '' && rowData[col.classField]) {
+        this._renderer.addClass(cell.element, rowData[col.classField]);
+      }
+
       cell.rendered = true;
       cell.fieldName = col.fieldName;
-      // cell.value = v;
 
       const tdEl = cell.element;
 
