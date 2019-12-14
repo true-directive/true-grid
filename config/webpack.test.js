@@ -56,7 +56,7 @@ module.exports = {
             },
             {
                 test: /(\.css|\.scss|\.sass)$/,
-                use: ['to-string-loader', 'style-loader', 'css-loader', 'sass-loader'],
+                use: ['to-string-loader', /*'style-loader',*/ 'css-loader', 'sass-loader'],
                 exclude: [helpers.root('src/index.html')]
             },
             {

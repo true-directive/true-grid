@@ -175,3 +175,10 @@
 ### Added
 
 - Reexport classes from the @true-directive/base.
+
+## [1.3.10] - 2019-12-14
+
+### Added
+
+- Setting to prevent autofocus after cell editing.
+- Column.ClassField property.

@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "importHelpers": false,
     "inlineSourceMap": true,
-    "sourceMap": false, 
+    "sourceMap": false,
     "types": [
       "hammerjs",
       "jasmine",

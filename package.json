@@ -1,7 +1,7 @@
 {
   "name": "@true-directive/grid",
   "description": "Fast and fully functional good-looking data grid for Angular.",
-  "version": "1.3.9",
+  "version": "1.3.10",
   "scripts": {
     "test": "karma start",
     "test-ci": "karma start --singleRun --browsers ChromeHeadless",
@@ -41,10 +41,9 @@
   "typings": "./true-directive-grid.d.ts",
   "homepage": "https://truedirective.com/",
   "dependencies": {
-    "@true-directive/base": "1.2.10"
+    "@true-directive/base": "1.2.11"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.13.0",
     "@angular/animations": "~7.2.15",
     "@angular/common": "~7.2.15",
     "@angular/compiler": "~7.2.15",
@@ -58,6 +57,7 @@
     "angular-router-loader": "^0.8.5",
     "angular2-template-loader": "^0.6.2",
     "awesome-typescript-loader": "^5.2.1",
+    "core-js": "3.1.3",
     "css-loader": "^3.2.0",
     "file-loader": "^4.2.0",
     "hammerjs": "^2.0.8",
