@@ -32,7 +32,9 @@
     "data summaries",
     "inline editing",
     "virtual scrolling",
-    "formatted input"
+    "formatted input",
+    "lazy loading",
+    "infinite scroll"
   ],
   "author": "Aleksey Melnikov <m_alx@list.ru>",
   "license": "MIT",

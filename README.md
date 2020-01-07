@@ -26,7 +26,8 @@ Documentation is available on the [truedirective.com](https://truedirective.com/
 - Data autoscrolling on navigation and selection.
 - [Data summaries](https://truedirective.com/docs/data-summaries).
 - Inline editing.
-- Internationalization.
+- [Internationalization](https://truedirective.com/docs/internationalization).
+- [Data lazy loading](https://truedirective.com/docs/fragmentary).
 
 **TrueDirective Grid** package contains all necessary classes for [formatted](https://truedirective.com/docs/formatting-values) displaying and editing of dates and numbers. Multiline cells will be displayed quickly and flawlessly due to table-based html layout.
 
