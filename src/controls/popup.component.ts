@@ -81,7 +81,6 @@ export class PopupComponent {
   @Input('keepOnTargetClick')
   keepOnTargetClick = true;
 
-
   private _x = -1;
   private _y = -1;
   private _direction: string;

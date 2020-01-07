@@ -6,7 +6,7 @@
 export { ColumnType, DetectionMode, GridPart, SelectionMode,
     RenderMode, EditorShowMode, DataQuery, SortInfo, SortType,
     Filter, FilterOperator, ValueChangedEvent, CheckedChangedEvent,
-    CellPosition, CellRange } from '@true-directive/base';
+    LazyLoadingMode, CellPosition, CellRange } from '@true-directive/base';
 
 export { Column, ColumnBand } from '@true-directive/base';
 export { Summary, SummaryType, UIAction, UIActionType } from '@true-directive/base';

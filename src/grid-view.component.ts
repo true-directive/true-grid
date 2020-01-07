@@ -21,7 +21,7 @@ import { takeUntil, take } from 'rxjs/operators';
 import { GridPart, RenderMode, DetectionMode, ColumnType } from '@true-directive/base';
 import { UIActionType, UIAction } from '@true-directive/base';
 import { Column, ColumnBand, CellPosition, GridSettings, RowLayout, DataQuery,
-         SortInfo, SortType, Filter, Selection, MenuAction } from '@true-directive/base';
+         SortInfo, SortType, Filter, Selection, MenuAction, LazyLoadingMode } from '@true-directive/base';
 import { PagePipe } from '@true-directive/base';
 import { RowCalculator } from '@true-directive/base';
 
@@ -302,14 +302,20 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     if (this._prevOffset !== this.state.pageInfo.offset ||
         this._prevLimit !== this.state.pageInfo.limit ||
         this.need_recalc_page) {
+
       // Page refresh
+      this.state.checkLazy(this.state.pageInfo.offset, this.state.pageInfo.limit);
       const toRender: any[] = new PagePipe().transform(this.state.dataSource.resultRows, this.state.pageInfo);
       this._prevOffset = this.state.pageInfo.offset;
       this._prevLimit = this.state.pageInfo.limit;
       this._currentRendered = toRender;
       this.need_recalc_page = false;
+
       // Important!
       this.state.displayedStartIndex = this.state.pageInfo.offset;
+
+      // Если мы.. Доскроллили до предела...
+      // Надо бы запросить еще данные.
     }
 
     return this._currentRendered;
@@ -344,8 +350,13 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
       this.saveRowHeights();
     }
 
+    var rc = this.state.dataSource.resultRowCount;
+    if (this.state.st.lazyLoading === LazyLoadingMode.FRAGMENTARY) {
+      rc = this.state.dataSource.totalRowCount;
+    }
+
     const pageChanged = this.RC.updateRenderInfo(
-      this.state.dataSource.resultRowCount,
+      rc,
       this.scroller.scrollTop,
       this.scroller.viewPortHeight,
       overwork);
@@ -419,7 +430,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
     // Through a timeout, so that when the filter is applied, the button does
     // not have time to turn off before it is shown with an accent color
-    setTimeout(() => this.hideHeaderBtns());
+    // setTimeout(() => this.hideHeaderBtns());
 
     if (async) {
       this.startProcess.emit('DataUpdate');
@@ -443,11 +454,13 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * @param  query The request in response to which the data received.
    * @param  data  Data that received in response to a given request.
    */
-  public fetchData(query: DataQuery, data: any[]) {
-    this.state.fetchData(query, data);
+  public fetchData(query: DataQuery, data: any[], totalRowCount: number = null) {
+    this.state.fetchData(query, data, totalRowCount);
   }
 
   protected renderData() {
+
+    setTimeout(() => this.hideHeaderBtns());
 
     this.dataUpdating = false;
     this.elementRef.nativeElement.classList.remove('processing');
@@ -528,7 +541,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this._lastScroll.time = dt;
 
     const ms = dt - this._lastUpdateTime;
-    let dms  = this.state.IE ? 40: 10;
+    let dms  = 0; //this.state.IE ? 40: 10;
 
     if (ms < dms && !this.state.safari) {
       // Delaying
@@ -682,6 +695,10 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
       }
       return false
     });
+  }
+
+  public scrollToTop() {
+    this.scroller.scrollTo(-1, 0);
   }
 
   protected toggleClass(v: boolean, c: string) {
@@ -1054,13 +1071,16 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     });
 
     // Данные получены - отображаем
-    this.state.onDataFetch.pipe(takeUntil(this.destroy$)).subscribe(e => {
+    this.state.onDataFetch.pipe(takeUntil(this.destroy$)).subscribe(q => {
       if (this._viewInitialized) {
+        if (q.resetData) {
+          this.scrollToTop();
+        }
         this.renderData();
       }
     });
 
-    // Изменена структура
+    // Изменены фильтры или сортировка или набор колонок или группировка
     this.state.onQueryChanged.pipe(takeUntil(this.destroy$)).subscribe(q => {
       if (this._initialized) {
         this.updateData();

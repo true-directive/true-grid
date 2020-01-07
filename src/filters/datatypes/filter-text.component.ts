@@ -135,7 +135,7 @@ export class FilterTextComponent extends FilterBaseComponent {
         return false;
       }
       checkedItems.forEach(i => this.filter.items.push(i.value));
-    } else
+    } else {
       // Содержит/не содержит - нужно внести не пустую строку
       if (this.filter.operator === FilterOperator.CONTAINS ||
           this.filter.operator === FilterOperator.NOT_CONTAINS) {
@@ -144,6 +144,7 @@ export class FilterTextComponent extends FilterBaseComponent {
           return false;
         }
       }
+    }
 
     return true;
   }

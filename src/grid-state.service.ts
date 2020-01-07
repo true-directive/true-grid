@@ -27,8 +27,8 @@ export class GridStateService extends GridState implements OnDestroy {
   public readonly onDataQuery: Observable<DataQuery> = this._onDataQuery.asObservable();
 
   // Получение данных от родителя
-  protected _onDataFetch: Subject<void> = new Subject();
-  public readonly onDataFetch: Observable<void> = this._onDataFetch.asObservable();
+  protected _onDataFetch: Subject<DataQuery> = new Subject();
+  public readonly onDataFetch: Observable<DataQuery> = this._onDataFetch.asObservable();
 
   // Изменения в списке колонок
   protected _onColumnsChanged: Subject<void> = new Subject();
@@ -111,7 +111,7 @@ export class GridStateService extends GridState implements OnDestroy {
       query.subject.next();
       query.subject.complete();
     }
-    this._onDataFetch.next();
+    this._onDataFetch.next(query);
   }
 
   protected columnsChangedEvent() {
@@ -201,7 +201,7 @@ export class GridStateService extends GridState implements OnDestroy {
     );
   }
 
-  public exportToCSV(fileName: string, columnSeparator: string = ',') { 
+  public exportToCSV(fileName: string, columnSeparator: string = ',') {
     DOMUtils.downloadCSV(fileName, this.dataToExport().toString(true, columnSeparator, true));
   }
 

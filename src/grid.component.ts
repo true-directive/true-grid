@@ -304,7 +304,8 @@ export class GridComponent extends GridViewComponent {
       this._paging = true;
       setTimeout(() => {
         // 6. Теперь мы можем точно рассчитать емкость предыдущей страницы
-        const newPageCapacity = this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows);
+        const newPageCapacity =
+          this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows.length);
         // 7. Handle key
         if (this.state.processKey(newPageCapacity, e)) {
           e.stopPropagation();
@@ -316,7 +317,7 @@ export class GridComponent extends GridViewComponent {
       return true;
     }
     // Остальное намного проще
-    let pageCapacity = this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows);
+    let pageCapacity = this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows.length);
     return this.state.processKey(pageCapacity, e);
   }
 

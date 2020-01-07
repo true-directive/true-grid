@@ -10,14 +10,10 @@ import { Directive, ElementRef, Input, QueryList, EventEmitter, Output,
     SimpleChange } from '@angular/core';
 
 // Base
-import { GridLayout } from '@true-directive/base';
-import { GridLayoutSelection } from '@true-directive/base';
-import { ColumnType, RenderMode } from '@true-directive/base';
-import { Column } from '@true-directive/base';
-import { CellPosition } from '@true-directive/base';
-import { CellHighlighter } from '@true-directive/base';
-import { Utils } from '@true-directive/base';
-import { Strings } from '@true-directive/base';
+import { GridLayout, GridLayoutSelection } from '@true-directive/base';
+import { ColumnType, RenderMode, Column } from '@true-directive/base';
+import { CellPosition, CellHighlighter } from '@true-directive/base';
+import { Utils, Strings } from '@true-directive/base';
 
 // Classes
 import { RowCell } from './row-cell.class';
@@ -387,6 +383,17 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       }
     }
 
+    protected renderStub(rowData: any, cell: RowCell, col: Column) {
+      if (col.isBoolean) {
+        return;
+      }
+      const divEl = this._renderer.createElement('span');
+      const w = 20 + Math.random() * 40;
+      divEl.style.width = w + '%';
+      this._renderer.appendChild(cell.element, divEl);
+      this._renderer.addClass(divEl, 'true-stub');
+    }
+
     // Чекбокс создается прямо в td. Для того, чтобы его ширина не зависела
     // от наличия бордеров и ширины ячейки, было бы неплохо создать
     // промежуточный div с display: flex. Но вызов еще одного createElement
@@ -405,7 +412,6 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       } else {
         const classes = this.sta.booleanClass.trim().split(' ');
         classes.forEach(s => this._renderer.addClass(divEl, s));
-
         this._renderer.appendChild(cell.element, divEl);
       }
       cell.cbElement = divEl;
@@ -494,7 +500,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       const dh = this.getDh();
 
       // Изменение значения. Сохраняем измененное.
-      const s_change = this._editorRef.instance.change.subscribe((v: any) => { 
+      const s_change = this._editorRef.instance.change.subscribe((v: any) => {
         this.state.editorValue = v;
       });
 
@@ -572,6 +578,11 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
 
       cell.rendered = true;
       cell.fieldName = col.fieldName;
+
+      if (rowData.__ax === 'empty') {
+        this.renderStub(rowData, cell, col);
+        return cell;
+      }
 
       const tdEl = cell.element;
 
@@ -672,7 +683,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     protected createCell(col: Column, span: number = 1, isFirst: boolean = false, xPos: number = -1, render: boolean = true): RowCell {
 
       const rowData = this.rowData;
-      const v = rowData[col.fieldName];
+      const v = rowData !== null ? rowData[col.fieldName] : null;
       const cell = new RowCell(col.fieldName, v, null);
 
       cell.element = this.createTd(span);
@@ -1068,7 +1079,8 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
       while (i < this.cells.length) {
         const cell = this.cells[i];
         const rowData = this.rowData;
-        if (rowData[cell.fieldName] !== cell.value) {
+        const v = rowData !== null ? rowData[cell.fieldName] : null;
+        if (v !== cell.value) {
 
           if (cell.cbElement) {
             cell.setChecked(this.row[cell.fieldName]);

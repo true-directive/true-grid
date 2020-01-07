@@ -241,8 +241,21 @@
   padding-bottom: 0;
 }
 
+.true-stub {
+  background-color: #eee;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.true-stub:before {
+    content: "\00a0";
+}
+
 // -- DATA ---------------------------------------------------------------------
 .true-grid-appearance {
+
   // Чекбоксы - выравнивание по центру и никаких скроллбаров
   .true-cell-checkbox, .true-cell-boolean {
     text-align: center;

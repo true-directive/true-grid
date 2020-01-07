@@ -13,12 +13,12 @@
       class="true-link"
       tabindex="1"
       [class.true-link_disabled]="selectMode"
-      (click)="showOM($event)">{{filter.operator.name | trueTranslate}}<span [class.true-turned]="operatorMenu.visible"
+      (click)="showOM($event)">{{filter.operator | trueTranslate}}<span [class.true-turned]="operatorMenu.visible"
                                                               class="true-turnable true-icon-angle-down"></span>
     </a>
     <true-menu #operatorMenu>
       <true-menu-item *ngFor="let o of operators" (itemClick)="operator(o)">
-        <span [class.true-icon-ok]="filter.operator === o"></span>{{o.name | trueTranslate}}
+        <span [class.true-icon-ok]="filter.operator === o"></span>{{o | trueTranslate}}
       </true-menu-item>
     </true-menu>
     <a href=""

@@ -6,11 +6,11 @@
 
   width: 100%;
 
-  >>> .true-select__input {
+  ::ng-deep .true-select__input {
     height: 100%;
   }
 
-  >>> input {
+  ::ng-deep input {
     border: 0;
   }
 }
