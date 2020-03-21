@@ -390,17 +390,17 @@ export class GridHeaderComponent extends BaseComponent {
 
     this.uiAction.initialized = true;
     this.uiAction.move(x, y);
-    this.state.drag(this.uiAction);
+    this.state.dragDrop.drag(this.uiAction);
   }
 
   proceedReordering(xx:number, yy:number) {
     this.uiAction.move(xx, yy);
-    this.state.drag(this.uiAction);
+    this.state.dragDrop.drag(this.uiAction);
   }
 
   stopReordering() {
     setTimeout(()=> {
-      this.state.drop(this.uiAction);
+      this.state.dragDrop.drop(this.uiAction);
       this.uiAction = null;
     });
   }

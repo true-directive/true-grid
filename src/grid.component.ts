@@ -3,30 +3,24 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { Component, Input, Output, ViewChild,
-         ElementRef, ChangeDetectorRef,  KeyValueDiffer,
+import { Component, Output, ViewChild, ElementRef, ChangeDetectorRef,
          KeyValueDiffers, EventEmitter, Inject
        } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { takeUntil, take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 
-import { Column, ColumnBand, CellPosition, GridSettings,
-         GridPart, ColumnType, Selection,
+import { Column, ColumnBand, CellPosition, GridPart, Selection,
          UIActionType, UIAction, Keys, RowPosition,
          RowLayout } from '@true-directive/base';
 
-import { ScrollerComponent } from './scroller.component';
+import { RowDragEvent, RowClickEvent, ContextMenuEvent, CheckedChangedEvent,
+         CellClickEvent } from '@true-directive/base';
+
 import { GridViewComponent } from './grid-view.component';
-import { GridHeaderComponent } from './grid-header.component';
-
 import { RowDirective } from './row.directive';
-
 import { GridStateService } from './grid-state.service';
 import { InternationalizationService } from './internationalization/internationalization.service';
 
-import { RowDragEvent, RowClickEvent, ContextMenuEvent, CheckedChangedEvent,
-         CellClickEvent } from '@true-directive/base';
 
 @Component({
   selector: 'true-grid',
@@ -35,7 +29,7 @@ import { RowDragEvent, RowClickEvent, ContextMenuEvent, CheckedChangedEvent,
   styleUrls: [
               // Эти стили определяют разметку и поведение компонента.
               './styles/grid.behavior.scss'
-            ]
+             ]
 })
 export class GridComponent extends GridViewComponent {
 
@@ -111,7 +105,7 @@ export class GridComponent extends GridViewComponent {
     ctrlKey: boolean = false, byTouch: boolean = false, button: number = 0) {
     if (cp && cp.row) {
       this.scroller.prepareAutoScroll();
-      const uiType = this.state.startAction(cp, ctrlKey, byTouch, button);
+      const uiType = this.state.ui.startAction(cp, ctrlKey, byTouch, button);
       if (uiType) {
         this.uiAction = new UIAction(uiType, null, eX, eY);
         this.addDocumentMouseListeners();
@@ -168,12 +162,12 @@ export class GridComponent extends GridViewComponent {
           rr.equals(this._cellTouched) && !this.touchScroll
         ) {
         // Should we toggle a checkbox in this cell?
-        if (this.state.settings.checkByCellClick && this.state.canToggleCheck(rr)) {
+        if (this.state.settings.checkByCellClick && this.state.check.canToggleCheck(rr)) {
           // Yes, we should.
-          this.state.toggleCheck(rr.row, rr.fieldName);
+          this.state.ui.toggleCheck(rr.row, rr.fieldName);
         } else {
           // Something will be selected.
-          if (!rr.equals(this.state.focusedCell)) {
+          if (!rr.equals(this.state.selection.focusedCell)) {
             // Если клик не на выделенной ячейке, то начинаем выделение.
             // Начало и окончание выделения вынесено сюда, т.к. мы не можем
             // сразу понять, действие пользователя - это прокрутка или
@@ -182,13 +176,13 @@ export class GridComponent extends GridViewComponent {
             this.startAction(rr, touches[0].clientX, touches[0].clientY, GridPart.CENTER, false, true);
           } else {
             // Редактирование и фокус на редакторе
-            this.state.startAction(this._cellTouched, false, true);
+            this.state.ui.startAction(this._cellTouched, false, true);
             e.stopPropagation();
             return;
           }
         }
         // End selecting anyway
-        this.state.endSelect(rr, true);
+        this.state.ui.endSelect(rr, true);
       }
     }
     e.stopPropagation();
@@ -209,7 +203,7 @@ export class GridComponent extends GridViewComponent {
 
     if (!e.defaultPrevented) {
       const cp: CellPosition = this.cellByXY(e.clientX, e.clientY);
-      if (this.state.mouseDown(cp, false, e.button)) {
+      if (this.state.ui.mouseDown(cp, false, e.button)) {
         // This event has been handled.
         return;
       }
@@ -218,7 +212,7 @@ export class GridComponent extends GridViewComponent {
   }
 
   protected doRowClick(e: any) {
-    if (this.state.click(this.cellByXY(e.clientX, e.clientY))) {
+    if (this.state.ui.click(this.cellByXY(e.clientX, e.clientY))) {
       e.stopPropagation();
       e.preventDefault();
     }
@@ -250,7 +244,7 @@ export class GridComponent extends GridViewComponent {
 
   public dataRowDblClick(e: any, r: any) {
     this.rowDblClick.emit(new RowClickEvent(r, e));
-    this.state.dblClick(e, r);
+    this.state.ui.dblClick(e, r);
   }
 
   /**
@@ -267,15 +261,15 @@ export class GridComponent extends GridViewComponent {
 
     const keyCode: number = e.keyCode;
 
-    if (keyCode === Keys.SPACE && this.state.focusedRow) {
-      let f = this.state.firstCheckableField();
+    if (keyCode === Keys.SPACE && this.state.selection.focusedRow) {
+      let f = this.state.check.firstCheckableField();
       if (f !== '') {
-        this.toggleCheckbox({row: this.state.focusedRow, fieldName: f});
+        this.toggleCheckbox({ row: this.state.selection.focusedRow, fieldName: f });
         return true;
       }
     }
 
-    let ri = this.state.dataSource.resultRows.indexOf(this.state.focusedRow);
+    let ri = this.state.dataSource.resultRows.indexOf(this.state.selection.focusedRow);
 
     if (!this.state.st.fixedRowHeight && (keyCode === Keys.PAGE_DOWN || keyCode === Keys.PAGE_UP)) {
       // При переменной высоте строк прокрутить на одну страницу вниз или вверх - большая печаль.
@@ -292,10 +286,11 @@ export class GridComponent extends GridViewComponent {
       // 3. Запас как раз равен максимальному количеству строк, умещающемуся на экране
       if (keyCode === Keys.PAGE_DOWN) {
         overWork.fwd = this.scroller.viewPortHeight / this.RC.currentRH + 1;
-      } else
+      } else {
         if (keyCode === Keys.PAGE_UP) {
           overWork.back = this.scroller.viewPortHeight / this.RC.currentRH + 1;
         }
+      }
 
       // 4. Рендерим страницу с заданной переработкой
       this.updatePage('keydown', true, overWork);
@@ -307,7 +302,7 @@ export class GridComponent extends GridViewComponent {
         const newPageCapacity =
           this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows.length);
         // 7. Handle key
-        if (this.state.processKey(newPageCapacity, e)) {
+        if (this.state.ui.processKey(newPageCapacity, e)) {
           e.stopPropagation();
         }
         // 8. Done
@@ -318,7 +313,7 @@ export class GridComponent extends GridViewComponent {
     }
     // Остальное намного проще
     let pageCapacity = this.RC.pageCapacity(ri, this.scroller.viewPortHeight, this.state.dataSource.resultRows.length);
-    return this.state.processKey(pageCapacity, e);
+    return this.state.ui.processKey(pageCapacity, e);
   }
 
   public dataKeyDown(e: any) {
@@ -329,11 +324,11 @@ export class GridComponent extends GridViewComponent {
   }
 
   public checkAll(fieldName: string) {
-    this.state.setColumnCheck(this.state.columnCollection.columnByFieldName(fieldName), true);
+    this.state.check.setColumnCheck(this.state.columnCollection.columnByFieldName(fieldName), true);
   }
 
   public uncheckAll(fieldName: string) {
-    this.state.setColumnCheck(this.state.columnCollection.columnByFieldName(fieldName), false);
+    this.state.check.setColumnCheck(this.state.columnCollection.columnByFieldName(fieldName), false);
   }
 
   /**
@@ -343,7 +338,7 @@ export class GridComponent extends GridViewComponent {
   private doSelect(e: any) {
     const rr = this.cellByXY(e.clientX, e.clientY);
     if (rr && rr.fieldName !== '') {
-      this.state.proceedToSelect(rr);
+      this.state.ui.proceedToSelect(rr);
     }
 
     this.scroller.checkAutoScrollX(e.clientX);
@@ -418,7 +413,7 @@ export class GridComponent extends GridViewComponent {
 
   private startDragRows() {
     this.uiAction.action = UIActionType.ROW_DRAG;
-    this.state.setDragItem(this.uiAction);
+    this.state.dragDrop.setDragItem(this.uiAction);
     this.setDragPosition(this.uiAction);
     this.detectChanges();
     this.dragInProcess(true);
@@ -583,7 +578,7 @@ export class GridComponent extends GridViewComponent {
     if (this.uiAction.action === UIActionType.SELECT) {
       let rr = this.cellByXY(e.clientX, e.clientY);
       if (rr && rr.fieldName !== '') {
-        this.state.endSelect(rr, false, e.button);
+        this.state.ui.endSelect(rr, false, e.button);
         this.focus();
       }
     }
@@ -675,7 +670,7 @@ export class GridComponent extends GridViewComponent {
 
     this._dragColumn = true;
     this.scroller.prepareAutoScroll();
-    this.state.setDragItem(e);
+    this.state.dragDrop.setDragItem(e);
 
     this.detectChanges('dragColumn');
     this.setDragPosition(e);
@@ -745,7 +740,7 @@ export class GridComponent extends GridViewComponent {
       this.state.fixDrag(e.target);  // Если тащили из панели группировки, то!
     }
 
-    this.state.clearDragItem();
+    this.state.dragDrop.clearDragItem();
     this.dragInProcess(false);
 
     // Почему через 100 миллисекунд? Для того,чтобы плавно затухло
@@ -762,11 +757,11 @@ export class GridComponent extends GridViewComponent {
    * @param  e Параметры события
    */
   public toggleCheckbox(e: any) {
-    this.state.toggleCheck(e.row, e.fieldName, e.value);
+    this.state.ui.toggleCheck(e.row, e.fieldName, e.value);
   }
 
   public toggleCheckColumn(col: Column) {
-    this.state.toggleCheckColumn(col);
+    this.state.ui.toggleCheckColumn(col);
   }
 
   public setAppearance() {
@@ -784,10 +779,10 @@ export class GridComponent extends GridViewComponent {
       super(state, intl, elementRef, changeDetector, keyValueDiffers);
 
       // Строчка ушла после редактирования...
-      this.state.onRowUnfiltered.pipe(takeUntil(this.destroy$)).subscribe(r => {
+      this.state.events.onRowUnfiltered.pipe(takeUntil(this.destroy$)).subscribe(r => {
         setTimeout(() => {
           if (this.state.dataSource.removeResultRow(r)) {
-            this.state.updateSelectionIndices();
+            this.state.layoutsHandler.updateSelectionIndices();
             this.need_recalc_page = true;
             this.updatePage('rowUnfiltered');
           }
@@ -795,34 +790,34 @@ export class GridComponent extends GridViewComponent {
       });
 
       // Изменены колонки
-      this.state.onColumnsChanged.pipe(takeUntil(this.destroy$)).subscribe(v => {
+      this.state.events.onColumnsChanged.pipe(takeUntil(this.destroy$)).subscribe(v => {
         this.RC.clear();
         this.checkSize(true);
       });
 
       // Перетаскивание заголовка колонки
-      this.state.onDrag.pipe(takeUntil(this.destroy$)).subscribe(v => this.dragColumn(v));
+      this.state.events.onDrag.pipe(takeUntil(this.destroy$)).subscribe(v => this.dragColumn(v));
 
       // Drop заголовка колонки
-      this.state.onDrop.pipe(takeUntil(this.destroy$)).subscribe(v => this.dropColumn(v));
+      this.state.events.onDrop.pipe(takeUntil(this.destroy$)).subscribe(v => this.dropColumn(v));
 
       // Изменение выделения
-      this.state.onSelect.pipe(takeUntil(this.destroy$)).subscribe(cellPos => {
+      this.state.events.onSelect.pipe(takeUntil(this.destroy$)).subscribe(cellPos => {
         this.refreshSelection(cellPos);
         this.selectionChanged.emit(this.state.selection);
       });
 
       // Изменение значения
-      this.state.onValueChanged.pipe(takeUntil(this.destroy$)).subscribe(v => this.detectChanges('valueChanged'));
+      this.state.events.onValueChanged.pipe(takeUntil(this.destroy$)).subscribe(v => this.detectChanges('valueChanged'));
 
       // Изменение значения чекбокса
-      this.state.onCheckedChanged.pipe(takeUntil(this.destroy$)).subscribe(e => this.checkedChanged.emit(e));
+      this.state.events.onCheckedChanged.pipe(takeUntil(this.destroy$)).subscribe(e => this.checkedChanged.emit(e));
 
       // Включение редактирования
-      this.state.onStartEditing.pipe(takeUntil(this.destroy$)).subscribe(v => this.detectChanges('startEditing'));
+      this.state.events.onStartEditing.pipe(takeUntil(this.destroy$)).subscribe(v => this.detectChanges('startEditing'));
 
       // Выключение редактирования
-      this.state.onStopEditing.pipe(takeUntil(this.destroy$)).subscribe(returnFocus => {
+      this.state.events.onStopEditing.pipe(takeUntil(this.destroy$)).subscribe(returnFocus => {
         this.detectChanges();
         if (returnFocus && this.state.settings.autoFocusAfterEditor) {
           this.focus();

@@ -3,15 +3,19 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-export { ColumnType, DetectionMode, GridPart, SelectionMode,
+export { ColumnType, DetectionMode, GridPart, SelectionMode, GridLayoutRange,
     RenderMode, EditorShowMode, DataQuery, SortInfo, SortType,
     Filter, FilterOperator, ValueChangedEvent, CheckedChangedEvent,
     LazyLoadingMode, CellPosition, CellRange } from '@true-directive/base';
 
-export { Column, ColumnBand } from '@true-directive/base';
+export { Column, ColumnBand, ColumnCollection } from '@true-directive/base';
 export { Summary, SummaryType, UIAction, UIActionType } from '@true-directive/base';
 export { Locale } from '@true-directive/base';
 export { Keys, Utils, Dates } from '@true-directive/base';
+
+export { AxInject, AxInjectConsumer } from '@true-directive/base';
+export { GridUIHandler, LayoutsHandler } from '@true-directive/base';
+export { SummaryPipe } from '@true-directive/base';
 
 export { GridSettings, GridState, GridLayout } from '@true-directive/base';
 export { MenuAction } from '@true-directive/base';
@@ -19,6 +23,7 @@ export { MenuAction } from '@true-directive/base';
 export { InternationalizationService } from './src/internationalization/internationalization.service';
 export { TranslatePipe } from './src/internationalization/translate.pipe';
 export { GridStateService } from './src/grid-state.service';
+export { GridEvents } from './src/grid-events.class';
 
 export { CheckboxComponent } from './src/controls/checkbox.component';
 export { CheckboxWrapperComponent } from './src/controls/checkbox-wrapper.component';

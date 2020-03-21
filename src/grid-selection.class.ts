@@ -25,4 +25,8 @@ export class GridSelection extends Selection {
   protected focusChangedEvent(cp: CellPosition) {
     this._onFocusChanged.next(cp);
   }
+
+  constructor() {
+    super();
+  }
 }

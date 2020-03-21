@@ -20,4 +20,8 @@ export class InternationalizationService extends Internationalization {
   protected localeChangedEvent(l: Locale) {
     this._onLocaleChanged.next(l);
   }
+
+  constructor() {
+    super();
+  }
 }

@@ -37,9 +37,6 @@ export class GridHeaderCellComponent extends BaseComponent {
   @Output('captionTouchStart')
   captionTouchStart = new EventEmitter<any>();
 
-  //@Output('captionTouchEnd')
-  //captionTouchEnd = new EventEmitter<any>();
-
   @ViewChild('caption')
   caption: any;
 

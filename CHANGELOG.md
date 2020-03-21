@@ -188,3 +188,9 @@
 ### Added
 
 - Lazy loading
+
+## [1.5.0] - 2020-03-22
+
+### Changed
+
+- Handlers autowiring.

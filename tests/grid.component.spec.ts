@@ -237,34 +237,34 @@ describe('Grid', () => {
       container.processKey(Keys.RIGHT);
       container.processKey(Keys.RIGHT);
       container.processKey(Keys.RIGHT);
-      expect(container.grid.state.focusedCell.fieldName).toBe('name');
+      expect(container.grid.state.selection.focusedCell.fieldName).toBe('name');
       container.processKey(Keys.ENTER);
-      const editingCell = container.grid.state.editor;
+      const editingCell = container.grid.state.ui.editor;
       expect(editingCell.fieldName).toBe('name');
-      container.grid.state.stopEditing(editingCell, true, true);
-      expect(container.grid.state.editor).toBeNull();
+      container.grid.state.ui.stopEditing(editingCell, true, true);
+      expect(container.grid.state.ui.editor).toBeNull();
     }));
 
     it('keys', async(() => {
 
       container.processKey(Keys.DOWN);
 
-      expect(container.grid.state.focusedCell.fieldName).toBe('checked');
+      expect(container.grid.state.selection.focusedCell.fieldName).toBe('checked');
 
       container.processKey(Keys.DOWN);
-      expect(container.grid.state.focusedCell.row).toBe(container.data[1]);
+      expect(container.grid.state.selection.focusedCell.row).toBe(container.data[1]);
 
       container.processKey(Keys.PAGE_UP);
-      expect(container.grid.state.focusedCell.row).toBe(container.data[0]);
+      expect(container.grid.state.selection.focusedCell.row).toBe(container.data[0]);
 
       container.processKey(Keys.END);
 
-      expect(container.grid.state.focusedCell.fieldName).toBe('col19');
-      expect(container.grid.state.focusedCell.row).toBe(container.data[0]);
+      expect(container.grid.state.selection.focusedCell.fieldName).toBe('col19');
+      expect(container.grid.state.selection.focusedCell.row).toBe(container.data[0]);
 
       container.processKey(Keys.END, false, true);
 
-      expect(container.grid.state.focusedCell.row).toBe(container.data[99]);
+      expect(container.grid.state.selection.focusedCell.row).toBe(container.data[99]);
 
     }));
 

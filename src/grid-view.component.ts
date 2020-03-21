@@ -4,30 +4,26 @@
  * @license MIT
 */
 /*
-  View only. Missing features:
+  View only. Missed features:
     - Checkboxes.
     - Editing.
     - Selection.
  */
 import { Component, Input, Output, ViewChild, ViewChildren, ContentChildren,
          ElementRef, QueryList, ChangeDetectorRef,  KeyValueDiffer,
-         KeyValueDiffers, EventEmitter, Inject,
-         DoCheck, OnDestroy
+         KeyValueDiffers, EventEmitter, Inject, DoCheck, OnDestroy
        } from '@angular/core';
 
 import { Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil, take } from 'rxjs/operators';
 
 import { GridPart, RenderMode, DetectionMode, ColumnType } from '@true-directive/base';
-import { UIActionType, UIAction } from '@true-directive/base';
-import { Column, ColumnBand, CellPosition, GridSettings, RowLayout, DataQuery,
+import { Column, CellPosition, GridSettings, RowLayout, DataQuery, UIAction,
          SortInfo, SortType, Filter, Selection, MenuAction, LazyLoadingMode } from '@true-directive/base';
-import { PagePipe } from '@true-directive/base';
-import { RowCalculator } from '@true-directive/base';
+import { PagePipe, RowCalculator } from '@true-directive/base';
 
 import { ScrollerComponent } from './scroller.component';
 import { BaseComponent } from './base.component';
-import { GridHeaderComponent } from './grid-header.component';
 
 import { RowDirective } from './row.directive';
 
@@ -47,10 +43,7 @@ import { MenuStarterComponent } from './controls/menu-starter.component';
   selector: 'true-grid-view',
   templateUrl: './grid-view.component.html',
   providers: [{ provide: 'gridState', useClass: GridStateService }],
-  styleUrls: [
-              // These styles define the layout and behavior of the component
-              './styles/grid.behavior.scss'
-            ]
+  styleUrls: ['./styles/grid.behavior.scss']
 })
 export class GridViewComponent extends BaseComponent implements DoCheck, OnDestroy {
 
@@ -304,7 +297,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
         this.need_recalc_page) {
 
       // Page refresh
-      this.state.checkLazy(this.state.pageInfo.offset, this.state.pageInfo.limit);
+      this.state.lazyLoader.query(this.state.pageInfo.offset);
       const toRender: any[] = new PagePipe().transform(this.state.dataSource.resultRows, this.state.pageInfo);
       this._prevOffset = this.state.pageInfo.offset;
       this._prevLimit = this.state.pageInfo.limit;
@@ -340,6 +333,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * @param  overwork     The number of rows that will be rendered outside the viewport
    */
   public updatePage(log: string = '', forceChanges: boolean = false, overwork: any = null) {
+    // Это надо перекинуть в состояние
     if (this.viewPortLeft !== this.scroller.scrollLeft || this.viewPortWidth !==  this.scroller.viewPortWidth) {
       this.viewPortLeft = this.scroller.scrollLeft;
       this.viewPortWidth =  this.scroller.viewPortWidth;
@@ -383,11 +377,11 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   }
 
   public startSelect(cp: CellPosition, add: boolean = false) {
-    this.state.startSelect(cp, add);
+    this.state.ui.startSelect(cp, add);
   }
 
   public proceedToSelect(cp: CellPosition) {
-    this.state.proceedToSelect(cp);
+    this.state.ui.proceedToSelect(cp);
   }
 
   /**
@@ -541,7 +535,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this._lastScroll.time = dt;
 
     const ms = dt - this._lastUpdateTime;
-    let dms  = 0; //this.state.IE ? 40: 10;
+    let dms  = this.state.IE ? 40: 10;
 
     if (ms < dms && !this.state.safari) {
       // Delaying
@@ -619,7 +613,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     const rows = this.displayedRowsByXY(x, y, place);
     const r = this.rowByXY(rows, x, y);
     if (r && r.rowComponent) {
-      return this.state.cellPosition(r.rowComponent.row, r.index, r.rowComponent.cellByXY(x, y));
+      return this.state.ui.cellPosition(r.rowComponent.row, r.index, r.rowComponent.cellByXY(x, y));
     }
     return null;
   }
@@ -639,8 +633,8 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * виртуальный фокус
    */
   public scrollToFocused() {
-    if (this.state.focusedCell) {
-      this.scrollTo(this.state.focusedCell);
+    if (this.state.selection.focusedCell) {
+      this.scrollTo(this.state.selection.focusedCell);
     }
   }
 
@@ -787,7 +781,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     return false;
   }
 
-  // Изменение размера окно
+  // Изменение размера окна
   protected windowResize(e: any) {
     this.checkSize(true);
   }
@@ -816,8 +810,6 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
   /**
    * Data filtering
-   * @param  result [description]
-   * @return        [description]
    */
   public filter(filters: Filter[], update: boolean = true) {
     this.state.filter(filters, update);
@@ -1065,13 +1057,13 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
       });
 
     // Запрос данных у слушателя события
-    this.state.onDataQuery.pipe(takeUntil(this.destroy$)).subscribe(q => {
+    this.state.events.onDataQuery.pipe(takeUntil(this.destroy$)).subscribe(q => {
       this.dataUpdating = true;
       this.dataQuery.emit(q);
     });
 
     // Данные получены - отображаем
-    this.state.onDataFetch.pipe(takeUntil(this.destroy$)).subscribe(q => {
+    this.state.events.onDataFetch.pipe(takeUntil(this.destroy$)).subscribe(q => {
       if (this._viewInitialized) {
         if (q.resetData) {
           this.scrollToTop();
@@ -1081,23 +1073,29 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     });
 
     // Изменены фильтры или сортировка или набор колонок или группировка
-    this.state.onQueryChanged.pipe(takeUntil(this.destroy$)).subscribe(q => {
+    this.state.events.onQueryChanged.pipe(takeUntil(this.destroy$)).subscribe(q => {
       if (this._initialized) {
         this.updateData();
       }
-      this.queryChanged.emit(q);
+      /*
+      Мы будем запрашивать здесь запрос. Потому что может быть ленивая загрузка хочет
+      его подправить.
+      Нет, его нельзя запросить, потому что у него уже идентификатор, с которым мы запросили
+      и он для нас важен */
+      this.queryChanged.emit(this.state.getQuery());
     });
 
     // Следует отобразить окно фильтра для заданной колонки
-    this.state.onFilterShow.pipe(takeUntil(this.destroy$)).subscribe(e => this.showFilter(e));
+    this.state.events.onFilterShow.pipe(takeUntil(this.destroy$)).subscribe(e => this.showFilter(e));
 
     // Изменение списка суммирований колонки
-    this.state.onSummariesChanged.pipe(takeUntil(this.destroy$)).subscribe(v => {
+    this.state.events.onSummariesChanged.pipe(takeUntil(this.destroy$)).subscribe(v => {
       this.state.updateSummaries();
       this.updateView();
     });
 
-    this.state.onHeaderContextMenu.pipe(takeUntil(this.destroy$)).subscribe(e => {
+    this.state.events.onHeaderContextMenu.pipe(takeUntil(this.destroy$)).subscribe(e => {
+      // Это нужно вынести куда-нибудь подальше
       if (this.state.settings.enableHeaderContextMenu) {
         const actions = this.state.settings.headerContextMenuActions;
         const sorted = this.state.dataSource.sortedByField(e.column.fieldName);
@@ -1119,7 +1117,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     });
 
     // Custom cell event
-    this.state.onCustomCellEvent.pipe(takeUntil(this.destroy$)).subscribe(e => {
+    this.state.events.onCustomCellEvent.pipe(takeUntil(this.destroy$)).subscribe(e => {
       this.customCellEvent.emit(e);
     });
   }

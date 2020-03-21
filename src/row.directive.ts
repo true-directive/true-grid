@@ -298,7 +298,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     public setSelection() {
 
       const sel = this.layout.selection;
-      const rowChecked = this.state.isRowChecked(this.row);
+      const rowChecked = this.state.check.isRowChecked(this.row);
 
       if (this.state.sta.checkedRowClass != '' && (this.state.sta.enableCheckedAppearance || this._checkedAppearance)) {
         if (rowChecked && this.state.sta.enableCheckedAppearance) {
@@ -468,12 +468,12 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
 
     protected setEditorHeight(cell : RowCell) {
       // Тест, когда всё редакторы
-      if (this._height0 === null && this.state.editorHeight !== null) {
+      if (this._height0 === null && this.state.ui.editorHeight !== null) {
         // Если в состоянии сохранена высота, то используем её
-        this._height0 = this.state.editorHeight;
+        this._height0 = this.state.ui.editorHeight;
       } else {
         // Иначе наоборот - сохраняем высоту
-        this.state.editorHeight = this._height0;
+        this.state.ui.editorHeight = this._height0;
       }
       if (this._height0 >= this.state.settings.rowHeight) {
         cell.element.style.height = (this._height0 - 1) + 'px';
@@ -501,30 +501,30 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
 
       // Изменение значения. Сохраняем измененное.
       const s_change = this._editorRef.instance.change.subscribe((v: any) => {
-        this.state.editorValue = v;
+        this.state.ui.editorValue = v;
       });
 
       // Подтверждение редактирования. Отправляем в данные
       const s_commit = this._editorRef.instance.commit.subscribe((e: any) => {
-        this.state.commitEditor(this.row, col.fieldName, e);
+        this.state.ui.commitEditor(this.row, col.fieldName, e);
       });
 
       // Отмена редактирования
       const s_cancel = this._editorRef.instance.cancel.subscribe(() => {
         let cp: CellPosition = this._wasEditor.clone();
-        this.state.stopEditing(cp, true, true);
+        this.state.ui.stopEditing(cp, true, true);
       });
 
-      this._editorRef.instance.init(this.state.editorValue,
-                                    this.state.editorValueChanged,
+      this._editorRef.instance.init(this.state.ui.editorValue,
+                                    this.state.ui.editorValueChanged,
                                     this._height0 + dh,
                                     this.state.IE,
-                                    this.state.editorWasShown);
+                                    this.state.ui.editorWasShown);
 
-      this.state.editorWasShown = true;
+      this.state.ui.editorWasShown = true;
       // Persisting last editor state
-      if (this.state.editor) {
-        this._wasEditor = this.state.editor.clone();
+      if (this.state.ui.editor) {
+        this._wasEditor = this.state.ui.editor.clone();
       }
 
       //
@@ -605,9 +605,9 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
         return cell;
       }
 
-      if (this.state.editor !== null &&
-          this.state.editor.fieldName === col.fieldName &&
-          this.state.editor.row === rowData) {
+      if (this.state.ui.editor !== null &&
+          this.state.ui.editor.fieldName === col.fieldName &&
+          this.state.ui.editor.row === rowData) {
         // Заголовок группы не может быть отредактирован, отправляются исходные
         // данные
         this.renderEditor(rowData, cell, col, v);
@@ -717,9 +717,9 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
 
         const cell = this.cells[i];
 
-        if (this.state.editor !== null &&
-            this.state.editor.fieldName === col.fieldName &&
-            this.state.editor.row === this.rowData) {
+        if (this.state.ui.editor !== null &&
+            this.state.ui.editor.fieldName === col.fieldName &&
+            this.state.ui.editor.row === this.rowData) {
           // Заголовок группы не может быть отредактирован, отправляются исходные
           // данные
           const v = this.rowData[col.fieldName];
@@ -913,25 +913,25 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     // Проверяем, нужно ли пересоздать по причине включения или выключения редактора
     private checkEditor(): boolean {
 
-      if (this._wasEditor === null && this.state.editor === null) {
+      if (this._wasEditor === null && this.state.ui.editor === null) {
         // Всё ок.
         // Редактора и не было и не намечается.
         return true;
       }
 
-      if (this._wasEditor === null && this.state.editor !== null) {
+      if (this._wasEditor === null && this.state.ui.editor !== null) {
         // Не было, но появился
-        if (this.state.editor.row !== this.rowData) {
+        if (this.state.ui.editor.row !== this.rowData) {
           // Но строка не наша
           return true;
         }
       }
 
-      if (this._wasEditor !== null && this.state.editor !== null) {
+      if (this._wasEditor !== null && this.state.ui.editor !== null) {
         // Был и не стало
-        if (this._wasEditor.row === this.state.editor.row) {
+        if (this._wasEditor.row === this.state.ui.editor.row) {
           // В этой строке
-          if (this._wasEditor.fieldName === this.state.editor.fieldName) {
+          if (this._wasEditor.fieldName === this.state.ui.editor.fieldName) {
             return true; // Не изменилось, оставляем
           }
         }
@@ -1022,7 +1022,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
                 }
                 this.viewPortLeft = -1;
                 const cell = this.createCell(this.layout.columns[i]);
-                cell.setDisabled(this.state.disabledFields.indexOf(cell.fieldName) >= 0);
+                cell.setDisabled(this.state.dragDrop.disabledFields.indexOf(cell.fieldName) >= 0);
                 this._renderer.insertBefore(this.elementRef.nativeElement, cell.element, this.cells[i].element);
                 this.cells.splice(i, 0, cell);
                 this._skips.forEach(s => {
@@ -1103,7 +1103,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
     setDisabledFields() {
       this.cells.forEach(cell => {
         cell.setDisabled(
-          this.state.disabledFields.indexOf(cell.fieldName) >= 0);
+          this.state.dragDrop.disabledFields.indexOf(cell.fieldName) >= 0);
       });
     }
 
@@ -1158,7 +1158,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
 
       if (!this.check()) {
         // Изменились основные параметры строки (колонки, значения, редактор)
-        const hasEditor = this.state.editor && this.state.editor.row === this.rowData;
+        const hasEditor = this.state.ui.editor && this.state.ui.editor.row === this.rowData;
         // Очищаем
         this.clear(hasEditor);
         // И заново формируем строку
