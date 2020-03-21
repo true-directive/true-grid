@@ -1,6 +1,6 @@
 {
   "name": "@true-directive/grid",
-  "description": "Fast and fully featured good-looking data grid for Angular.",
+  "description": "Data grid for Angular.",
   "version": "1.5.0",
   "scripts": {
     "test": "karma start",
