@@ -194,3 +194,9 @@
 ### Changed
 
 - Handlers autowiring.
+
+## [1.5.1] - 2021-01-21
+
+### Changed
+
+- Angular 9 compatibility.
