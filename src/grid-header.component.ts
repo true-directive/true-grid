@@ -96,7 +96,7 @@ export class GridHeaderComponent extends BaseComponent {
 
   resizeMouseUp(e: any) { }
 
-  public toggleCheck(e: any, col: Column) {
+  toggleCheck(e: any, col: Column) {
     this.toggleCheckColumn.emit(col);
   }
 

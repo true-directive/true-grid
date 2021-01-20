@@ -68,8 +68,7 @@ export abstract class FilterBaseComponent implements IFilter {
   private _settings: GridSettings = null;
   get listSettings() {
 
-    if (!this._settings)
-    {
+    if (!this._settings) {
       let o = GridSettings.minimal();
       // По умолчанию группы свёрнуты
       o.groupCollapseByDefault = true;

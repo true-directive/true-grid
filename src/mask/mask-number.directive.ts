@@ -44,7 +44,6 @@ export class MaskNumberDirective {
     } else {
       this.setText(NumberParserFormatter.format(value, this.format, this._separators));
     }
-
     this.onTouched();
   }
 
@@ -149,20 +148,19 @@ export class MaskNumberDirective {
 
   // Пользователь вносит значение. Parser: View --> Ctrl
   input(txt: any) {
-
-      if (this.android_behavior) {
-        this.processAndroid(txt);
-        return;
+    if (this.android_behavior) {
+      this.processAndroid(txt);
+      return;
+    }
+    // Поэтому пытаемся применить формат к введенному значению.
+    let value = NumberParserFormatter.parse(txt, this.format, this._separators);
+    if (value === null) {
+      this.setText('');
+    } else {
+      if (!isNaN(value)) {
+        this.setText(NumberParserFormatter.format(value, this.format, this._separators), true);
       }
-      // Поэтому пытаемся применить формат к введенному значению.
-      let value = NumberParserFormatter.parse(txt, this.format, this._separators);
-      if (value === null) {
-        this.setText('');
-      } else {
-        if (!isNaN(value)) {
-          this.setText(NumberParserFormatter.format(value, this.format, this._separators), true);
-        }
-      }
+    }
   }
 
   // Formatter: Ctrl --> View
@@ -220,13 +218,6 @@ export class MaskNumberDirective {
   @HostListener('keydown', ['$event'])
   keyDown(e: any) {
     return this.processKey(e);
-  }
-
-  private isDigit(char: string): boolean {
-    if ('0123456789'.indexOf(char) >= 0)
-      return true;
-
-    return false;
   }
 
   public processKey(e: any): boolean {

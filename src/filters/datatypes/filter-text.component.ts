@@ -68,8 +68,8 @@ import { InternationalizationService } from '../../internationalization/internat
     .grid-error {
       border-color: #a00;
     }
-    `]
-  })
+  `]
+})
 export class FilterTextComponent extends FilterBaseComponent {
 
   @Input() filter: Filter = null;

@@ -20,18 +20,6 @@ import { DOMUtils } from '../common/dom-utils.class';
 
 @Component({
   selector: 'true-editor-test',
-  /*template: `<true-datepicker #datepicker
-    class="true-grid__input-container"
-    [pattern]="column.format"
-    [ngClass]="getClass()"
-    [style.height]="getH()"
-    [inputClass]="datepickerInputClass"
-    [showError]="false"
-    [(ngModel)]="value"
-    (keydown)="inputKeyDown($event)"
-    (ngModelChange)="datepickerChange($event)">
-  </true-datepicker>`,
-  */
   template: `<true-input-wrapper
     class="true-datepicker__input"
     (btnClick)="btnClick($event)"

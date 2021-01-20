@@ -194,8 +194,7 @@ export class RowDirective implements OnDestroy, AfterContentInit, DoCheck, OnCha
      */
     public cellByXY(x: number, y: number): string {
       let xx = this.cells[0].element.getBoundingClientRect().left;
-      for (let i = 0; i < this.cells.length; i++)
-      {
+      for (let i = 0; i < this.cells.length; i++) {
           const cell = this.cells[i];
           const col = this.state.columnByFieldName(cell.fieldName);
           const ww = !cell.skipped ? cell.element.offsetWidth : col.displayedWidth;

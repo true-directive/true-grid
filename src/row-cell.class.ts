@@ -25,7 +25,7 @@ export class RowCell {
     if (v) {
       this.element.classList.add(cls);
     } else {
-      this.element.classList.remove(cls);
+      this.element.classList.remove(cls); 
     }
     return v;
   }

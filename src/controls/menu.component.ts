@@ -72,6 +72,7 @@ export class MenuComponent implements OnDestroy, AfterContentInit {
 
   public closeSubMenus(sender: any) {
     this.items.forEach(item => {
+      // Закрываем всё, кроме аргумента
       if (item !== sender)
         item.closeSubMenu();
     });

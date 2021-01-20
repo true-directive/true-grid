@@ -75,17 +75,19 @@ export class GridStateService extends GridState implements OnDestroy {
     this.localeChangedSubscription.unsubscribe();
   }
 
+  /*
   // Важно обновить выделенные области в layouts
   protected subscribe() {
     this.events.onSelect.subscribe((cp: CellPosition) => {
       this.layoutsHandler.updateLayoutSelections(cp);
     });
   }
-
+  */
+ 
   protected registerHandlers() {
     super.registerHandlers();
     this.handlers['events'] = GridEvents;
-    this.handlers['selection'] = GridSelection;    
+    this.handlers['selection'] = GridSelection;
   }
 
   constructor(public internationalization: InternationalizationService) {

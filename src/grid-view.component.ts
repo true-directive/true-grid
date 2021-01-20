@@ -170,7 +170,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   }
 
   /**
-   * Event that will trigger when data retrieval options are changed (filters,
+   * Event that will be triggered when data retrieval options are changed (filters,
    * sortings)
    * @param  'dataQuery' [description]
    * @return             [description]
@@ -261,20 +261,20 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     return this.state.selection;
   }
 
-  protected get headerParts(): BaseComponent[] {
-    return this._headerParts();
-  }
-
-  protected get dataParts(): Array<QueryList<RowDirective>> {
-    return this._dataParts();
-  }
-
   protected _headerParts(): BaseComponent[] {
     return [this.gridHeader];
   }
 
+  protected get headerParts(): BaseComponent[] {
+    return this._headerParts();
+  }
+
   protected _dataParts(): Array<QueryList<RowDirective>> {
     return [this.displayedRowsCenter];
+  }
+
+  protected get dataParts(): Array<QueryList<RowDirective>> {
+    return this._dataParts();
   }
 
   public immediateFilter(filter: string) {
@@ -826,7 +826,6 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   }
 
   public setFilter(f: any) {
-
     this.state.setFilter(f);
   }
 
@@ -1012,15 +1011,17 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this.doCheckParts();
 
     // Сверяем настройки
-    const sChanges = this._settingsDiffer.diff(this.state.settings);
-    const aChanges = this._appearanceDiffer.diff(this.state.settings.appearance);
-    if (sChanges || aChanges) {
-      if (this._viewInitialized) {
-        this.setAppearance();
-        if (!this.checkSize()) {
-          this.updateView();
+    if (this._settingsDiffer && this._appearanceDiffer) {
+      const sChanges = this._settingsDiffer.diff(this.state.settings);
+      const aChanges = this._appearanceDiffer.diff(this.state.settings.appearance);
+      if (sChanges || aChanges) {
+        if (this._viewInitialized) {
+          this.setAppearance();
+          if (!this.checkSize()) {
+            this.updateView();
+          }
+          return;
         }
-        return;
       }
     }
 
@@ -1054,7 +1055,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
         if (this._viewInitialized) {
           this.detectChanges('locale');
         }
-      });
+    });
 
     // Запрос данных у слушателя события
     this.state.events.onDataQuery.pipe(takeUntil(this.destroy$)).subscribe(q => {

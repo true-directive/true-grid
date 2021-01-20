@@ -745,7 +745,7 @@ export class GridComponent extends GridViewComponent {
 
     // Почему через 100 миллисекунд? Для того,чтобы плавно затухло
     setTimeout(()=> {
-      this.state.setLayoutsVisibility();
+      this.state.layoutsHandler.setLayoutsVisibility();
       this.updatePage('dropColumn', true);
       // Может поменяться ширина центральной части
       this.checkSize();
@@ -766,7 +766,9 @@ export class GridComponent extends GridViewComponent {
 
   public setAppearance() {
     super.setAppearance();
-    this.dragItem.nativeElement.classList.add(this.state.sta.dragItemClass);
+    if (this.dragItem) {
+      this.dragItem.nativeElement.classList.add(this.state.sta.dragItemClass);
+    }
   }
 
   constructor(
@@ -791,6 +793,7 @@ export class GridComponent extends GridViewComponent {
 
       // Изменены колонки
       this.state.events.onColumnsChanged.pipe(takeUntil(this.destroy$)).subscribe(v => {
+        console.log('onColumnsChanged');
         this.RC.clear();
         this.checkSize(true);
       });

@@ -51,12 +51,12 @@ export class GridHeaderCellComponent extends BaseComponent {
 
   public setState(s: string) {
     if (s === 'btn-visible')
-      this.caption.nativeElement.classList.add('true-grid-btn-visible');
+      this.caption.nativeElement.classList.toggle('true-grid-btn-visible', true);
   }
 
   public removeState(s: string) {
     if (s === 'btn-visible')
-      this.caption.nativeElement.classList.remove('true-grid-btn-visible');
+      this.caption.nativeElement.classList.toggle('true-grid-btn-visible', false);
   }
 
   btnIconClass() {
