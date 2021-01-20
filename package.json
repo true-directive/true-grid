@@ -1,7 +1,7 @@
 {
   "name": "@true-directive/grid",
   "description": "Angular Data Grid from Yopsilon.",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "scripts": {
     "test": "karma start",
     "test-ci": "karma start --singleRun --browsers ChromeHeadless",
@@ -43,7 +43,7 @@
   "typings": "./true-directive-grid.d.ts",
   "homepage": "https://truedirective.com",
   "dependencies": {
-    "@true-directive/base": "1.4.0"
+    "@true-directive/base": "1.4.2"
   },
   "devDependencies": {
     "@angular/animations": "~7.2.15",
@@ -69,7 +69,7 @@
     "jasmine": "^3.4.0",
     "karma": "^4.3.0",
     "karma-chrome-launcher": "^3.1.0",
-    "karma-coverage": "^2.0.1",
+    "karma-coverage": "^2.0.3",
     "karma-coveralls": "^2.1.0",
     "karma-jasmine": "^2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
