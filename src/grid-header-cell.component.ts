@@ -37,10 +37,10 @@ export class GridHeaderCellComponent extends BaseComponent {
   @Output('captionTouchStart')
   captionTouchStart = new EventEmitter<any>();
 
-  @ViewChild('caption')
+  @ViewChild('caption', {static: true})
   caption: any;
 
-  @ViewChild('btn')
+  @ViewChild('btn', {static: true})
   btn: any;
 
   // Иконка фильтра

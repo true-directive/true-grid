@@ -52,10 +52,10 @@ export class GridFooterCellComponent {
   @Input('column')
   public column: Column;
 
-  @ViewChild('btn')
+  @ViewChild('btn', {static: false})
   btn: any;
 
-  @ViewChild('menu')
+  @ViewChild('menu', {static: false})
   menu: any;
 
   get menuVisible() {

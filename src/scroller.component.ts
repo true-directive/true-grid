@@ -17,19 +17,19 @@ import { GridStateService } from './grid-state.service';
 })
 export class ScrollerComponent {
 
-  @ViewChild('header')
+  @ViewChild('header', {static: false})
   public header: any;
 
-  @ViewChild('dataArea')
+  @ViewChild('dataArea', {static: true})
   public dataArea: any;
 
-  @ViewChild('data')
+  @ViewChild('data', {static: true})
   public data: any;
 
-  @ViewChild('datah')
+  @ViewChild('datah', {static: true})
   public datah: any;
 
-  @ViewChild('footer')
+  @ViewChild('footer', {static: false})
   public footer: any;
 
   @Input('maxHeight')
@@ -327,7 +327,7 @@ export class ScrollerComponent {
 
     if ((!this.touchFix || h) && this.scrollX !== l.scrollLeft) {
       this.scrollX = l.scrollLeft;
-      if (this.state.settings.showHeader) {
+      if (this.state.settings.showHeader) {        
         this.header.nativeElement.scrollLeft = this.scrollX;
       }
       if (this.state.settings.showFooter) {

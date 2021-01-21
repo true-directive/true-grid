@@ -70,7 +70,7 @@ export class EditorSelectTrueComponent implements IEditor, OnDestroy {
   column: Column;
   row: any;
 
-  @ViewChild('input')
+  @ViewChild('input', {static: true})
   input: DropdownBaseComponent;
 
   @Output("commit")
@@ -132,6 +132,7 @@ export class EditorSelectTrueComponent implements IEditor, OnDestroy {
   }
 
   private _valueField: string = null;
+
   public get valueField(): string {
     if (this._valueField === null) {
       this._valueField = this.columns[0].fieldName;

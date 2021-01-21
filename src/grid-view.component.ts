@@ -196,22 +196,22 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   @Output()
   menuAction: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('menuStarter') menuStarter: MenuStarterComponent;
-  @ViewChild('filterPopup') filterPopup: FilterPopupComponent; // Popup div with filter options
+  @ViewChild('menuStarter', {static: true}) menuStarter: MenuStarterComponent;
+  @ViewChild('filterPopup', {static: false}) filterPopup: FilterPopupComponent; // Popup div with filter options
 
-  @ViewChild('scroller') scroller: ScrollerComponent;
+  @ViewChild('scroller', {static: true}) scroller: ScrollerComponent;
 
-  @ViewChild('grid') grid: any;
-  @ViewChild('gridHeader') gridHeader: any;
-  @ViewChild('gridData') gridData: any;
+  @ViewChild('grid', {static: true}) grid: any;
+  @ViewChild('gridHeader', {static: true}) gridHeader: any;
+  @ViewChild('gridData', {static: true}) gridData: any;
 
-  @ViewChild('dragItem') dragItem : any; // Clone drag column / band header
+  @ViewChild('dragItem', {static: true}) dragItem : any; // Clone drag column / band header
 
   @ContentChildren(RowDirective) displayedRows_template: QueryList<RowDirective>;
 
   @ViewChildren('displayedRows', { read: RowDirective }) displayedRowsCenter: QueryList<RowDirective>;
 
-  @ViewChild('customTemplate') customTemplate: any;
+  @ViewChild('customTemplate', {static: true}) customTemplate: any;
 
   protected uiAction: UIAction = null;
   protected _initialized: boolean = false; // Grid initialized
@@ -1011,17 +1011,15 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     this.doCheckParts();
 
     // Сверяем настройки
-    if (this._settingsDiffer && this._appearanceDiffer) {
-      const sChanges = this._settingsDiffer.diff(this.state.settings);
-      const aChanges = this._appearanceDiffer.diff(this.state.settings.appearance);
-      if (sChanges || aChanges) {
-        if (this._viewInitialized) {
-          this.setAppearance();
-          if (!this.checkSize()) {
-            this.updateView();
-          }
-          return;
+    const sChanges = this._settingsDiffer.diff(this.state.settings);
+    const aChanges = this._appearanceDiffer.diff(this.state.settings.appearance);
+    if (sChanges || aChanges) {
+      if (this._viewInitialized) {
+        this.setAppearance();
+        if (!this.checkSize()) {
+          this.updateView();
         }
+        return;
       }
     }
 

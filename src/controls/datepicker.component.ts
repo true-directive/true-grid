@@ -70,10 +70,10 @@ export class DatepickerComponent extends DropdownBaseComponent {
   @Input('inputClass')
   inputClass: string = '';
 
-  @ViewChild('calendar')
+  @ViewChild('calendar', {static: false})
   calendar: CalendarComponent;
 
-  @ViewChild('input')
+  @ViewChild('input', {static: true})
   input: any;
 
   @ViewChild('input', { read: MaskDateDirective })

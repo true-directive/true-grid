@@ -13,6 +13,9 @@ import { MaskState } from '@true-directive/base';
 import { InternationalizationService } from '../internationalization/internationalization.service';
 import { Locale } from '@true-directive/base';
 
+@Directive({
+  selector: 'true-mask-base'
+})
 export abstract class MaskBaseDirective implements OnDestroy {
 
     private _undo: Array<MaskResult> = [];

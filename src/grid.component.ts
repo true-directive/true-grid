@@ -76,7 +76,7 @@ export class GridComponent extends GridViewComponent {
   /**
    * Маркер, указывающий новую позицию перетаскиваемого столбца
    */
-  @ViewChild('dropMarker')
+  @ViewChild('dropMarker', {static: true})
   dropMarker: any;
 
   private _cellTouched: CellPosition = null; // Ячейка с тачем
@@ -766,9 +766,7 @@ export class GridComponent extends GridViewComponent {
 
   public setAppearance() {
     super.setAppearance();
-    if (this.dragItem) {
-      this.dragItem.nativeElement.classList.add(this.state.sta.dragItemClass);
-    }
+    this.dragItem.nativeElement.classList.add(this.state.sta.dragItemClass);
   }
 
   constructor(

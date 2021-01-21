@@ -180,9 +180,9 @@ export class FilterDateComponent extends FilterBaseComponent {
     return this._intervalSettings;
   }
 
-  @ViewChild('datepicker1') datepicker1: any;
-  @ViewChild('datepicker2') datepicker2: any;
-  @ViewChild('intervalSelector') intervalSelector: DropdownBaseComponent;
+  @ViewChild('datepicker1', {static: true}) datepicker1: any;
+  @ViewChild('datepicker2', {static: true}) datepicker2: any;
+  @ViewChild('intervalSelector', {static: true}) intervalSelector: DropdownBaseComponent;
 
   protected focusFirst() {
     if (!Utils.detectMobile()) {

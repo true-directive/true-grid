@@ -22,13 +22,18 @@ import { IFilter } from './filter.interface';
 
 import { InternationalizationService } from '../../internationalization/internationalization.service';
 
+@Component({
+  selector: 'true-filter-base',
+  template:``,
+  styles: [``]
+})
 export abstract class FilterBaseComponent implements IFilter {
 
   @Input() filter: Filter = null;
   @Input() rows: Array<any> = null;
   public state: GridState;
 
-  @ViewChild('operatorMenu') operatorMenu: MenuComponent;
+  @ViewChild('operatorMenu', {static: true}) operatorMenu: MenuComponent;
 
   @Output() closed: EventEmitter<any> = new EventEmitter();
   @Output() setFilter: EventEmitter<any> = new EventEmitter();

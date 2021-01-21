@@ -24,7 +24,7 @@ import { MenuItemComponent } from './menu-item.component';
   `})
 export class MenuComponent implements OnDestroy, AfterContentInit {
 
-  @ViewChild('popup')
+  @ViewChild('popup', {static: true})
   popup: any;
 
   @Output('closed')
@@ -72,7 +72,6 @@ export class MenuComponent implements OnDestroy, AfterContentInit {
 
   public closeSubMenus(sender: any) {
     this.items.forEach(item => {
-      // Закрываем всё, кроме аргумента
       if (item !== sender)
         item.closeSubMenu();
     });

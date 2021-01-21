@@ -3,12 +3,11 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { Component, Input, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ChangeDetectorRef } from '@angular/core';
 
-import { DatepickerComponent } from '../controls/datepicker.component';
 import { Column } from '@true-directive/base';
 import { GridStateService } from '../grid-state.service';
-import { Keys, PopupPosition } from '@true-directive/base';
+import { Keys } from '@true-directive/base';
 import { DOMUtils } from '../common/dom-utils.class';
 
 import { IEditor } from "./editor.interface";
@@ -56,7 +55,7 @@ export class EditorDateComponent implements IEditor  {
 
   datepickerInputClass = 'true-grid-input';
 
-  @ViewChild('datepicker')
+  @ViewChild('datepicker', {static: true})
   datepicker: any;
 
   // Implementation of IEditor

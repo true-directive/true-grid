@@ -3,25 +3,32 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { Component, Input, Output, HostBinding, EventEmitter, Renderer2, ElementRef,
-         ViewChild, forwardRef, OnDestroy } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, Renderer2, ElementRef,
+         ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 import { PopupComponent } from './popup.component';
 
-import { Keys, Utils, PopupPosition } from '@true-directive/base';
+import { Keys, Utils } from '@true-directive/base';
 import { DataQuery } from '@true-directive/base';
 
 /**
  * Dropdown base component.
  */
-export abstract class DropdownBaseComponent implements ControlValueAccessor, OnDestroy {
+@Component({
+  selector: 'true-drop-down-base',
+  template:``,
+  styles: [``] 
+})
+export abstract class DropdownBaseComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
 
   usePopup: boolean = true;
+  currentPopupPosition: 'RELATIVE' | 'ABSOLUTE' | 'MODAL' | 'SNACK';
+  currentPopupVisible = false;
 
-  @ViewChild('popup')
+  @ViewChild('popup', {static: false})
   popup: PopupComponent;
 
-  @ViewChild('input')
+  @ViewChild('input', {static: true})
   input: any;
 
   @Input('disableTextEditor')
@@ -39,7 +46,10 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
   }
 
   public set popupPosition(pos: 'RELATIVE' | 'ABSOLUTE' | 'MODAL' | 'SNACK') {
-    this.popup.position = pos;
+    this.currentPopupPosition = pos;
+    if (this.popup) {
+      this.popup.position = pos;
+    }
   }
 
   @Output('blur')
@@ -173,8 +183,11 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
     }
   }
 
-  get popupVisible() {
-    return this.popup.visible;
+  get popupVisible(): boolean {    
+    if (this.popup) {
+      return this.popup.visible;
+    }
+    return false;
   }
 
   protected focusPopup() {
@@ -285,6 +298,10 @@ export abstract class DropdownBaseComponent implements ControlValueAccessor, OnD
 
   public setValueFromDisplayed() {
     //
+  }
+
+  ngAfterViewInit() {
+    this.popup.position = this.currentPopupPosition;
   }
 
   ngOnDestroy() {

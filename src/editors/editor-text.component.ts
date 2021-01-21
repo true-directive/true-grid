@@ -41,7 +41,7 @@ export class EditorTextComponent implements IEditor {
   column: Column;
   row: any;
 
-  @ViewChild('input')
+  @ViewChild('input', {static: true})
   input: any;
 
   @Output("commit")

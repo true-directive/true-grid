@@ -139,7 +139,7 @@ export class DropDownComponent extends DropdownBaseComponent {
     return this._settings;
   }
 
-  @ViewChild('grid')
+  @ViewChild('grid', {static: true})
   grid: GridComponent;
 
   // Выбираем ли мы из грида

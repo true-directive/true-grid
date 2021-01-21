@@ -43,11 +43,11 @@ export class GridHeaderComponent extends BaseComponent {
   @Output('toggleCheckColumn')
   toggleCheckColumn = new EventEmitter<Column>();
 
-  @ViewChild('gridHeaderTable')
+  @ViewChild('gridHeaderTable', {static: true})
   gridHeaderTable: any;
 
   // Маркер, указывающий новую позицию перетаскиваемого столбца
-  @ViewChild('dropMarker')
+  @ViewChild('dropMarker', {static: true})
   dropMarker: any;  // Пока не используется, т.к. мы на лету переставляем колонку при движении
 
   @ViewChildren('headerCell', {read: GridHeaderCellComponent}) columnElements: QueryList<GridHeaderCellComponent>;
