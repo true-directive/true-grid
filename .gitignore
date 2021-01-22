@@ -45,6 +45,7 @@ testem.log
 Thumbs.db
 
 # compiled
+*.d.ts
 public_api.d.ts
 public_api.js
 *.metadata.json

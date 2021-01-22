@@ -184,7 +184,7 @@ export class SelectComponent extends DropdownBaseComponent {
   @Output('itemSelect')
   itemSelect: EventEmitter<any> = new EventEmitter();
 
-  @ViewChild('grid')
+  @ViewChild('grid', {static: true})
   grid: GridComponent;
 
   // Выбираем ли мы из грида

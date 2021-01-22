@@ -35,7 +35,7 @@ export class EditorSelectComponent  {
   value: string = "";
   height: number = 0;
 
-  @ViewChild('input') input: any;
+  @ViewChild('input', {static: true}) input: any;
 
   // Implementation of IEditor
   state: GridStateService;

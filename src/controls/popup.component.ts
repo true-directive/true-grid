@@ -63,7 +63,7 @@ export class PopupComponent {
   public static z: number = 19;
   public static renderToBody = true;
 
-  @ViewChild('popup')
+  @ViewChild('popup', {static: true})
   popup: any;
 
   @Output('close')

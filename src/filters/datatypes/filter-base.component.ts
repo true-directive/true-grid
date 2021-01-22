@@ -27,7 +27,7 @@ import { InternationalizationService } from '../../internationalization/internat
   template:``,
   styles: [``]
 })
-export abstract class FilterBaseComponent implements IFilter {
+export class FilterBaseComponent implements IFilter {
 
   @Input() filter: Filter = null;
   @Input() rows: Array<any> = null;
@@ -39,8 +39,11 @@ export abstract class FilterBaseComponent implements IFilter {
   @Output() setFilter: EventEmitter<any> = new EventEmitter();
   @Output() resetFilter: EventEmitter<any> = new EventEmitter();
 
-  public abstract init(): void;
-  public abstract validate(): boolean;
+  public init(): void { }
+
+  public validate(): boolean { 
+    return false;
+  }
 
   _dialog: DialogInfo = null;
   get dialog(): DialogInfo {

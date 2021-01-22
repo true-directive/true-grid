@@ -29,7 +29,7 @@ export class MenuStarterComponent {
   target: any = null;
   items: MenuAction[] = [];
 
-  @ViewChild('menu')
+  @ViewChild('menu', {static: true})
   menu: MenuComponent;
 
   @Output('show')

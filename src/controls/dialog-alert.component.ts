@@ -23,10 +23,10 @@ export class DialogAlertComponent {
   @Output()
   close: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('alert')
+  @ViewChild('alert', {static: true})
   alert: any;
 
-  @ViewChild('overlay')
+  @ViewChild('overlay', {static: true})
   overlay: any;
 
   public closeAlert() {

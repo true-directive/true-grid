@@ -76,7 +76,7 @@ export class DatepickerComponent extends DropdownBaseComponent {
   @ViewChild('input', {static: true})
   input: any;
 
-  @ViewChild('input', { read: MaskDateDirective })
+  @ViewChild('input', { static: true, read: MaskDateDirective })
   maskDateDirective: MaskDateDirective;
 
   checkPattern() {

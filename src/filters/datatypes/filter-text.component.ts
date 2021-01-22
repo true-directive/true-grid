@@ -89,9 +89,9 @@ export class FilterTextComponent extends FilterBaseComponent {
     FilterOperator.NOT_EQUALS
   ];
 
-  @ViewChild('input') input: any;
-  @ViewChild('grid') grid: any;
-  @ViewChild('operatorMenu') operatorMenu: MenuComponent;
+  @ViewChild('input', {static: true}) input: any;
+  @ViewChild('grid', {static: true}) grid: any;
+  @ViewChild('operatorMenu', {static: true}) operatorMenu: MenuComponent;
 
   public listColumns: Column[] = [
     new Column('checked', 'Checked', 45, ColumnType.CHECKBOX, ''), // В некоторых местах четко задано 28

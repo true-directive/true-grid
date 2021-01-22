@@ -200,3 +200,9 @@
 ### Changed
 
 - Angular 9 compatibility.
+
+## [1.5.4] - 2021-01-22
+
+### Changed
+
+- Angular 11 compatibility.

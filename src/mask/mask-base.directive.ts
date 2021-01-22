@@ -16,7 +16,7 @@ import { Locale } from '@true-directive/base';
 @Directive({
   selector: 'true-mask-base'
 })
-export abstract class MaskBaseDirective implements OnDestroy {
+export class MaskBaseDirective implements OnDestroy {
 
     private _undo: Array<MaskResult> = [];
     private _redo: Array<MaskResult> = [];
@@ -231,7 +231,9 @@ export abstract class MaskBaseDirective implements OnDestroy {
     }
 
     // Following method should be overridden
-    protected abstract toModel(): void;
+    protected toModel(): void {
+      
+    }
 
     // Writing a text to control
     protected setText(displayedValue: string, toModel: boolean = true) {

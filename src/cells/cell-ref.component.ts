@@ -25,7 +25,7 @@ import { ICell } from './cell.interface';
   })
 export class CellRefComponent implements ICell {
 
-  @ViewChild('content')
+  @ViewChild('content', {static: true})
   content: any;
 
   get ref(): string {

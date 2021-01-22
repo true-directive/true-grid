@@ -42,10 +42,10 @@ export class EditorNumberComponent implements IEditor {
   format = '{1.2}';
   height = 0;
 
-  @ViewChild('input')
+  @ViewChild('input', {static: true})
   input: any;
 
-  @ViewChild('input', {read: MaskNumberDirective})
+  @ViewChild('input', {read: MaskNumberDirective, static: true})
   maskNumberDirective: MaskNumberDirective;
 
   // Implementation of IEditor

@@ -30,7 +30,7 @@ export class DialogWrapperComponent implements OnDestroy {
   @Output()
   btnClick: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('alertContainer', { read: ViewContainerRef })
+  @ViewChild('alertContainer', { read: ViewContainerRef, static: true })
   alertContainer: any;
 
   @ViewChildren('buttons')

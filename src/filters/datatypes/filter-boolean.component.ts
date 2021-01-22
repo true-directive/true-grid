@@ -3,8 +3,7 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { Component, Input, Output, EventEmitter, HostBinding,
-         ChangeDetectorRef, Renderer2, ViewChild } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 
 import { FilterOperator } from '@true-directive/base';
 
@@ -41,7 +40,7 @@ export class FilterBooleanComponent extends FilterBaseComponent {
     return true;
   }
 
-  @ViewChild("cb1")
+  @ViewChild("cb1", {static: true})
   cb1: any;
 
   get trueValues(): boolean  {

@@ -3,20 +3,15 @@
  * @link https://truedirective.com/
  * @license MIT
 */
-import { Component, Input, Output, EventEmitter, HostBinding,
-         ChangeDetectorRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, Renderer2, ViewChild } from '@angular/core';
 
-import { ColumnType, DetectionMode, SelectionMode } from '@true-directive/base';
+import { ColumnType } from '@true-directive/base';
 import { Column } from '@true-directive/base';
 import { FilterOperator, Filter } from '@true-directive/base';
-import { GridSettings } from '@true-directive/base';
-import { Dates } from '@true-directive/base';
 import { NumberFormat } from '@true-directive/base';
 import { NumberParserFormatter } from '@true-directive/base';
 
-import { MenuComponent } from '../../controls/menu.component';
 import { FilterBaseComponent } from './filter-base.component';
-import { MaskNumberDirective } from '../../mask/mask-number.directive';
 import { InternationalizationService } from '../../internationalization/internationalization.service';
 
 @Component({
@@ -90,9 +85,9 @@ export class FilterNumberComponent extends FilterBaseComponent {
     FilterOperator.NOT_BETWEEN
   ];
 
-  @ViewChild('input1') input1: any;
-  @ViewChild('input2') input2: any;
-  @ViewChild('grid') grid: any;
+  @ViewChild('input1', {static: true}) input1: any;
+  @ViewChild('input2', {static: true}) input2: any;
+  @ViewChild('grid', {static: true}) grid: any;
 
   public listColumns: Column[] = [
     new Column('checked', 'Checked', 32, ColumnType.CHECKBOX, ''), // В некоторых местах четко задано 28

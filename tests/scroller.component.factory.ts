@@ -25,7 +25,7 @@ export function triggerEvent(elem: HTMLElement, eventName: string, eventType: st
 })
 export class ScrollerContainer {
 
-    @ViewChild('scroller')
+    @ViewChild('scroller', {static: true})
     public scroller: ScrollerComponent;
 
     @Output() testOne:EventEmitter<any> = new EventEmitter<any>();

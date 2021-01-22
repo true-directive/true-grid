@@ -33,9 +33,11 @@ styles: [`
   `]
 })
 export class GridContainer {
-    @Output() testOne:EventEmitter<any> = new EventEmitter<any>();
 
-    @ViewChild('grid')
+    @Output() 
+    testOne:EventEmitter<any> = new EventEmitter<any>();
+
+    @ViewChild('grid', {static: true})
     grid: GridComponent;
 
     private readonly _columns: Column[] = [];

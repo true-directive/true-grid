@@ -82,7 +82,7 @@ export class MenuItemComponent {
   @Output("needClose")
   readonly onNeedClose: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild("button")
+  @ViewChild("button", {static: true})
   button: any;
 
   _parentMenu: any = null;

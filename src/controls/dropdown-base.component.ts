@@ -19,7 +19,7 @@ import { DataQuery } from '@true-directive/base';
   template:``,
   styles: [``] 
 })
-export abstract class DropdownBaseComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
+export class DropdownBaseComponent implements AfterViewInit, ControlValueAccessor, OnDestroy {
 
   usePopup: boolean = true;
   currentPopupPosition: 'RELATIVE' | 'ABSOLUTE' | 'MODAL' | 'SNACK';

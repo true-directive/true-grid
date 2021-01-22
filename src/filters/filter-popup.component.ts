@@ -5,11 +5,10 @@
 */
 import { Component, Output, EventEmitter, OnDestroy,
          ComponentFactoryResolver, Inject,
-         ViewContainerRef, ComponentFactory, ChangeDetectorRef,
+         ViewContainerRef, ChangeDetectorRef,
          ViewChild } from '@angular/core';
 
 import { GridStateService } from '../grid-state.service';
-import { Column } from '@true-directive/base';
 import { Filter } from '@true-directive/base';
 
 @Component({
@@ -27,10 +26,10 @@ import { Filter } from '@true-directive/base';
   })
 export class FilterPopupComponent implements OnDestroy {
 
-  @ViewChild('popup')
+  @ViewChild('popup', {static: true})
   popup: any;
 
-  @ViewChild('container', { read: ViewContainerRef })
+  @ViewChild('container', { read: ViewContainerRef, static: true })
   container: any;
 
   @Output()
@@ -52,7 +51,6 @@ export class FilterPopupComponent implements OnDestroy {
   public filter: Filter;
 
   private _componentRef: any;
-  private _contentViewRef: any;
 
   private _subscribes: any[] = [];
 

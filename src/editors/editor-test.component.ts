@@ -65,16 +65,16 @@ export class EditorTestComponent implements IEditor {
 
   private _initialized = false;
 
-  @ViewChild('popup')
+  @ViewChild('popup', {static: true})
   popup: PopupComponent;
 
-  @ViewChild('input')
+  @ViewChild('input', {static: true})
   input: any;
 
-  @ViewChild('calendar')
+  @ViewChild('calendar', {static: true})
   calendar: CalendarComponent;
 
-  @ViewChild('input', {read: MaskDateDirective})
+  @ViewChild('input', {read: MaskDateDirective, static: true})
   maskDateDirective: MaskDateDirective;
 
   @Output("commit")

@@ -21,7 +21,7 @@ export function triggerEvent(elem: HTMLElement, eventName: string, eventType: st
 })
 export class PopupContainer {
 
-  @ViewChild('popup')
+  @ViewChild('popup', {static: true})
   public popup: PopupComponent;
 
 }

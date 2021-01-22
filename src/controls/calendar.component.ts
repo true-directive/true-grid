@@ -39,7 +39,7 @@ export class CalendarComponent implements ControlValueAccessor {
 
   public mode: 'days' | 'months' | 'years' = 'days';
 
-  @ViewChild('days')
+  @ViewChild('days', {static: true})
   days: any;
 
   @Output('dateClick')
