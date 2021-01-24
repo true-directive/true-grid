@@ -364,7 +364,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * Force view update
    */
   public updateView() {
-    // First we need to update all view parameters
+    // First we need to update all view params
     this.detectChanges('view');
     this.state.updateLayouts();
     // Then the current page. Because its calculation depends on these parameters
@@ -396,6 +396,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
   /**
    * Asynchronous data update. The Observable returns, by subscribing to which
    * you can find out when this update ended.
+   * Use this method with lazy loading settings.
    * @param  data The data (array of objects).
    * @return      Observable object whose event will occur immediately after processing.
    */
@@ -478,7 +479,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
 
   private _inProcess = false;
 
-  protected updatePageByScroll() {
+  protected updatePageByScroll() {    
     this.updatePage('scroll', false);
     this._lastUpdateTime = Date.now();
   }
@@ -487,7 +488,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * Scrolling data
    * @param  e Scroll event
    */
-  public gridScroll(e: any) {
+  public gridScroll(e: any) {    
     let scrollPos = e.target.scrollTop;
     let scrollPosH = e.target.scrollLeft;
 
@@ -568,13 +569,13 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
    * @param  dataAffected Is the data changed
    */
   public detectChanges(log: string = '', dataAffected: boolean = false) {
-    if (dataAffected) {
+    if (dataAffected) {      
       this.updateData();
       return;
     }
 
     if (this.state.settings.changeDetectionMode === DetectionMode.MANUAL) {
-      // Otherwise, it will check the changes. And we won’t pull the detector again..
+      // Otherwise, it will check the changes. And we won’t pull the detector again..      
       this.changeDetector.detectChanges();
     }
   }
@@ -1006,8 +1007,7 @@ export class GridViewComponent extends BaseComponent implements DoCheck, OnDestr
     }
   }
 
-  ngDoCheck() {
-
+  ngDoCheck() {    
     this.doCheckParts();
 
     // Сверяем настройки

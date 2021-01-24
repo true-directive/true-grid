@@ -21,8 +21,6 @@ import { RowDirective } from './row.directive';
 // Filters
 import { FilterPopupComponent } from './filters/filter-popup.component';
 
-import { FilterBaseComponent } from './filters/datatypes/filter-base.component';
-
 import { FilterTextComponent } from './filters/datatypes/filter-text.component';
 import { FilterDateComponent } from './filters/datatypes/filter-date.component';
 import { FilterNumberComponent } from './filters/datatypes/filter-number.component';
@@ -41,7 +39,6 @@ import { CellHtmlComponent } from './cells/cell-html.component';
 import { CellRefComponent } from './cells/cell-ref.component';
 
 // Controls
-import { DropdownBaseComponent } from './controls/dropdown-base.component';
 import { InputWrapperComponent } from './controls/input-wrapper.component';
 import { CheckboxWrapperComponent } from './controls/checkbox-wrapper.component';
 import { CheckboxComponent } from './controls/checkbox.component';
@@ -58,7 +55,6 @@ import { MenuComponent } from './controls/menu.component';
 import { MenuShowDirective } from './controls/menu-show.directive';
 import { MenuStarterComponent } from './controls/menu-starter.component';
 
-import { MaskBaseDirective } from './mask/mask-base.directive';
 import { MaskDirective } from './mask/mask.directive';
 import { MaskDateDirective } from './mask/mask-date.directive';
 import { MaskNumberDirective } from './mask/mask-number.directive';
@@ -79,7 +75,6 @@ import { TranslatePipe } from './internationalization/translate.pipe';
 
     // Filters
     FilterPopupComponent,
-    FilterBaseComponent,
     FilterTextComponent, FilterDateComponent, FilterNumberComponent, FilterBooleanComponent,
 
     // Editors
@@ -90,7 +85,6 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     CellHtmlComponent, CellRefComponent,
 
     // Controls
-    DropdownBaseComponent,
     InputWrapperComponent,
     CheckboxWrapperComponent,
     DialogWrapperComponent,
@@ -105,7 +99,7 @@ import { TranslatePipe } from './internationalization/translate.pipe';
     MenuItemComponent, MenuComponent, MenuShowDirective, MenuStarterComponent,
 
     // Input masking
-    MaskBaseDirective, MaskNumberDirective, MaskDateDirective, MaskDirective,
+    MaskNumberDirective, MaskDateDirective, MaskDirective,
 
     // Translate pipe
     TranslatePipe

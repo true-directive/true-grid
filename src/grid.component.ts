@@ -790,8 +790,7 @@ export class GridComponent extends GridViewComponent {
       });
 
       // Изменены колонки
-      this.state.events.onColumnsChanged.pipe(takeUntil(this.destroy$)).subscribe(v => {
-        console.log('onColumnsChanged');
+      this.state.events.onColumnsChanged.pipe(takeUntil(this.destroy$)).subscribe(v => {        
         this.RC.clear();
         this.checkSize(true);
       });
