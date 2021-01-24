@@ -1,0 +1,18 @@
+diff a/src/true-grid.module.ts b/src/true-grid.module.ts	(rejected hunks)
+@@ -21,8 +21,6 @@
+ // Filters
+ import { FilterPopupComponent } from './filters/filter-popup.component';
+ 
+-import { FilterBaseComponent } from './filters/datatypes/filter-base.component';
+-
+ import { FilterTextComponent } from './filters/datatypes/filter-text.component';
+ import { FilterDateComponent } from './filters/datatypes/filter-date.component';
+ import { FilterNumberComponent } from './filters/datatypes/filter-number.component';
+@@ -41,7 +39,6 @@
+ import { CellRefComponent } from './cells/cell-ref.component';
+ 
+ // Controls
+-import { DropdownBaseComponent } from './controls/dropdown-base.component';
+ import { InputWrapperComponent } from './controls/input-wrapper.component';
+ import { CheckboxWrapperComponent } from './controls/checkbox-wrapper.component';
+ import { CheckboxComponent } from './controls/checkbox.component';

@@ -1,7 +1,7 @@
 {
   "name": "@true-directive/grid",
   "description": "Angular Data Grid from Yopsilon.",
-  "version": "1.5.4",
+  "version": "1.6.0",
   "scripts": {
     "test": "karma start",
     "test-ci": "karma start --singleRun --browsers ChromeHeadless",
@@ -43,7 +43,7 @@
   "typings": "./true-directive-grid.d.ts",
   "homepage": "https://truedirective.com",
   "dependencies": {
-    "@true-directive/base": "1.4.2"
+    "@true-directive/base": "1.5.0"
   },
   "devDependencies": {
     "@angular/animations": "^8.0.0",

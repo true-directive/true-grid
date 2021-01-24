@@ -206,3 +206,9 @@
 ### Changed
 
 - Angular 11 compatibility.
+
+## [1.6.0] - 2021-01-24
+
+### Fixed
+
+- Data update with lazy loading.
