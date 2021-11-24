@@ -9,13 +9,13 @@ TrueDirective Grid is a fast and fully functional visualizer of the data in Angu
 
 ## Demo
 
-See [Live Demo](http://truedirective.com/demo) and example on the [StackBlitz](https://stackblitz.com/edit/true-directive-grid-demo).
+See [Live Demo](https://truedirective.com/demo) and example on the [StackBlitz](https://stackblitz.com/edit/true-directive-grid-demo).
 
 ## Documentation
 
-Documentation is available on the [truedirective.com](http://truedirective.com/docs).
+Documentation is available on the [truedirective.com](https://truedirective.com/docs).
 
-![Screenshot](http://truedirective.com/assets/test-grid4.gif)
+![Screenshot](https://truedirective.com/assets/test-grid4.gif)
 
 ## Main features
 
@@ -141,7 +141,7 @@ export class AppComponent {
 
 Run the project by executing the command ```ng serve --port=3001 --open```. If everything is done properly you'll see the following after you run the project:
 
-![Result 1](http://truedirective.com/assets/test-grid-1.png)
+![Result 1](https://truedirective.com/assets/test-grid-1.png)
 
 You will see available features such as:
 - column reordering
@@ -213,7 +213,7 @@ The results of the changes you made can be found in the browser:
 - displaying the column data correspondingly to its type
 - formatting numeric values before displaying (two digits after decimal separator and postfix)
 
-![Result 1](http://truedirective.com/assets/test-grid-2.png)
+![Result 1](https://truedirective.com/assets/test-grid-2.png)
 
 ### 5. Defining of settings and getting totals of column data
 
@@ -284,7 +284,7 @@ After reloading page in browser we will see the following changes:
 - aggregated weight of heroes
 - availability to edit any cell values
 
-![Result 3](http://truedirective.com/assets/test-grid-3.png)
+![Result 3](https://truedirective.com/assets/test-grid-3.png)
 
 Editing of weight values limited by given pattern:  
 - number of digits in integer part should not be more than 4
@@ -343,7 +343,7 @@ body, input, button {
 
 Result:
 
-![Result 5](http://truedirective.com/assets/test-grid-5.png)
+![Result 5](https://truedirective.com/assets/test-grid-5.png)
 
 ### 7. Providing Observable object as data source and settings of the grid's height.
 
@@ -484,4 +484,4 @@ export class AppComponent {
 
 As a result we will get a table with 50 rows:
 
-![Result 5](http://truedirective.com/assets/test-grid-6.png)
+![Result 5](https://truedirective.com/assets/test-grid-6.png)
